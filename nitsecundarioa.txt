@@ -1,0 +1,4 @@
+*** Vilton22 ***
+ThunderRT6FormDC: 'Informações de NIT(s) Secundário(s)'
+ThunderRT6CommandButton: '&Sair'
+MaskWndCIass: '1.298.854.809-0'

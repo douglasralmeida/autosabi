@@ -1,0 +1,16 @@
+    ClickMenu 0, 3
+    'wait until the dialog appears
+    Do While hMsgBox = 0 Or lCount > 5000
+        lCount = lCount + 1
+        hMsgBox = FindWindow("#32770", "Salvar como")
+        DoEvents
+    Loop
+    
+    If hMsgBox = 0 Then Stop
+    Wait
+    hwndBotãoSalvar = FindWindowEx(hMsgBox, 0, "Button", "Sa&lvar")
+
+    SendKeys "c:\teste.txt"
+    DoEvents
+    SendKeys "{TAB}"
+    'SendMessage hwndBotãoSalvar, BM_CLICK, 0, 0

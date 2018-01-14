@@ -1,0 +1,23 @@
+TECLA AVANÇADO= 680 143
+ABRE TELA: Pesquisa Avançada
+Requerimento: 125 193
+tecla OK: 565 342
+
+seta Imprimir: 848 365
+visualizar selecionado: 851  417
+
+aparece tela SABI - Controle Operacional
+Relatório emitido com sucesso!
+tecla OK: 222 136
+ aparece então a tela do crystal report
+
+Para comparação de medidas:
+A tecla de Visualizar da tela Imprimir Agendamento:619 113
+
+menu Relatório 2ª via da marcação do exame: 4,7
+Abre tela Segunda Via de Marcação de Exame
+esta tela fica dentro do Controle e é preciso deslocar para o canto
+DCT/CI: 127 127
+ao informar o NIT deve ser informado novamente o ultimo digito
+tecla Imprimir: 536 197
+aguarda uns 2 segundos e acionar novamente o menu
