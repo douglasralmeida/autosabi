@@ -1,32 +1,49 @@
 VERSION 5.00
-Begin VB.Form frbRequerimentosdoDia 
-   Appearance      =   0  'Flat
+Begin VB.Form formInicial 
    BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   4155
-   ClientLeft      =   135
-   ClientTop       =   135
-   ClientWidth     =   8430
+   Caption         =   "Automatizador do SABI"
+   ClientHeight    =   4560
+   ClientLeft      =   150
+   ClientTop       =   330
+   ClientWidth     =   8055
    ClipControls    =   0   'False
-   ControlBox      =   0   'False
-   Icon            =   "AgendamentosdoSABI.frx":0000
+   BeginProperty Font 
+      Name            =   "Segoe UI"
+      Size            =   9
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   Icon            =   "formInicial.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   4155
-   ScaleWidth      =   8430
-   ShowInTaskbar   =   0   'False
+   Moveable        =   0   'False
+   ScaleHeight     =   4560
+   ScaleWidth      =   8055
    Begin VB.PictureBox pctCopiaPartedaTelaCPF 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
       BackColor       =   &H80000005&
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       ForeColor       =   &H80000008&
       Height          =   375
-      Left            =   4080
+      Left            =   6120
       ScaleHeight     =   23
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   127
-      TabIndex        =   19
-      Top             =   0
+      TabIndex        =   18
+      Top             =   600
       Width           =   1935
    End
    Begin VB.PictureBox pctImpressora 
@@ -35,24 +52,32 @@ Begin VB.Form frbRequerimentosdoDia
       AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       ForeColor       =   &H80000008&
       Height          =   210
-      Left            =   4920
-      Picture         =   "AgendamentosdoSABI.frx":08CA
+      Left            =   3720
+      Picture         =   "formInicial.frx":08CA
       ScaleHeight     =   14
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   16
-      TabIndex        =   18
-      Top             =   3000
+      TabIndex        =   17
+      Top             =   840
       Visible         =   0   'False
       Width           =   240
    End
    Begin VB.PictureBox pctFundo 
       Appearance      =   0  'Flat
-      BackColor       =   &H80000003&
       BorderStyle     =   0  'None
       BeginProperty Font 
-         Name            =   "Arial Narrow"
+         Name            =   "Arial"
          Size            =   9.75
          Charset         =   0
          Weight          =   400
@@ -69,8 +94,66 @@ Begin VB.Form frbRequerimentosdoDia
       Top             =   120
       Width           =   8175
       Begin VB.Frame fraOrdem 
-         BackColor       =   &H80000003&
          Caption         =   "Requerimentos ordenados por"
+         ForeColor       =   &H00404040&
+         Height          =   855
+         Left            =   0
+         TabIndex        =   26
+         Top             =   1800
+         Width           =   7815
+         Begin VB.CommandButton cmdFechar 
+            Cancel          =   -1  'True
+            Caption         =   "Fechar"
+            Height          =   370
+            Left            =   6240
+            TabIndex        =   30
+            Top             =   360
+            Width           =   1200
+         End
+         Begin VB.CommandButton cmdIniciar 
+            Caption         =   "&Processar"
+            Default         =   -1  'True
+            Height          =   370
+            Left            =   4800
+            TabIndex        =   29
+            Top             =   360
+            Width           =   1200
+         End
+         Begin VB.OptionButton optOrdem 
+            Caption         =   "&Nome do Periciando"
+            Height          =   255
+            Index           =   0
+            Left            =   240
+            TabIndex        =   28
+            ToolTipText     =   "Apresenta os requerimentos ordenados por nome do periciando"
+            Top             =   420
+            Value           =   -1  'True
+            Width           =   2295
+         End
+         Begin VB.OptionButton optOrdem 
+            Caption         =   "&Hora da Perícia"
+            Height          =   255
+            Index           =   1
+            Left            =   2640
+            TabIndex        =   27
+            ToolTipText     =   "Apresenta os requerimentos ordenados pelo horario da pericia"
+            Top             =   420
+            Width           =   2175
+         End
+      End
+      Begin VB.Timer Timer2 
+         Enabled         =   0   'False
+         Interval        =   1000
+         Left            =   2400
+         Top             =   720
+      End
+      Begin VB.Timer Timer1 
+         Interval        =   1000
+         Left            =   3000
+         Top             =   720
+      End
+      Begin VB.Frame fraImprime 
+         Caption         =   "Imprimir 2ª Via da Marcação de Exame"
          BeginProperty Font 
             Name            =   "Microsoft Sans Serif"
             Size            =   9.75
@@ -81,12 +164,13 @@ Begin VB.Form frbRequerimentosdoDia
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00404040&
-         Height          =   855
-         Left            =   120
-         TabIndex        =   27
-         Top             =   1800
+         Height          =   1005
+         Left            =   0
+         TabIndex        =   15
+         Top             =   2760
+         Visible         =   0   'False
          Width           =   7815
-         Begin VB.CommandButton cmdFechar 
+         Begin VB.CommandButton cmdFechar2 
             Caption         =   "Fechar"
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
@@ -104,126 +188,7 @@ Begin VB.Form frbRequerimentosdoDia
             Top             =   360
             Width           =   1200
          End
-         Begin VB.CommandButton cmdIniciar 
-            Caption         =   "Agenda"
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   360
-            Left            =   4800
-            TabIndex        =   30
-            ToolTipText     =   "Consultar Agendamentos do SABI "
-            Top             =   360
-            Width           =   1200
-         End
-         Begin VB.OptionButton optOrdem 
-            Appearance      =   0  'Flat
-            BackColor       =   &H80000003&
-            Caption         =   "Nome do Segurado"
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00404040&
-            Height          =   255
-            Index           =   0
-            Left            =   240
-            TabIndex        =   29
-            ToolTipText     =   " Apresentar os requerimentos por ordem de nome do segurado "
-            Top             =   420
-            Value           =   -1  'True
-            Width           =   2295
-         End
-         Begin VB.OptionButton optOrdem 
-            Appearance      =   0  'Flat
-            BackColor       =   &H80000003&
-            Caption         =   "Hora da Perícia"
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00404040&
-            Height          =   255
-            Index           =   1
-            Left            =   2640
-            TabIndex        =   28
-            ToolTipText     =   " Apresentar os requerimentos por ordem de hora da perícia agendada "
-            Top             =   420
-            Width           =   2175
-         End
-      End
-      Begin VB.Timer Timer3 
-         Interval        =   10000
-         Left            =   5160
-         Top             =   2160
-      End
-      Begin VB.Timer Timer2 
-         Enabled         =   0   'False
-         Interval        =   1000
-         Left            =   4440
-         Top             =   1920
-      End
-      Begin VB.Timer Timer1 
-         Interval        =   1000
-         Left            =   3840
-         Top             =   1800
-      End
-      Begin VB.Frame fraImprime 
-         BackColor       =   &H80000003&
-         Caption         =   "Imprimir 2ª Via da Marcação de Exame"
-         BeginProperty Font 
-            Name            =   "Microsoft Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00404040&
-         Height          =   1005
-         Left            =   120
-         TabIndex        =   16
-         Top             =   2760
-         Visible         =   0   'False
-         Width           =   7815
-         Begin VB.CommandButton cmdFechar2 
-            Caption         =   "Fechar"
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   360
-            Left            =   6240
-            TabIndex        =   32
-            ToolTipText     =   " Fechar aplicativo "
-            Top             =   360
-            Width           =   1200
-         End
          Begin VB.CheckBox chkPP 
-            Appearance      =   0  'Flat
-            BackColor       =   &H80000003&
             Caption         =   "PP"
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
@@ -234,17 +199,14 @@ Begin VB.Form frbRequerimentosdoDia
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            ForeColor       =   &H00404040&
             Height          =   240
             Left            =   2880
-            TabIndex        =   25
+            TabIndex        =   24
             ToolTipText     =   " marcar para imprimir os exames de PP "
             Top             =   680
             Width           =   735
          End
          Begin VB.CheckBox chkIniciais 
-            Appearance      =   0  'Flat
-            BackColor       =   &H80000003&
             Caption         =   "Exame Inicial"
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
@@ -255,10 +217,9 @@ Begin VB.Form frbRequerimentosdoDia
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            ForeColor       =   &H00404040&
             Height          =   240
             Left            =   360
-            TabIndex        =   24
+            TabIndex        =   23
             ToolTipText     =   " marcar para imprimir os exames iniciais "
             Top             =   680
             Width           =   1695
@@ -277,7 +238,7 @@ Begin VB.Form frbRequerimentosdoDia
             ForeColor       =   &H00404040&
             Height          =   330
             Left            =   2880
-            TabIndex        =   21
+            TabIndex        =   20
             Text            =   "1"
             ToolTipText     =   " fixar o final da sequência de impressão "
             Top             =   240
@@ -297,7 +258,7 @@ Begin VB.Form frbRequerimentosdoDia
             ForeColor       =   &H00404040&
             Height          =   330
             Left            =   1800
-            TabIndex        =   20
+            TabIndex        =   19
             Text            =   "1"
             ToolTipText     =   " fixar o ínicio da sequência de impressão "
             Top             =   240
@@ -316,7 +277,7 @@ Begin VB.Form frbRequerimentosdoDia
             EndProperty
             Height          =   360
             Left            =   4800
-            TabIndex        =   17
+            TabIndex        =   16
             ToolTipText     =   " Confirmar a sequência e os tipos de exames e inciar a operação de impressão "
             Top             =   375
             Visible         =   0   'False
@@ -325,7 +286,7 @@ Begin VB.Form frbRequerimentosdoDia
          Begin VB.Image parabaixo 
             Height          =   240
             Left            =   4200
-            Picture         =   "AgendamentosdoSABI.frx":0BAC
+            Picture         =   "formInicial.frx":0BAC
             Stretch         =   -1  'True
             ToolTipText     =   " mover a lista de requerimentos para baixo "
             Top             =   600
@@ -335,7 +296,7 @@ Begin VB.Form frbRequerimentosdoDia
          Begin VB.Image paracima 
             Height          =   240
             Left            =   4200
-            Picture         =   "AgendamentosdoSABI.frx":0FEE
+            Picture         =   "formInicial.frx":0FEE
             Stretch         =   -1  'True
             ToolTipText     =   " mover a lista de requerimentos para cima "
             Top             =   240
@@ -360,7 +321,7 @@ Begin VB.Form frbRequerimentosdoDia
             ForeColor       =   &H80000008&
             Height          =   255
             Left            =   2280
-            TabIndex        =   23
+            TabIndex        =   22
             Top             =   300
             Width           =   375
          End
@@ -382,7 +343,7 @@ Begin VB.Form frbRequerimentosdoDia
             ForeColor       =   &H00404040&
             Height          =   255
             Left            =   360
-            TabIndex        =   22
+            TabIndex        =   21
             Top             =   300
             Width           =   1335
          End
@@ -401,10 +362,10 @@ Begin VB.Form frbRequerimentosdoDia
          EndProperty
          ForeColor       =   &H00808080&
          Height          =   255
-         Left            =   2760
+         Left            =   7440
          ScaleHeight     =   225
          ScaleWidth      =   465
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   0
          Visible         =   0   'False
          Width           =   495
@@ -426,7 +387,7 @@ Begin VB.Form frbRequerimentosdoDia
             Left            =   -30
             ScaleHeight     =   570
             ScaleWidth      =   165
-            TabIndex        =   15
+            TabIndex        =   14
             Top             =   -30
             Width           =   200
          End
@@ -434,13 +395,22 @@ Begin VB.Form frbRequerimentosdoDia
       Begin VB.PictureBox pctFundoCopias 
          Appearance      =   0  'Flat
          BorderStyle     =   0  'None
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          ForeColor       =   &H80000008&
          Height          =   735
-         Left            =   -240
+         Left            =   3480
          ScaleHeight     =   735
          ScaleWidth      =   2535
-         TabIndex        =   10
-         Top             =   1440
+         TabIndex        =   9
+         Top             =   600
          Visible         =   0   'False
          Width           =   2535
          Begin VB.PictureBox Picture1 
@@ -449,13 +419,22 @@ Begin VB.Form frbRequerimentosdoDia
             AutoSize        =   -1  'True
             BackColor       =   &H80000006&
             BorderStyle     =   0  'None
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
             ForeColor       =   &H80000008&
             Height          =   1455
-            Left            =   360
+            Left            =   480
             ScaleHeight     =   97
             ScaleMode       =   3  'Pixel
             ScaleWidth      =   129
-            TabIndex        =   11
+            TabIndex        =   10
             Top             =   0
             Width           =   1935
          End
@@ -466,14 +445,23 @@ Begin VB.Form frbRequerimentosdoDia
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BorderStyle     =   0  'None
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          ForeColor       =   &H80000008&
          Height          =   615
-         Left            =   0
+         Left            =   3960
          ScaleHeight     =   41
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   121
-         TabIndex        =   9
-         Top             =   3720
+         TabIndex        =   8
+         Top             =   0
          Visible         =   0   'False
          Width           =   1815
       End
@@ -491,11 +479,11 @@ Begin VB.Form frbRequerimentosdoDia
          EndProperty
          ForeColor       =   &H00404040&
          Height          =   225
-         ItemData        =   "AgendamentosdoSABI.frx":1430
-         Left            =   720
-         List            =   "AgendamentosdoSABI.frx":1432
-         TabIndex        =   8
-         Top             =   960
+         ItemData        =   "formInicial.frx":1430
+         Left            =   3480
+         List            =   "formInicial.frx":1432
+         TabIndex        =   7
+         Top             =   1440
          Visible         =   0   'False
          Width           =   2535
       End
@@ -505,33 +493,42 @@ Begin VB.Form frbRequerimentosdoDia
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BorderStyle     =   0  'None
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          ForeColor       =   &H80000008&
          Height          =   615
-         Left            =   2040
+         Left            =   1560
          ScaleHeight     =   41
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   121
-         TabIndex        =   6
-         Top             =   2760
+         TabIndex        =   5
+         Top             =   1200
          Visible         =   0   'False
          Width           =   1815
       End
-      Begin VB.DirListBox Dir1 
-         Height          =   765
-         Left            =   2640
-         TabIndex        =   5
-         TabStop         =   0   'False
-         Top             =   720
-         Visible         =   0   'False
-         Width           =   2895
-      End
       Begin VB.ListBox lstClassificar 
          Appearance      =   0  'Flat
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   420
          Left            =   0
          Sorted          =   -1  'True
          TabIndex        =   1
-         Top             =   2760
+         Top             =   720
          Visible         =   0   'False
          Width           =   1335
       End
@@ -552,17 +549,17 @@ Begin VB.Form frbRequerimentosdoDia
          EndProperty
          ForeColor       =   &H00404040&
          Height          =   375
-         Left            =   0
-         TabIndex        =   26
-         Top             =   600
+         Left            =   5880
+         TabIndex        =   25
+         Top             =   1440
          Visible         =   0   'False
-         Width           =   2000
+         Width           =   1995
       End
-      Begin VB.Image Image1 
+      Begin VB.Image imageIcone 
          Height          =   480
-         Left            =   120
-         Picture         =   "AgendamentosdoSABI.frx":1434
-         Top             =   840
+         Left            =   80
+         Picture         =   "formInicial.frx":1434
+         Top             =   80
          Width           =   480
       End
       Begin VB.Label lblRelogio 
@@ -584,55 +581,45 @@ Begin VB.Form frbRequerimentosdoDia
          EndProperty
          ForeColor       =   &H00808080&
          Height          =   225
-         Left            =   1650
-         TabIndex        =   7
-         Top             =   0
+         Left            =   7560
+         TabIndex        =   6
+         Top             =   840
          Visible         =   0   'False
          Width           =   315
       End
       Begin VB.Label lblRequerimentodoSABI 
          Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "DIB DIP e Gcont"
+         Caption         =   "Automatizador do SABI"
          BeginProperty Font 
-            Name            =   "Microsoft Sans Serif"
-            Size            =   11.25
+            Name            =   "Segoe UI"
+            Size            =   14.25
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00404040&
-         Height          =   630
-         Left            =   1980
+         Height          =   375
+         Left            =   720
          TabIndex        =   4
-         Top             =   300
-         Width           =   1635
-         WordWrap        =   -1  'True
+         Top             =   120
+         Width           =   2925
       End
       Begin VB.Label lblversão 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "10/08/2017  vilton.teixeira@inss.gov.br     SEAT GEX/DIV"
-         BeginProperty Font 
-            Name            =   "Microsoft Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
+         Caption         =   "Compilado em 10-01-2018"
          ForeColor       =   &H00808080&
-         Height          =   195
-         Left            =   120
+         Height          =   225
+         Left            =   0
          TabIndex        =   3
-         Top             =   2355
-         Width           =   4170
+         Top             =   1440
+         Width           =   2100
       End
       Begin VB.Label lblImprimir 
          Alignment       =   2  'Center
@@ -650,9 +637,9 @@ Begin VB.Form frbRequerimentosdoDia
          EndProperty
          ForeColor       =   &H8000000B&
          Height          =   240
-         Left            =   300
+         Left            =   7080
          TabIndex        =   2
-         Top             =   120
+         Top             =   1200
          Visible         =   0   'False
          Width           =   840
       End
@@ -663,15 +650,24 @@ Begin VB.Form frbRequerimentosdoDia
       AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       ForeColor       =   &H80000008&
       Height          =   270
-      Left            =   0
-      Picture         =   "AgendamentosdoSABI.frx":1CFE
+      Left            =   3120
+      Picture         =   "formInicial.frx":1CFE
       ScaleHeight     =   18
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   69
-      TabIndex        =   12
-      Top             =   0
+      TabIndex        =   11
+      Top             =   4200
       Width           =   1035
    End
    Begin VB.PictureBox pctEsteRequerimento 
@@ -680,20 +676,29 @@ Begin VB.Form frbRequerimentosdoDia
       AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       ForeColor       =   &H80000008&
       Height          =   270
-      Left            =   0
-      Picture         =   "AgendamentosdoSABI.frx":2BE0
+      Left            =   5280
+      Picture         =   "formInicial.frx":2BE0
       ScaleHeight     =   18
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   178
-      TabIndex        =   13
-      Top             =   0
+      TabIndex        =   12
+      Top             =   3240
       Visible         =   0   'False
       Width           =   2670
    End
 End
-Attribute VB_Name = "frbRequerimentosdoDia"
+Attribute VB_Name = "formInicial"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -1103,7 +1108,7 @@ End Sub
         On Error Resume Next
         Picture1.Visible = False
             For linha = Picture1.Height / 15 - 16 - 2 To Picture1.Height / 15 - 2
-                For coluna = 1 To frbRequerimentosdoDia.Picture1.Width / 15
+                For coluna = 1 To formInicial.Picture1.Width / 15
                     If Picture1.Point(coluna, linha) = 14474460 Then
                         Picture1.PSet (coluna, linha), RGB(255, 220, 220)
                     End If
@@ -1816,10 +1821,8 @@ End Function
         ' Get the user name minus any trailing spaces found in the name.
         ret = GetUserName(lpBuff, 25)
         GlobalUserName = Left(lpBuff, InStr(lpBuff, Chr(0)) - 1)
-        GlobalAreadeTrabalho = "c:\Users\" & GlobalUserName & "\Desktop"
-        GlobalPastadeTrabalho = "c:\Users\" & GlobalUserName & "\AppData\Local\AgendamentosdoSABI"
-
- 
+        GlobalAreadeTrabalho = getSpecialFolder(CSIDL_DESKTOP)
+        GlobalPastadeTrabalho = getSpecialFolder(CSIDL_LOCAL_APPDATA) & "\" & NomeAplicacao
     End Sub
     
 
@@ -2380,7 +2383,7 @@ Private Sub Form_Activate()
         Picture1.PSet (conta, 1), RGB(40, 40, 40)
     Next conta
 
-    If IsThemeActive = False Then
+    If estaTemaAtivo = False Then
         MsgBox "Personalize a tela do seu computador com o tema 'Windows 7'", vbCritical, "Tema Aero"
         End
     End If
@@ -2432,6 +2435,8 @@ Private Sub Form_Load()
     Dim nomeexecutável As String
     Dim pos As Long
     
+    Dim pastaAppData As String
+    
     GlobalMedidadeSeguranca = False
     
     mtempo1 = 0
@@ -2445,20 +2450,14 @@ Private Sub Form_Load()
     GlobalRelatorioPronto = False
     pctCopiaPartedaTelaCPF.Top = -1000
     Get_User_Name
-    mPastaAgendamentosdoSABI = False
-    Dir1.Path = "c:\Users\" & GlobalUserName & "\AppData\Local\"
-    For conta = 0 To Dir1.ListCount - 1
-        If Dir1.List(conta) = "c:\Users\" & GlobalUserName & "\AppData\Local\AgendamentosdoSABI" Then
-            mPastaAgendamentosdoSABI = True
-        End If
-    Next conta
-    If mPastaAgendamentosdoSABI = False Then
-        MkDir "c:\Users\" & GlobalUserName & "\AppData\Local\AgendamentosdoSABI"
+    
+    ' Se a pasta AppData da aplicacao nao existir, crie-a
+    pastaAppData = getSpecialFolder(CSIDL_LOCAL_APPDATA) & "\"
+    If Dir(pastaAppData & NomeAplicacao, vbDirectory) = "" Then
+        MkDir pastaAppData & NomeAplicacao
     End If
     
-    mPastaAgendamentosdoSABI = False
-    Dir1.Path = App.Path & "\"
-    
+    ' WTF!!!
     If Dir(GlobalPastadeTrabalho & "\Teste.txt") = "" Then
         Open GlobalPastadeTrabalho & "\Teste.txt" For Output As #1
             Print #1, "This is a test"  ' Print text to file.
@@ -2467,7 +2466,7 @@ Private Sub Form_Load()
         Close #1    ' Close file.
     End If
     
-    
+    ' Testa se o bloco de notas e o aplicativo padrao para abrir arquivos texto (PraQue?)
     sPath = String(255, 32)
     lRet = FindExecutable(GlobalPastadeTrabalho & "\Teste.txt", vbNullString, sPath)
     If InStr(1, UCase(Trim(sPath)), "NOTEPAD.EXE") = 0 Then
@@ -2485,12 +2484,12 @@ Private Sub Form_Load()
     Else
         optOrdem(1).Value = False
     End If
-    
-    res = SetWindowPos(Me.hWnd, -1, 0, 0, 0, 0, 3)
-    Me.Top = Screen.Height - 760 - 3000
-    Me.Left = 600
-    Me.Width = 8145
+         
+
+    ' Posicao da janela
+    Me.Top = Screen.Height - 3760
     Me.Height = 2000
+    
     GlobalTítulodaTelaAtiva = ""
     GlobalMenuAtualizado = False
     GlobalIDControleOperacional = 0
@@ -2500,9 +2499,8 @@ Private Sub Form_Load()
     GlobalEscalay = 256 / Screen.Height
     GlobalEscalay = GlobalEscalay * 256
     
-    GlobalTempodeEspera = Val(GetSetting("AgendamentosdoSABI", "Requerimento", "TempodeEsperadaResposta", ""))
+    GlobalTempodeEspera = Val(GetSetting("AgendamentosdoSA3BI", "Requerimento", "TempodeEsperadaResposta", ""))
     If GlobalTempodeEspera < 3 Or GlobalTempodeEspera > 10 Then GlobalTempodeEspera = 3
-      
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
@@ -2511,37 +2509,21 @@ Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y A
 
     Call ReleaseCapture
     lngReturnValue = SendMessage(Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&)
-    Me.Top = Screen.Height - 760 - 3000
-
 End Sub
 
 Private Sub Form_Resize()
-    'On Error Resume Next
-    Image1.Left = 120
-    Image1.Top = 240
-    'lblRequerimentodoSABI.Top = Image1.Top + 40 '+ Image1.Height
-    lstMostrarRequerimentos.Top = Image1.Top + Image1.Height + 40
+    lstMostrarRequerimentos.Top = imageIcone.Top + imageIcone.Height + 40
 
-    If GlobalRelatorioPronto Then
-        Me.Top = Screen.Height - 760 - 3000
-        'Me.Height = Screen.Height - 720
-    Else
-        Me.Top = Screen.Height - 760 - 3000
-
-    End If
-
+    Me.Top = Screen.Height - 3760
+    
     If LocalCopiar Then
         Me.Width = 8145
         Me.Left = 600
-        'Me.Height = Screen.Height - 680 - Me.Top
         lblversão.Top = 40
         lblversão.Left = pctFundo.Width - lblversão.Width - 2600
-
     Else
-    
         lblversão.Top = Me.Height - 1260 - 100
         lblversão.Left = (Me.Width - lblversão.Width) / 2
-
     End If
     
     pctFundo.Top = 0
@@ -2553,24 +2535,16 @@ Private Sub Form_Resize()
     lstMostrarRequerimentos.Width = Me.Width - 580
     lstMostrarRequerimentos.Height = Abs(pctFundo.Height - lstMostrarRequerimentos.Top - 600)
     
-    'cmdAnterior.Top = pctFundo.Height - cmdIniciar.Height - 120
-    'cmdAnterior.Left = 240
-    'cmdIniciar.Top = pctFundo.Height - cmdIniciar.Height - 120
     fraOrdem.Left = 120
-    fraOrdem.Top = Me.Height - fraOrdem.Height - 120
+    fraOrdem.Top = Me.Height - fraOrdem.Height - 420
     fraImprime.Top = fraOrdem.Top
     fraImprime.Left = 360
     
     pctCopiaPartedaTela.Left = 0
     pctCopiaPartedaTela.Top = pctFundo.Height + 1000
-    'lblRequerimentodoSABI2.Left = pctMenu.Width + pctMenu.Left
-    
-    'lblRequerimentodoSABI2.Width = pctFundo.Width - lblRequerimentodoSABI.Left
-        
-     
 
     lblRelogio.Top = lblRequerimentodoSABI.Top + 40
-    lblRelogio.Left = Image1.Left + Image1.Width + 40
+    lblRelogio.Left = imageIcone.Left + imageIcone.Width + 40
     Picture1.Left = 0
     pctFundoCopias.Top = 3000
     pctFundoCopias.Left = 0
@@ -2637,7 +2611,7 @@ End Sub
 
 Private Sub lblRelogio_Change()
     lblRelogio.Visible = lblRelogio.Caption <> "00"
-    lblRelogio.Left = Image1.Left + Image1.Width + 40
+    lblRelogio.Left = imageIcone.Left + imageIcone.Width + 40
     pctProgressoFundo.Left = lblRelogio.Left + lblRelogio.Width + 40
 End Sub
 
@@ -3203,14 +3177,6 @@ Private Sub Timer2_Timer()
     On Error Resume Next
     mtempo2 = mtempo2 + 1
     If mtempo2 > 60 Then End
-
-End Sub
-
-Private Sub Timer3_Timer()
-    On Error Resume Next
-    If ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional") = 0 Then
-        End
-    End If
 End Sub
 
 Private Sub txttPrimeiro_Change()
@@ -3225,5 +3191,4 @@ Private Sub txtUltimo_Change()
     If Val(txtUltimo.Text) < 1 Then txtUltimo.Text = 1
     If Val(txtUltimo.Text) > GlobalQuantidadedeRequerimentos Then txtUltimo.Text = GlobalQuantidadedeRequerimentos
     cmdContinua.Enabled = Val(txtUltimo.Text) >= Val(txttPrimeiro.Text)
-
 End Sub

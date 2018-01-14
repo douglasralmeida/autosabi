@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module1"
+Attribute VB_Name = "ModuloPadrao"
     Public Type POINTAPI
         x As Long
         y As Long
@@ -122,7 +122,7 @@ Attribute VB_Name = "Module1"
     Public GlobalEscalay As Double
     Public GlobalPastadeTrabalho As String
     Public GlobalAreadeTrabalho As String
-    
+    Public Const NomeAplicacao = "Automatizador do SABI"
     
 Public Const SRCCOPY = &HCC0020 ' (DWORD) dest = source
    
@@ -138,8 +138,7 @@ Public m_lMaxItemWidth As Long
 
     Public Declare Function BitBlt Lib "GDI32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal dwRop As Long) As Long
     Public Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
-
-    Public Declare Function IsThemeActive Lib "UxTheme.dll" () As Boolean
+    
     Public Declare Function SendMessageByLong Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     Public Declare Function LBItemFromPt Lib "COMCTL32.DLL" (ByVal hLB As Long, ByVal ptX As Long, ByVal ptY As Long, ByVal bAutoScroll As Long) As Long
 
@@ -203,7 +202,7 @@ Public Sub CopiaTelaCPF(memonumerodorequerimento As String, numtela As Long)
     Dim RectActive As RECT
     hWndActive = numtela
     r = GetWindowRect(hWndActive, RectActive)
-    Set frbRequerimentosdoDia.pctCopiaPartedaTelaCPF.Picture = CaptureWindow(hWndActive, False, 54, 69, 80, 15)
+    Set formInicial.pctCopiaPartedaTelaCPF.Picture = CaptureWindow(hWndActive, False, 54, 69, 80, 15)
 
 End Sub
        
@@ -242,7 +241,7 @@ Public Sub Espera(tempo As Long)
         minutos = Int(segundos / 600)
         segundos = segundos - minutos * 600
         segundos = segundos / 10
-        frbRequerimentosdoDia.lblRelogio.Caption = " " & minutos & ":" & Format(segundos, "00") & " "
+        formInicial.lblRelogio.Caption = " " & minutos & ":" & Format(segundos, "00") & " "
         Sleep 100
         memotempo = memotempo + 100
     Wend
@@ -290,7 +289,7 @@ Public Function CapturaNumero(Deslocamento As Long, Digitos As Long) As String
     LeftRequerimento = Deslocamento
     soma = 0
     For indice = 0 To 5
-        soma = soma + frbRequerimentosdoDia.pctCopiaPartedaTela.Point(LeftRequerimento - 2, TopRequerimento + indice)
+        soma = soma + formInicial.pctCopiaPartedaTela.Point(LeftRequerimento - 2, TopRequerimento + indice)
     Next indice
     If soma > 0 Then
         CapturaNumero = Space(Digitos)
@@ -299,25 +298,25 @@ Public Function CapturaNumero(Deslocamento As Long, Digitos As Long) As String
     algarismo = 0
     For digito = 0 To Digitos - 1
         soma = 0
-        If frbRequerimentosdoDia.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento, TopRequerimento + 2) <> 0 Then
+        If formInicial.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento, TopRequerimento + 2) <> 0 Then
             soma = 1
         End If
-        If frbRequerimentosdoDia.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento, TopRequerimento + 6) <> 0 Then
+        If formInicial.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento, TopRequerimento + 6) <> 0 Then
             soma = soma + 2
         End If
-        If frbRequerimentosdoDia.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 2, TopRequerimento) <> 0 Then
+        If formInicial.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 2, TopRequerimento) <> 0 Then
             soma = soma + 4
         End If
-        If frbRequerimentosdoDia.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 2, TopRequerimento + 4) <> 0 Then
+        If formInicial.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 2, TopRequerimento + 4) <> 0 Then
             soma = soma + 8
         End If
-        If frbRequerimentosdoDia.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 2, TopRequerimento + 8) <> 0 Then
+        If formInicial.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 2, TopRequerimento + 8) <> 0 Then
             soma = soma + 16
         End If
-        If frbRequerimentosdoDia.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 4, TopRequerimento + 2) <> 0 Then
+        If formInicial.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 4, TopRequerimento + 2) <> 0 Then
             soma = soma + 32
         End If
-        If frbRequerimentosdoDia.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 4, TopRequerimento + 6) <> 0 Then
+        If formInicial.pctCopiaPartedaTela.Point(algarismo + LeftRequerimento + 4, TopRequerimento + 6) <> 0 Then
             soma = soma + 64
         End If
         Select Case soma
@@ -367,7 +366,7 @@ Public Function CapturaNumero(Deslocamento As Long, Digitos As Long) As String
 End Function
 
 Public Sub SimulaSendKeys(palavra As String)
-    Dim c As New cSendKeys
+    Dim c As New classeSendKeys
     Dim conta As Integer
     If palavra = "<COPIA>" Then
         c.KeyDown vbKeyControl
@@ -512,8 +511,8 @@ Public Sub CopiaTela(memonumerodorequerimento As String)
     Dim RectActive As RECT
     hWndActive = GlobalIDControleOperacional
     r = GetWindowRect(hWndActive, RectActive)
-    Set frbRequerimentosdoDia.pctCopiaPartedaTela.Picture = CaptureWindow(hWndActive, False, 19, 232 - 30 + 45, 727, 16)  '_
-    SavePicture frbRequerimentosdoDia.pctCopiaPartedaTela.Picture, GlobalPastadeTrabalho & "\" & GlobalDatadosRequerimentos & Format(GlobalIDRequerimento, "000") & memonumerodorequerimento & ".bmp"
+    Set formInicial.pctCopiaPartedaTela.Picture = CaptureWindow(hWndActive, False, 19, 232 - 30 + 45, 727, 16)  '_
+    SavePicture formInicial.pctCopiaPartedaTela.Picture, GlobalPastadeTrabalho & "\" & GlobalDatadosRequerimentos & Format(GlobalIDRequerimento, "000") & memonumerodorequerimento & ".bmp"
 
 End Sub
 
@@ -584,7 +583,7 @@ Public Function ConsultaRequerimento(NumerodoRequerimento As String, ImpressãoAu
         Else
             sequencia = Format(GlobalIDRequerimento, "000")
         End If
-        frbRequerimentosdoDia.pctCopiaPartedaTela.Visible = False
+        formInicial.pctCopiaPartedaTela.Visible = False
         DoEvents
         
         'Valores iniciais do requerimento
@@ -706,7 +705,7 @@ Public Function ConsultaRequerimento(NumerodoRequerimento As String, ImpressãoAu
 
         PostMessage hBotãoOKPesquisaAvançada, BM_CLICK, 0, 0
         DoEvents
-                'frbRequerimentosdoDia.pctCopiaPartedaTela.Visible = True
+                'formInicial.pctCopiaPartedaTela.Visible = True
         DoEvents
 
         'VERIFICA O NUMERO DO REQUERIMENTO
@@ -723,7 +722,7 @@ Public Function ConsultaRequerimento(NumerodoRequerimento As String, ImpressãoAu
                 If IDNãoAvisoImportante <> 0 Then
                     PostMessage IDNãoAvisoImportante, BM_CLICK, 0, 0
                     ConsultaRequerimento.Crítica = "Esta pesquisa está sendo executada sem nenhum critério."
-                    frbRequerimentosdoDia.RequerimentonãoEncontrado NumerodoRequerimento, sequencia
+                    formInicial.RequerimentonãoEncontrado NumerodoRequerimento, sequencia
                     GoTo FechaaTelaPesquisaAvançada
                     Exit Function
                 End If
@@ -731,14 +730,14 @@ Public Function ConsultaRequerimento(NumerodoRequerimento As String, ImpressãoAu
             
             CopiaTela (NumerodoRequerimento)
             DoEvents
-            frbRequerimentosdoDia.pctCopiaPartedaTela.Top = 0
-            frbRequerimentosdoDia.pctCopiaPartedaTela.Left = 0
+            formInicial.pctCopiaPartedaTela.Top = 0
+            formInicial.pctCopiaPartedaTela.Left = 0
             DoEvents
             vernumero = CapturaNumero(3, 9)
             
             contador = contador + 1
             If contador > 100 Then
-                frbRequerimentosdoDia.RequerimentonãoEncontrado NumerodoRequerimento, sequencia
+                formInicial.RequerimentonãoEncontrado NumerodoRequerimento, sequencia
                 ConsultaRequerimento.Crítica = "Tempo expirado de 20 segundos para aparecerem as informações do requerimento"
                 GoTo EsperaaTelaPesquisaAvançadaSerFechada
             End If
@@ -765,9 +764,9 @@ Public Function ConsultaRequerimento(NumerodoRequerimento As String, ImpressãoAu
             ConsultaRequerimento.Status = ""
         End If
         If memoTipo = "INICIAL" And memoStatus = "NORMAL" Then
-            frbRequerimentosdoDia.efeitos True, sequencia
+            formInicial.efeitos True, sequencia
         Else
-            frbRequerimentosdoDia.efeitos False, sequencia
+            formInicial.efeitos False, sequencia
         End If
         GoTo FechaaTelaPesquisaAvançada
         Exit Function
@@ -822,7 +821,7 @@ Public Function ImprimeSegundaViadoRequerimento(NumerodoNIT As String, Impressão
         Dim IDRelatórioSegundaVia As Long
         Dim Hstatic As Long
         Dim IDTelaTempoTranscorrido As Long
-        frbRequerimentosdoDia.pctCopiaPartedaTela.Visible = False
+        formInicial.pctCopiaPartedaTela.Visible = False
         DoEvents
 
         

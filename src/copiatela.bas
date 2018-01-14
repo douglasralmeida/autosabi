@@ -82,22 +82,22 @@ Attribute VB_Name = "CopiaTela"
             As Long
          Private Declare Function DeleteDC Lib "GDI32" ( _
             ByVal hDC As Long) As Long
-         Private Declare Function GetForegroundWindow Lib "USER32" () _
+         Private Declare Function GetForegroundWindow Lib "user32" () _
             As Long
          Private Declare Function SelectPalette Lib "GDI32" ( _
             ByVal hDC As Long, ByVal hPalette As Long, _
             ByVal bForceBackground As Long) As Long
          Private Declare Function RealizePalette Lib "GDI32" ( _
             ByVal hDC As Long) As Long
-         Private Declare Function GetWindowDC Lib "USER32" ( _
+         Private Declare Function GetWindowDC Lib "user32" ( _
             ByVal hWnd As Long) As Long
-         Private Declare Function GetDC Lib "USER32" ( _
+         Private Declare Function GetDC Lib "user32" ( _
             ByVal hWnd As Long) As Long
-         Private Declare Function GetWindowRect Lib "USER32" ( _
+         Private Declare Function GetWindowRect Lib "user32" ( _
             ByVal hWnd As Long, lpRect As RECT) As Long
-         Private Declare Function ReleaseDC Lib "USER32" ( _
+         Private Declare Function ReleaseDC Lib "user32" ( _
             ByVal hWnd As Long, ByVal hDC As Long) As Long
-         Private Declare Function GetDesktopWindow Lib "USER32" () As Long
+         Private Declare Function GetDesktopWindow Lib "user32" () As Long
 
          Private Type PicBmp
             Size As Long
