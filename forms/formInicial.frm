@@ -608,12 +608,12 @@ Begin VB.Form formInicial
          Top             =   120
          Width           =   2925
       End
-      Begin VB.Label lblversão 
+      Begin VB.Label lblversao 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "Compilado em 10-01-2018"
+         Caption         =   "Compilado em 03-04-2019"
          ForeColor       =   &H00808080&
          Height          =   225
          Left            =   0
@@ -920,8 +920,8 @@ Sub atualizaprogresso()
   pctProgressoFundo.Cls
   pctProgressoFundo.PSet (0, 0)
   pctProgressoFundo.Print Space(10) & Format(GlobalIDRequerimento, "00") & " de " & Format(GlobalQuantidadedeRequerimentos, "00")
-  lblversão.Top = -1000
-  lblversão.Left = Me.Width - lblversão.Width - 360
+  lblversao.Top = -1000
+  lblversao.Left = Me.Width - lblversao.Width - 360
 End Sub
 
 Sub Escreve(pontox As Long, pontoy As Long, NUMERO As String)
@@ -1703,7 +1703,7 @@ Private Sub cmdContinua_Click()
   txtUltimo.Enabled = False
   chkIniciais.Enabled = False
   chkPP.Enabled = False
-  lblversão.Visible = False
+  lblversao.Visible = False
   GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
   If GlobalIDControleOperacional <> 0 Then
   Else
@@ -2003,7 +2003,7 @@ Private Sub cmdIniciar_Click()
   If Dir(GlobalAreadeTrabalho & "\Agendamentos.txt") <> "" Then
     Kill GlobalAreadeTrabalho & "\Agendamentos.txt"
   End If
-  lblversão.Visible = False
+  lblversao.Visible = False
   cmdIniciar.Enabled = False
 
   GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
@@ -2226,11 +2226,11 @@ Private Sub Form_Resize()
   If LocalCopiar Then
     Me.Width = 8145
     Me.Left = 600
-    lblversão.Top = 40
-    lblversão.Left = pctFundo.Width - lblversão.Width - 2600
+    lblversao.Top = 0
+    lblversao.Left = pctFundo.Width - lblversao.Width - 2600
   Else
-    lblversão.Top = Me.Height - 1260 - 100
-    lblversão.Left = (Me.Width - lblversão.Width) / 2
+    lblversao.Top = Me.Height - 1500
+    lblversao.Left = (Me.Width - lblversao.Width) / 2
   End If
   pctFundo.Top = 0
   pctFundo.Left = 0
@@ -2309,7 +2309,7 @@ Private Sub lblRelogio_MouseDown(Button As Integer, Shift As Integer, x As Singl
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lblversão_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblversao_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2318,7 +2318,7 @@ Private Sub lblversão_MouseDown(Button As Integer, Shift As Integer, x As Single
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lblversão_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblversao_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
   Me.MousePointer = 0
 End Sub
 

@@ -717,7 +717,7 @@ Public Function ConsultaRequerimento(NumerodoRequerimento As String, ImpressãoAu
   Wend
   DoEvents
   Espera 100
-  wmemonit = CapturaNumero(454, 11)
+  wmemonit = CapturaNumero(453, 11)
   If memonit = "" Or memonit = "88888888888" Then memonit = ""
   ConsultaRequerimento.NIT = memonit
   memoTipo = CapturaNumero(118, 1)
