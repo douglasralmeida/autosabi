@@ -1608,7 +1608,7 @@ Sub MontaListadeRequerimentos(memotexto As String)
     LocalCopiar = True
     Me.Top = Screen.Height - 760 - 3000
     Me.Width = 12540 + 1600
-    Me.Height = Screen.Height - 600
+    Me.Height = Screen.Height - 560
     SetForegroundWindow (Me.hWnd)
     fraOrdem.Visible = False
     fraImprime.Visible = True
@@ -2005,7 +2005,6 @@ Private Sub cmdIniciar_Click()
   End If
   lblversao.Visible = False
   cmdIniciar.Enabled = False
-
   GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
   If GlobalIDControleOperacional <> 0 Then
     Timer1.Enabled = False
@@ -2240,7 +2239,7 @@ Private Sub Form_Resize()
   lstMostrarRequerimentos.Width = Me.Width - 580
   lstMostrarRequerimentos.Height = Abs(pctFundo.Height - lstMostrarRequerimentos.Top - 600)
   fraOrdem.Left = 120
-  fraOrdem.Top = Me.Height - fraOrdem.Height - 420
+  fraOrdem.Top = Me.Height - fraOrdem.Height - 440
   fraImprime.Top = fraOrdem.Top
   fraImprime.Left = 360
   pctCopiaPartedaTela.Left = 0
