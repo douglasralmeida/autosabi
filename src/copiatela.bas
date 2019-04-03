@@ -507,4 +507,3 @@ Attribute VB_Name = "CopiaTela"
          Prn.PaintPicture Pic, 0, 0, PrnPicWidth, PrnPicHeight
       End Sub
       '--------------------------------------------------------------------
-
