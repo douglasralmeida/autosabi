@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form formInicial 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Automatizador do SABI"
-   ClientHeight    =   4560
+   ClientHeight    =   6750
    ClientLeft      =   150
    ClientTop       =   330
    ClientWidth     =   8055
@@ -21,8 +21,34 @@ Begin VB.Form formInicial
    MaxButton       =   0   'False
    MinButton       =   0   'False
    Moveable        =   0   'False
-   ScaleHeight     =   4560
+   ScaleHeight     =   6750
    ScaleWidth      =   8055
+   Begin VB.PictureBox painelStatus 
+      BorderStyle     =   0  'None
+      Height          =   975
+      Left            =   120
+      ScaleHeight     =   975
+      ScaleWidth      =   7695
+      TabIndex        =   32
+      Top             =   4680
+      Width           =   7695
+      Begin VB.Label txtStatusAguarda 
+         Caption         =   "Label3"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   34
+         Top             =   600
+         Width           =   7335
+      End
+      Begin VB.Label txtStatus 
+         Caption         =   "Label3"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   33
+         Top             =   240
+         Width           =   7335
+      End
+   End
    Begin VB.PictureBox pctCopiaPartedaTelaCPF 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -110,7 +136,7 @@ Begin VB.Form formInicial
             Top             =   360
             Width           =   1200
          End
-         Begin VB.CommandButton cmdIniciar 
+         Begin VB.CommandButton btoIniciar 
             Caption         =   "&Processar"
             Default         =   -1  'True
             Height          =   370
@@ -131,7 +157,7 @@ Begin VB.Form formInicial
             Width           =   2295
          End
          Begin VB.OptionButton optOrdem 
-            Caption         =   "&Hora da Perícia"
+            Caption         =   "&Hora da Per?cia"
             Height          =   255
             Index           =   1
             Left            =   2640
@@ -147,13 +173,14 @@ Begin VB.Form formInicial
          Left            =   2400
          Top             =   720
       End
-      Begin VB.Timer Timer1 
+      Begin VB.Timer timerAbrirSabi 
+         Enabled         =   0   'False
          Interval        =   1000
          Left            =   3000
          Top             =   720
       End
       Begin VB.Frame fraImprime 
-         Caption         =   "Imprimir 2ª Via da Marcação de Exame"
+         Caption         =   "Imprimir 2? Via da Marca??o de Exame"
          BeginProperty Font 
             Name            =   "Microsoft Sans Serif"
             Size            =   9.75
@@ -240,7 +267,7 @@ Begin VB.Form formInicial
             Left            =   2880
             TabIndex        =   20
             Text            =   "1"
-            ToolTipText     =   " fixar o final da sequência de impressão "
+            ToolTipText     =   " fixar o final da sequ?ncia de impress?o "
             Top             =   240
             Width           =   495
          End
@@ -260,7 +287,7 @@ Begin VB.Form formInicial
             Left            =   1800
             TabIndex        =   19
             Text            =   "1"
-            ToolTipText     =   " fixar o ínicio da sequência de impressão "
+            ToolTipText     =   " fixar o ?nicio da sequ?ncia de impress?o "
             Top             =   240
             Width           =   495
          End
@@ -278,7 +305,7 @@ Begin VB.Form formInicial
             Height          =   360
             Left            =   4800
             TabIndex        =   16
-            ToolTipText     =   " Confirmar a sequência e os tipos de exames e inciar a operação de impressão "
+            ToolTipText     =   " Confirmar a sequ?ncia e os tipos de exames e inciar a opera??o de impress?o "
             Top             =   375
             Visible         =   0   'False
             Width           =   1200
@@ -330,7 +357,7 @@ Begin VB.Form formInicial
             Appearance      =   0  'Flat
             BackColor       =   &H80000005&
             BackStyle       =   0  'Transparent
-            Caption         =   "Sequência: De"
+            Caption         =   "Sequ?ncia: De"
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
                Size            =   9.75
@@ -713,11 +740,45 @@ Dim modoImprime As String
 Dim LocalY As Long
 Dim LocalCopiar As Boolean
 Dim requerimentomostrado As Long
-Dim mtempo1 As Long
+Dim contadorTimer As Long
 Dim mtempo2 As Long
 Dim deslocalista As Long
     
 Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal Msg As Long, wParam As Any, ByVal lParam As String) As Long
+
+Public Sub exibirStatus(Status As String, segundos As Integer)
+  pctFundo.Visible = False
+  txtStatus.Caption = Status
+  txtStatusAguarda.Caption = "Aguardando " & segundos & " segundos..."
+  painelStatus.Top = 0
+  painelStatus.Left = 0
+  painelStatus.Visible = True
+  contadorTimer = segundos
+  timerAbrirSabi.Enabled = True
+End Sub
+    
+Sub obterDadosSistema()
+  On Error Resume Next 'voltar
+  Dim lpBuff As String * 25
+  Dim ret As Long
+
+  'Get the user name minus any trailing spaces found in the name.
+  ret = GetUserName(lpBuff, 25)
+  GlobalUserName = Left(lpBuff, InStr(lpBuff, Chr(0)) - 1)
+  GlobalAreadeTrabalho = getSpecialFolder(CSIDL_DESKTOP)
+  GlobalPastadeTrabalho = getSpecialFolder(CSIDL_LOCAL_APPDATA) & "\" & NomeAplicacao
+End Sub
+
+Public Sub redimensionarForm(topo As Integer, altura As Integer)
+  'Em VB as medidas da tela sao em twips, e nao pixels.
+  formInicial.Top = Screen.Height + topo
+  formInicial.Height = altura
+End Sub
+
+Private Function testarSABIAberto() As Boolean
+  GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
+  testarSABIAberto = GlobalIDControleOperacional <> 0
+End Function
 
 Public Sub configuranomedoarquivo()
   Dim hwndDialog As Long  ' handle to the dialog box
@@ -1435,7 +1496,6 @@ Function esperaCRYSTALREPORTeExporta() As String
   'implementar rotina que repete o clique periodicamente ate´ vir a nova tela
   SetForegroundWindow (GlobalIDTelaRequerimentosCrystalReport)
   DoEvents
-  Me.Top = Screen.Height - 760 - 3000
   Espera 500
   MouseClique 262, 44
   DoEvents
@@ -1661,18 +1721,6 @@ Sub MouseClique(posx As Long, posy As Long)
   SetCursorPos pt.x, pt.y
 End Sub
     
-Sub Get_User_Name()
-  On Error Resume Next 'voltar
-  Dim lpBuff As String * 25
-  Dim ret As Long
-
-  'Get the user name minus any trailing spaces found in the name.
-  ret = GetUserName(lpBuff, 25)
-  GlobalUserName = Left(lpBuff, InStr(lpBuff, Chr(0)) - 1)
-  GlobalAreadeTrabalho = getSpecialFolder(CSIDL_DESKTOP)
-  GlobalPastadeTrabalho = getSpecialFolder(CSIDL_LOCAL_APPDATA) & "\" & NomeAplicacao
-End Sub
-    
 Private Sub chkIniciais_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
   On Error Resume Next
   If chkIniciais.Value = 1 And chkPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "INICIAIS"
@@ -1693,11 +1741,10 @@ Private Sub cmdContinua_Click()
   On Error Resume Next
   Dim res As String
 
-  GlobalMedidadeSeguranca = True
   Timer2.Enabled = False
   paracima.Visible = False
   parabaixo.Visible = False
-  cmdIniciar.Enabled = False
+  btoIniciar.Enabled = False
   cmdContinua.Enabled = False
   txttPrimeiro.Enabled = False
   txtUltimo.Enabled = False
@@ -1995,32 +2042,23 @@ Private Sub cmdFechar2_Click()
   ApresentaRelatorioFinal
 End Sub
 
-Private Sub cmdIniciar_Click()
-  Dim res As String
-  
+Private Sub btoIniciar_Click()
   lstClassificar.Visible = False
   lstMostrarRequerimentos.Visible = False
   If Dir(GlobalAreadeTrabalho & "\Agendamentos.txt") <> "" Then
     Kill GlobalAreadeTrabalho & "\Agendamentos.txt"
   End If
   lblversao.Visible = False
-  cmdIniciar.Enabled = False
-  GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
-  If GlobalIDControleOperacional <> 0 Then
-    Timer1.Enabled = False
+  btoIniciar.Enabled = False
+  If testarSABIAberto Then
+    preparaSABI
   Else
-    res = SetWindowPos(Me.hWnd, -2, 0, 0, 0, 0, 3)
-    Me.Left = 600
-    MsgBox "Abra o módulo Controle Operacional do SABI.", vbCritical, "Agendamentos do SABI"
-    res = SetWindowPos(Me.hWnd, -1, 0, 0, 0, 0, 3)
-    mtempo1 = 60
-    Exit Sub
+    MsgBox "Abra o módulo Controle Operacional do SABI e faça o login." & vbCrLf & "O Automatizador irá esperar 60 segundos.", vbInformation, NomeAplicacao
+    exibirStatus "Inicie e faça login no Controle Operacional do SABI... ", 60
   End If
-  preparaSABI
-  res = SetWindowPos(Me.hWnd, -1, 0, 0, 0, 0, 3)
 End Sub
 
-Private Sub cmdIniciar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub btoIniciar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
   Me.MousePointer = 0
 End Sub
 
@@ -2048,7 +2086,7 @@ Private Sub mostralista()
   dimensao = lstMostrarRequerimentos.Height
   win = GlobalhMDIClient
   cmdContinua.Visible = False
-  cmdIniciar.Visible = False
+  btoIniciar.Visible = False
   cmdFechar.Visible = False
   fraImprime.Visible = False
   lstMostrarRequerimentos.Top = 0
@@ -2072,13 +2110,14 @@ Private Sub mostralista()
   fraOrdem.Visible = False
   fraImprime.Visible = True
   cmdContinua.Visible = True
-  cmdIniciar.Visible = True
+  btoIniciar.Visible = True
   cmdFechar.Visible = True
   fraImprime.Visible = True
   mtempo2 = 0
   Timer2.Enabled = True
 End Sub
 
+'Função que é executada quando o form recebe o foco do usuário
 Private Sub Form_Activate()
   Dim memo As String
   Dim conta As Long
@@ -2106,27 +2145,34 @@ Private Sub Form_Activate()
     Picture1.PSet (conta, 0), RGB(40, 40, 40)
     Picture1.PSet (conta, 1), RGB(40, 40, 40)
   Next conta
+  
+  'devido a diferenças da altura da barra de título da janela entre o tema clássico e Windows 7,
+  'bloqueia a execução quando o tema clássico estiver ativo.
   If estaTemaAtivo = False Then
-    MsgBox "Personalize a tela do seu computador com o tema 'Windows 7'", vbCritical, "Tema Aero"
+    MsgBox "O Automatizador do SABI não suporta o tema clássico do Windows. Personalize a tela do seu computador com o tema 'Windows 7' e execute o Automatizador novamente.", vbCritical, "Tema Aero"
     End
   End If
+  
+  'inicia as variáveis globais
   GlobalInicio = GetTickCount
   If GlobalPrimeiraVez = False Then Exit Sub
   GlobalPrimeiraVez = False
   GlobalImpressãoAutomática = True
+  
+  'apenas uma execução por vez
   If App.PrevInstance Then
-    MsgBox "O aplicativo 'Agendamentos do SABI' já está aberto.", vbCritical, "Agendamentos do SABI"
+    MsgBox "O Automatizador do SABI já está em execução. Não é permitido executá-lo duas vezes ao mesmo tempo.", vbCritical, "Agendamentos do SABI"
     End
   End If
 
-  'apaga todos  bmp de datas anteriores a atual
+  'apaga todos bmp de datas anteriores a atual
   memo = Dir(GlobalPastadeTrabalho & "\" & "*.bmp")
   While memo <> ""
     If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
     memo = Dir()
   Wend
   
-  'apaga todos  txt de datas anteriores a atual
+  'apaga todos txt de datas anteriores a atual
   memo = Dir(GlobalPastadeTrabalho & "\" & "*.txt")
   While memo <> ""
     If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
@@ -2141,6 +2187,7 @@ Private Sub Form_Activate()
   Loop
 End Sub
 
+'Função executada quando o form é carregado para memória
 Private Sub Form_Load()
   Dim res As String
   Dim conta As Long
@@ -2151,8 +2198,7 @@ Private Sub Form_Load()
   Dim pos As Long
   Dim pastaAppData As String
     
-  GlobalMedidadeSeguranca = False
-  mtempo1 = 0
+  'Inicia variáveis globais
   deslocalista = 0
   Picture1.BackColor = RGB(171, 171, 171)
   LocalCopiar = False
@@ -2161,12 +2207,22 @@ Private Sub Form_Load()
   GlobalPrimeiraVez = True
   GlobalRelatorioPronto = False
   pctCopiaPartedaTelaCPF.Top = -1000
-  Get_User_Name
+  GlobalTítulodaTelaAtiva = ""
+  GlobalMenuAtualizado = False
+  GlobalIDControleOperacional = 0
+  GlobalModoImprimeRequerimentos = False
+  GlobalEscalaX = 256 / Screen.Width
+  GlobalEscalaX = GlobalEscalaX * 256
+  GlobalEscalay = 256 / Screen.Height
+  GlobalEscalay = GlobalEscalay * 256
+  GlobalTempodeEspera = Val(GetSetting("AgendamentosdoSABI", "Requerimento", "TempodeEsperadaResposta", ""))
+  If GlobalTempodeEspera < 3 Or GlobalTempodeEspera > 10 Then GlobalTempodeEspera = 3
+  
+  obterDadosSistema
     
   'Se a pasta AppData da aplicacao nao existir, crie-a
-  pastaAppData = getSpecialFolder(CSIDL_LOCAL_APPDATA) & "\"
-  If Dir(pastaAppData & NomeAplicacao, vbDirectory) = "" Then
-    MkDir pastaAppData & NomeAplicacao
+  If Dir(GlobalPastadeTrabalho, vbDirectory) = "" Then
+    MkDir GlobalPastadeTrabalho
   End If
     
   'WTF!!!
@@ -2196,19 +2252,8 @@ Private Sub Form_Load()
     optOrdem(1).Value = False
   End If
 
-  'Posicao da janela
-  Me.Top = Screen.Height - 3760
-  Me.Height = 2000
-  GlobalTítulodaTelaAtiva = ""
-  GlobalMenuAtualizado = False
-  GlobalIDControleOperacional = 0
-  GlobalModoImprimeRequerimentos = False
-  GlobalEscalaX = 256 / Screen.Width
-  GlobalEscalaX = GlobalEscalaX * 256
-  GlobalEscalay = 256 / Screen.Height
-  GlobalEscalay = GlobalEscalay * 256
-  GlobalTempodeEspera = Val(GetSetting("AgendamentosdoSA3BI", "Requerimento", "TempodeEsperadaResposta", ""))
-  If GlobalTempodeEspera < 3 Or GlobalTempodeEspera > 10 Then GlobalTempodeEspera = 3
+  'Altura e Posicao superior da janela
+  redimensionarForm -3000, 2000
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
@@ -2221,7 +2266,6 @@ End Sub
 
 Private Sub Form_Resize()
   lstMostrarRequerimentos.Top = imageIcone.Top + imageIcone.Height + 40
-  Me.Top = Screen.Height - 3760
   If LocalCopiar Then
     Me.Width = 8145
     Me.Left = 600
@@ -2770,11 +2814,19 @@ Private Sub Picture1_MouseDown(Button As Integer, Shift As Integer, x As Single,
   End If
 End Sub
 
-Private Sub Timer1_Timer()
+Private Sub timerAbrirSabi_Timer()
   On Error Resume Next
   
-  mtempo1 = mtempo1 + 1
-  If mtempo1 > 60 Then End
+  txtStatusAguarda.Caption = "Aguardando " & contadorTimer & " segundos..."
+  contadorTimer = contadorTimer - 1
+  If contadorTimer < 0 Then
+    If testarSABIAberto Then
+      preparaSABI
+    Else
+      MsgBox "O Automatizador não conseguiu encontrar o Controle Operacional do SABI aberto. Se o SABI estiver apresentando lentidão, tente novamente mais tarde.", vbCritical, NomeAplicacao
+      End
+    End If
+  End If
 End Sub
 
 Private Sub Timer2_Timer()

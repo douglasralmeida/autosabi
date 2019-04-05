@@ -78,7 +78,6 @@ Public Const HTCAPTION As Long = 2
 
 Public GlobalAgendamentosConsulta(1000) As DecodiificaAgendamentos
 Public GlobalAgendamentosQuandidade As Long
-Public GlobalMedidadeSeguranca As Boolean
 Public GlobalAgendamentosConsultaCabecalho As String
 Public GlobalDataEscolhida As Date
 Public GlobalDataEscolhida2 As Date
