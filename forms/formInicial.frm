@@ -120,7 +120,7 @@ Begin VB.Form formInicial
       TabIndex        =   5
       Top             =   120
       Width           =   8175
-      Begin VB.Frame fraOrdem 
+      Begin VB.Frame grupoOrdem 
          Caption         =   "Requerimentos ordenados por"
          ForeColor       =   &H00404040&
          Height          =   855
@@ -181,17 +181,7 @@ Begin VB.Form formInicial
          Top             =   720
       End
       Begin VB.Frame fraImprime 
-         Caption         =   "Imprimir 2? Via da Marca??o de Exame"
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "Microsoft Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
+         Caption         =   "Imprimir 2ª Via da Marcação de Exame"
          ForeColor       =   &H00404040&
          Height          =   1005
          Left            =   0
@@ -201,17 +191,8 @@ Begin VB.Form formInicial
          Width           =   7815
          Begin VB.CommandButton cmdFechar2 
             Caption         =   "Fechar"
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
             Height          =   360
-            Left            =   6240
+            Left            =   6480
             TabIndex        =   31
             ToolTipText     =   " Fechar aplicativo "
             Top             =   360
@@ -220,7 +201,7 @@ Begin VB.Form formInicial
          Begin VB.CheckBox chkPP 
             Caption         =   "PP"
             BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
+               Name            =   "Segoe UI"
                Size            =   9.75
                Charset         =   0
                Weight          =   400
@@ -237,15 +218,6 @@ Begin VB.Form formInicial
          End
          Begin VB.CheckBox chkIniciais 
             Caption         =   "Exame Inicial"
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
             Height          =   240
             Left            =   360
             TabIndex        =   28
@@ -254,8 +226,6 @@ Begin VB.Form formInicial
             Width           =   1695
          End
          Begin VB.TextBox txtUltimo 
-            Appearance      =   0  'Flat
-            Enabled         =   0   'False
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
                Size            =   9
@@ -275,18 +245,6 @@ Begin VB.Form formInicial
             Width           =   495
          End
          Begin VB.TextBox txttPrimeiro 
-            Appearance      =   0  'Flat
-            Enabled         =   0   'False
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   9
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00404040&
             Height          =   330
             Left            =   1800
             TabIndex        =   24
@@ -297,22 +255,11 @@ Begin VB.Form formInicial
          End
          Begin VB.CommandButton cmdContinua 
             Caption         =   "Confirma"
-            Enabled         =   0   'False
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
             Height          =   360
-            Left            =   4800
+            Left            =   5160
             TabIndex        =   21
             ToolTipText     =   " Confirmar a sequ?ncia e os tipos de exames e inciar a opera??o de impress?o "
-            Top             =   375
-            Visible         =   0   'False
+            Top             =   360
             Width           =   1200
          End
          Begin VB.Image parabaixo 
@@ -322,7 +269,6 @@ Begin VB.Form formInicial
             Stretch         =   -1  'True
             ToolTipText     =   " mover a lista de requerimentos para baixo "
             Top             =   600
-            Visible         =   0   'False
             Width           =   240
          End
          Begin VB.Image paracima 
@@ -332,7 +278,6 @@ Begin VB.Form formInicial
             Stretch         =   -1  'True
             ToolTipText     =   " mover a lista de requerimentos para cima "
             Top             =   240
-            Visible         =   0   'False
             Width           =   240
          End
          Begin VB.Label Label2 
@@ -362,16 +307,7 @@ Begin VB.Form formInicial
             Appearance      =   0  'Flat
             BackColor       =   &H80000005&
             BackStyle       =   0  'Transparent
-            Caption         =   "Sequ?ncia: De"
-            BeginProperty Font 
-               Name            =   "Microsoft Sans Serif"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
+            Caption         =   "Sequencia: De"
             ForeColor       =   &H00404040&
             Height          =   255
             Left            =   360
@@ -646,7 +582,7 @@ Begin VB.Form formInicial
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "Compilado em 03-04-2019"
+         Caption         =   "Compilado em 05-04-2019"
          ForeColor       =   &H00808080&
          Height          =   225
          Left            =   720
@@ -750,6 +686,8 @@ Dim contadorTimer As Long
 Dim mtempo2 As Long
 Dim deslocalista As Long
     
+Private Declare Function DeleteFile Lib "kernel32.dll" Alias "DeleteFileA" (ByVal lpFileName As String) As Long
+
 Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal Msg As Long, wParam As Any, ByVal lParam As String) As Long
 
 Public Sub excluirArquivosTemp()
@@ -798,7 +736,7 @@ Sub obterDadosRegistro()
   
   valorIniciais = 1
   valorPP = 0
-  valorOrdem = True
+  valorOrdem = False
   'If abrirRegChave(hkey) Then
   '  imprimirExames = lerRegValor(hkey, "ImprimirExames", "INICIAIS")
   '  If imprimirExames = "NENHUM" Then
@@ -866,6 +804,10 @@ Public Sub configuranomedoarquivo()
   Dim memocritica As String
   Dim GlobalBotãoSalvar As Long
   Dim titletmp As String
+  
+  Dim nomearquivo As String
+  
+  nomearquivo = GlobalAreadeTrabalho & "\Agendamentos.txt"
 
   SaveAsDialog = FindWindow("#32770", "Choose Export File")
   cDUIViewWndCIassName = FindWindowEx(SaveAsDialog, 0, "DUIViewWndClassName", vbNullString)
@@ -874,13 +816,13 @@ Public Sub configuranomedoarquivo()
   ComboBoxwin = FindWindowEx(cFloatNotifySink, 0, "ComboBox", vbNullString)
   EditBox = FindWindowEx(ComboBoxwin, 0, "Edit", vbNullString)
   Debug.Print EditBox
-  retval = SendMessage(ComboBoxwin, WM_SETTEXT, vbNullString, GlobalAreadeTrabalho & "\Agendamentos.txt")
+  retval = SendMessage(ComboBoxwin, WM_SETTEXT, vbNullString, nomearquivo)
   txtlen = SendMessage(EditBox, WM_GETTEXTLENGTH, vbNullString, vbNullString)
   txtlen = txtlen + 1
   txt = Space$(txtlen)
   Call SendMessage(EditBox, WM_GETTEXT, ByVal 260, txt)
-  If InStr(1, txt, GlobalAreadeTrabalho & "\Agendamentos.txt") = 0 Then
-    memocritica = "Não foi possível inserir na tela Salvar o destino: " & GlobalAreadeTrabalho & "\Agendamentos.txt"
+  If InStr(1, txt, nomearquivo) = 0 Then
+    memocritica = "Não foi possível inserir na tela Salvar o destino: " & nomearquivo
     Exit Sub
   Else
     'procura o botao Salvar
@@ -896,6 +838,11 @@ Public Sub configuranomedoarquivo()
       End If
       GlobalBotãoSalvar = FindWindowEx(SaveAsDialog, 0, "Button", "Sa&lvar")
     Wend
+       
+    'se o arquivo existe, excluir antes
+    If Dir(nomearquivo) <> "" Then
+      DeleteFile nomearquivo
+    End If
        
     'comanda o salvamento
     PostMessage GlobalBotãoSalvar, BM_CLICK, 0, 0
@@ -1050,8 +997,8 @@ Sub atualizaprogresso()
   pctProgressoFundo.Cls
   pctProgressoFundo.PSet (0, 0)
   pctProgressoFundo.Print Space(10) & Format(GlobalIDRequerimento, "00") & " de " & Format(GlobalQuantidadedeRequerimentos, "00")
-  lblversao.Top = -1000
-  lblversao.Left = Me.Width - lblversao.Width - 360
+  lbVersao.Top = -1000
+  lbVersao.Left = Me.Width - lbVersao.Width - 360
 End Sub
 
 Sub Escreve(pontox As Long, pontoy As Long, NUMERO As String)
@@ -1372,9 +1319,9 @@ Sub AtualizaListadeRequerimentos(ATUAL As Long)
   Me.Left = 600
   sTodos = ""
   If GlobalAgenciaEscolhida = "" Then
-    lblRequerimentodoSABI.Caption = "Agendamentos  do dia " & Mid(GlobalDatadosRequerimentos, 7, 2) & "/" & Mid(GlobalDatadosRequerimentos, 5, 2) & "/" & Mid(GlobalDatadosRequerimentos, 1, 4)
+    lbNomePrograma.Caption = "Agendamentos  do dia " & Mid(GlobalDatadosRequerimentos, 7, 2) & "/" & Mid(GlobalDatadosRequerimentos, 5, 2) & "/" & Mid(GlobalDatadosRequerimentos, 1, 4)
   Else
-    lblRequerimentodoSABI.Caption = Mid(GlobalAgenciaEscolhida, 1, 40) & ", " & Mid(GlobalDatadosRequerimentos, 7, 2) & "/" & Mid(GlobalDatadosRequerimentos, 5, 2) & "/" & Mid(GlobalDatadosRequerimentos, 1, 4)
+    lbNomePrograma.Caption = Mid(GlobalAgenciaEscolhida, 1, 40) & ", " & Mid(GlobalDatadosRequerimentos, 7, 2) & "/" & Mid(GlobalDatadosRequerimentos, 5, 2) & "/" & Mid(GlobalDatadosRequerimentos, 1, 4)
   End If
   lstMostrarRequerimentos.Visible = False
   lstMostrarRequerimentos.Clear
@@ -1540,6 +1487,9 @@ Function esperaCRYSTALREPORTeExporta() As String
   Dim childhandle As Long
   Dim texto As String
   Dim SaveAsDialog As Long
+  Dim contador As Integer
+  Dim JanelaIDEmail As Long
+  Dim hBotaoOK As Long
   
   hDC = GetWindowDC(0)
   GlobalIDTelaSalvarComo = 0
@@ -1571,6 +1521,24 @@ Function esperaCRYSTALREPORTeExporta() As String
   Espera 500
   '    nao funcionou
                 
+  'aguarda a msg de email
+  contador = 0
+  JanelaIDEmail = ObtemIDdaTelaPrincipalporTitulo("Email")
+  While JanelaIDEmail = 0 And contador < 5
+    JanelaIDEmail = ObtemIDdaTelaPrincipalporTitulo("Email")
+    Espera 1000
+    DoEvents
+    contador = contador + 1
+  Wend
+  'clica em OK
+  If JanelaIDEmail <> 0 Then
+    Espera 1000
+    hBotaoOK = FindWindowEx(JanelaIDEmail, 0, "Button", "OK")
+    DoEvents
+    SendMessage hBotaoOK, BM_CLICK, 0, 0
+    DoEvents
+  End If
+    
   'espera tela Export
   titletmp = Space(256)
   nret = GetWindowText(GlobalIDTelaAtiva, titletmp, Len(titletmp))
@@ -1585,10 +1553,11 @@ Function esperaCRYSTALREPORTeExporta() As String
     If InStr(1, titletmp, "SABI - Controle Operacional") > 0 Then
       ClickOpen (GlobalIDTelaAtiva)
     Else
+      'clicar no botao Exportar
       If Len(Trim(titletmp)) = 1 Then MouseClique 262, 44
     End If
   Wend
-  
+    
   'espera a tela export
   GlobalIDTelaExport = ObtemIDdaTelaPrincipalporTitulo("Export")
   While GlobalIDTelaExport = 0
@@ -1739,7 +1708,8 @@ Sub MontaListadeRequerimentos(memotexto As String)
     Me.Width = 12540 + 1600
     Me.Height = Screen.Height - 560
     SetForegroundWindow (Me.hWnd)
-    fraOrdem.Visible = False
+    grupoOrdem.Visible = False
+    redimensionarForm -4000, 2500
     fraImprime.Visible = True
     mostralista
     If GlobalQuantidadedeRequerimentos > 40 Then
@@ -1819,7 +1789,7 @@ Private Sub cmdContinua_Click()
   txtUltimo.Enabled = False
   chkIniciais.Enabled = False
   chkPP.Enabled = False
-  lblversao.Visible = False
+  lbVersao.Visible = False
   GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
   If GlobalIDControleOperacional <> 0 Then
   Else
@@ -2175,9 +2145,10 @@ Private Sub mostralista()
   Me.Height = 2000
   lstMostrarRequerimentos.Visible = False
   lstMostrarRequerimentos.Top = 5000
-  fraImprime.Left = fraOrdem.Left
+  fraImprime.Left = grupoOrdem.Left
   fraImprime.Top = Me.Height - fraImprime.Height - 120
-  fraOrdem.Visible = False
+  grupoOrdem.Visible = False
+  redimensionarForm -4000, 2500
   fraImprime.Visible = True
   cmdContinua.Visible = True
   btoIniciar.Visible = True
@@ -2291,26 +2262,29 @@ Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y A
 End Sub
 
 Private Sub Form_Resize()
-  lstMostrarRequerimentos.Top = imageIcone.Top + imageIcone.Height + 40
-  lbVersao.Left = lbNomePrograma.Left
   If LocalCopiar Then
     Me.Width = 8145
     Me.Left = 600
     lbVersao.Top = 0
   Else
-    lbVersao.Top = Me.Height - 1500
+    lbVersao.Top = Me.Height - 1590
   End If
   pctFundo.Top = 0
   pctFundo.Left = 0
   pctFundo.Width = Me.Width
   pctFundo.Height = Me.Height
+  lbNomePrograma.Top = 30
+  lbNomePrograma.Left = Me.Width / 2 - lbNomePrograma.Width / 2 + imageIcone.Left + imageIcone.Width
+  lbVersao.Left = Me.Width / 2 - lbVersao.Width / 2 + imageIcone.Left + imageIcone.Width
+  grupoOrdem.Left = 120
+  grupoOrdem.Top = Me.Height - grupoOrdem.Height - 470
+  
+  lstMostrarRequerimentos.Top = imageIcone.Top + imageIcone.Height + 40
   lstMostrarRequerimentos.Left = 240
   lstMostrarRequerimentos.Width = Me.Width - 580
   lstMostrarRequerimentos.Height = Abs(pctFundo.Height - lstMostrarRequerimentos.Top - 600)
-  fraOrdem.Left = 120
-  fraOrdem.Top = Me.Height - fraOrdem.Height - 440
-  fraImprime.Top = fraOrdem.Top
-  fraImprime.Left = 360
+  fraImprime.Top = grupoOrdem.Top
+  fraImprime.Left = 120
   pctCopiaPartedaTela.Left = 0
   pctCopiaPartedaTela.Top = pctFundo.Height + 1000
   lblRelogio.Top = lbNomePrograma.Top + 40
@@ -2321,9 +2295,6 @@ Private Sub Form_Resize()
   pctFundoCopias.Width = pctFundo.Width
   pctFundoCopias.Height = Abs(pctFundo.Height - 1350)
   Picture1.Left = 0
-  lbNomePrograma.Top = 120
-  lbNomePrograma.Left = Me.Width / 2 - 1000
-  lbNomePrograma.Width = Me.Width / 2 + 1000
   lblLocaleData.Left = Me.Width / 2 - 2000
   lblLocaleData.Width = Me.Width / 2 + 2000
   lblLocaleData.Top = 80
@@ -2450,6 +2421,8 @@ Private Sub MontaRelaçãodeRequerimentos()
   Dim TelaSize As RECT
   Dim arquivo As String
   Dim memo As String
+  Dim contador As Integer
+  
   On Error Resume Next
 
   GlobalSeçao = Format(Date, "YYYYMMDD") & Format(Time, "hhmmss")
@@ -2717,7 +2690,7 @@ Private Sub preparaSABI()
     End If
     contadordeloop = contadordeloop + 1
     If contadordeloop > 1000 Then
-      lblRequerimentodoSABI.Caption = "Tempo esgotado para informar a data do agendamento"
+      lbNomePrograma.Caption = "Tempo esgotado para informar a data do agendamento"
       DoEvents
       Beep
       Espera 6000
@@ -2792,7 +2765,7 @@ Private Sub decodeRequerimentos(texto As String)
   Loop
   Close #FileNumber
   If Dir(GlobalAreadeTrabalho & "\Agendamentos.txt") <> "" Then
-    Kill GlobalAreadeTrabalho & "\Agendamentos.txt"
+    DeleteFile GlobalAreadeTrabalho & "\Agendamentos.txt"
   End If
   pos1 = InStr(1, GlobalAgendamentosConsultaCabecalho, "Local:")
   If pos1 > 0 Then
@@ -2808,7 +2781,7 @@ Private Sub decodeRequerimentos(texto As String)
     mTexto = Trim(mTexto)
     lblLocaleData.Caption = mTexto
     lblLocaleData.Visible = True
-    lblRequerimentodoSABI.Visible = False
+    lbNomePrograma.Visible = False
   End If
   MontaListadeRequerimentos (GlobalAgendamentosConsultaCabecalho)
 End Sub
@@ -2846,6 +2819,8 @@ Private Sub timerAbrirSabi_Timer()
   contadorTimer = contadorTimer - 1
   If contadorTimer < 0 Then
     If testarSABIAberto Then
+      pctFundo.Visible = True
+      painelStatus.Visible = False
       preparaSABI
     Else
       MsgBox "O Automatizador não conseguiu encontrar o Controle Operacional do SABI aberto. Se o SABI estiver apresentando lentidão, tente novamente mais tarde.", vbCritical, NomeAplicacao

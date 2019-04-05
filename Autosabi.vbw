@@ -1,5 +1,6 @@
 formInicial = 63, 136, 1049, 541, Z, 22, 22, 911, 508, C
-ModuloPadrao = 88, 88, 977, 400, C
+ModuloPadrao = 88, 88, 977, 400, 
 CopiaTela = 44, 44, 933, 356, C
 classeSendKeys = 44, 44, 963, 449, C
-ModuloWindows = 66, 66, 985, 471, C
+ModuloWindows = 66, 66, 985, 471, 
+Registro = 110, 110, 1013, 515, 

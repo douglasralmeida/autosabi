@@ -40,7 +40,7 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 Source: "..\bin\automasabi.exe"; DestDir: "{app}"
-Source: "..\bin\msvbvm60.dll"; DestDir: "{app}"
 
 [Icons]
 Name: "{group}\Automatizador do SABI"; Filename: "{app}\automasabi.exe"; WorkingDir: "{app}"; IconFilename: "{app}\automasabi.exe"; IconIndex: 0
+Name: "{commondesktop}\Automatizador do SABI"; Filename: "{app}\automasabi.exe"; WorkingDir: "{app}"; IconFilename: "{app}\automasabi.exe"; IconIndex: 0
