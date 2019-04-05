@@ -23,6 +23,7 @@ Begin VB.Form formInicial
    Moveable        =   0   'False
    ScaleHeight     =   6750
    ScaleWidth      =   8055
+   ShowInTaskbar   =   0   'False
    Begin VB.PictureBox painelStatus 
       BorderStyle     =   0  'None
       Height          =   975
@@ -68,7 +69,7 @@ Begin VB.Form formInicial
       ScaleHeight     =   23
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   127
-      TabIndex        =   18
+      TabIndex        =   23
       Top             =   3720
       Width           =   1935
    End
@@ -94,7 +95,7 @@ Begin VB.Form formInicial
       ScaleHeight     =   14
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   16
-      TabIndex        =   17
+      TabIndex        =   22
       Top             =   840
       Visible         =   0   'False
       Width           =   240
@@ -116,7 +117,7 @@ Begin VB.Form formInicial
       Left            =   120
       ScaleHeight     =   3855
       ScaleWidth      =   8175
-      TabIndex        =   0
+      TabIndex        =   5
       Top             =   120
       Width           =   8175
       Begin VB.Frame fraOrdem 
@@ -124,25 +125,25 @@ Begin VB.Form formInicial
          ForeColor       =   &H00404040&
          Height          =   855
          Left            =   0
-         TabIndex        =   26
+         TabIndex        =   0
          Top             =   1800
          Width           =   7815
          Begin VB.CommandButton cmdFechar 
             Cancel          =   -1  'True
             Caption         =   "Fechar"
             Height          =   370
-            Left            =   6240
-            TabIndex        =   30
-            Top             =   360
+            Left            =   6480
+            TabIndex        =   4
+            Top             =   280
             Width           =   1200
          End
          Begin VB.CommandButton btoIniciar 
             Caption         =   "&Processar"
             Default         =   -1  'True
-            Height          =   370
-            Left            =   4800
-            TabIndex        =   29
-            Top             =   360
+            Height          =   375
+            Left            =   5160
+            TabIndex        =   3
+            Top             =   280
             Width           =   1200
          End
          Begin VB.OptionButton optOrdem 
@@ -150,20 +151,20 @@ Begin VB.Form formInicial
             Height          =   255
             Index           =   0
             Left            =   240
-            TabIndex        =   28
+            TabIndex        =   1
             ToolTipText     =   "Apresenta os requerimentos ordenados por nome do periciando"
-            Top             =   420
+            Top             =   400
             Value           =   -1  'True
             Width           =   2295
          End
          Begin VB.OptionButton optOrdem 
-            Caption         =   "&Hora da Per?cia"
+            Caption         =   "&Hora da Perícia"
             Height          =   255
             Index           =   1
             Left            =   2640
-            TabIndex        =   27
+            TabIndex        =   2
             ToolTipText     =   "Apresenta os requerimentos ordenados pelo horario da pericia"
-            Top             =   420
+            Top             =   400
             Width           =   2175
          End
       End
@@ -181,6 +182,7 @@ Begin VB.Form formInicial
       End
       Begin VB.Frame fraImprime 
          Caption         =   "Imprimir 2? Via da Marca??o de Exame"
+         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "Microsoft Sans Serif"
             Size            =   9.75
@@ -193,7 +195,7 @@ Begin VB.Form formInicial
          ForeColor       =   &H00404040&
          Height          =   1005
          Left            =   0
-         TabIndex        =   15
+         TabIndex        =   20
          Top             =   2760
          Visible         =   0   'False
          Width           =   7815
@@ -228,7 +230,7 @@ Begin VB.Form formInicial
             EndProperty
             Height          =   240
             Left            =   2880
-            TabIndex        =   24
+            TabIndex        =   29
             ToolTipText     =   " marcar para imprimir os exames de PP "
             Top             =   680
             Width           =   735
@@ -246,13 +248,14 @@ Begin VB.Form formInicial
             EndProperty
             Height          =   240
             Left            =   360
-            TabIndex        =   23
+            TabIndex        =   28
             ToolTipText     =   " marcar para imprimir os exames iniciais "
             Top             =   680
             Width           =   1695
          End
          Begin VB.TextBox txtUltimo 
             Appearance      =   0  'Flat
+            Enabled         =   0   'False
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
                Size            =   9
@@ -265,7 +268,7 @@ Begin VB.Form formInicial
             ForeColor       =   &H00404040&
             Height          =   330
             Left            =   2880
-            TabIndex        =   20
+            TabIndex        =   25
             Text            =   "1"
             ToolTipText     =   " fixar o final da sequ?ncia de impress?o "
             Top             =   240
@@ -273,6 +276,7 @@ Begin VB.Form formInicial
          End
          Begin VB.TextBox txttPrimeiro 
             Appearance      =   0  'Flat
+            Enabled         =   0   'False
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
                Size            =   9
@@ -285,7 +289,7 @@ Begin VB.Form formInicial
             ForeColor       =   &H00404040&
             Height          =   330
             Left            =   1800
-            TabIndex        =   19
+            TabIndex        =   24
             Text            =   "1"
             ToolTipText     =   " fixar o ?nicio da sequ?ncia de impress?o "
             Top             =   240
@@ -293,6 +297,7 @@ Begin VB.Form formInicial
          End
          Begin VB.CommandButton cmdContinua 
             Caption         =   "Confirma"
+            Enabled         =   0   'False
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
                Size            =   8.25
@@ -304,7 +309,7 @@ Begin VB.Form formInicial
             EndProperty
             Height          =   360
             Left            =   4800
-            TabIndex        =   16
+            TabIndex        =   21
             ToolTipText     =   " Confirmar a sequ?ncia e os tipos de exames e inciar a opera??o de impress?o "
             Top             =   375
             Visible         =   0   'False
@@ -348,7 +353,7 @@ Begin VB.Form formInicial
             ForeColor       =   &H80000008&
             Height          =   255
             Left            =   2280
-            TabIndex        =   22
+            TabIndex        =   27
             Top             =   300
             Width           =   375
          End
@@ -370,7 +375,7 @@ Begin VB.Form formInicial
             ForeColor       =   &H00404040&
             Height          =   255
             Left            =   360
-            TabIndex        =   21
+            TabIndex        =   26
             Top             =   300
             Width           =   1335
          End
@@ -392,7 +397,7 @@ Begin VB.Form formInicial
          Left            =   7440
          ScaleHeight     =   225
          ScaleWidth      =   465
-         TabIndex        =   13
+         TabIndex        =   18
          Top             =   0
          Visible         =   0   'False
          Width           =   495
@@ -414,7 +419,7 @@ Begin VB.Form formInicial
             Left            =   -30
             ScaleHeight     =   570
             ScaleWidth      =   165
-            TabIndex        =   14
+            TabIndex        =   19
             Top             =   -30
             Width           =   200
          End
@@ -436,7 +441,7 @@ Begin VB.Form formInicial
          Left            =   3480
          ScaleHeight     =   735
          ScaleWidth      =   2535
-         TabIndex        =   9
+         TabIndex        =   14
          Top             =   600
          Visible         =   0   'False
          Width           =   2535
@@ -457,12 +462,12 @@ Begin VB.Form formInicial
             EndProperty
             ForeColor       =   &H80000008&
             Height          =   1455
-            Left            =   480
+            Left            =   1080
             ScaleHeight     =   97
             ScaleMode       =   3  'Pixel
             ScaleWidth      =   129
-            TabIndex        =   10
-            Top             =   0
+            TabIndex        =   15
+            Top             =   120
             Width           =   1935
          End
       End
@@ -487,7 +492,7 @@ Begin VB.Form formInicial
          ScaleHeight     =   41
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   121
-         TabIndex        =   8
+         TabIndex        =   13
          Top             =   0
          Visible         =   0   'False
          Width           =   1815
@@ -509,7 +514,7 @@ Begin VB.Form formInicial
          ItemData        =   "formInicial.frx":1430
          Left            =   3480
          List            =   "formInicial.frx":1432
-         TabIndex        =   7
+         TabIndex        =   12
          Top             =   1440
          Visible         =   0   'False
          Width           =   2535
@@ -535,13 +540,14 @@ Begin VB.Form formInicial
          ScaleHeight     =   41
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   121
-         TabIndex        =   5
+         TabIndex        =   10
          Top             =   1200
          Visible         =   0   'False
          Width           =   1815
       End
       Begin VB.ListBox lstClassificar 
          Appearance      =   0  'Flat
+         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -552,10 +558,10 @@ Begin VB.Form formInicial
             Strikethrough   =   0   'False
          EndProperty
          Height          =   420
-         Left            =   0
+         Left            =   240
          Sorted          =   -1  'True
-         TabIndex        =   1
-         Top             =   720
+         TabIndex        =   6
+         Top             =   840
          Visible         =   0   'False
          Width           =   1335
       End
@@ -577,7 +583,7 @@ Begin VB.Form formInicial
          ForeColor       =   &H00404040&
          Height          =   375
          Left            =   5880
-         TabIndex        =   25
+         TabIndex        =   30
          Top             =   1440
          Visible         =   0   'False
          Width           =   1995
@@ -609,12 +615,12 @@ Begin VB.Form formInicial
          ForeColor       =   &H00808080&
          Height          =   225
          Left            =   7560
-         TabIndex        =   6
+         TabIndex        =   11
          Top             =   840
          Visible         =   0   'False
          Width           =   315
       End
-      Begin VB.Label lblRequerimentodoSABI 
+      Begin VB.Label lbNomePrograma 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
@@ -631,11 +637,11 @@ Begin VB.Form formInicial
          EndProperty
          Height          =   375
          Left            =   720
-         TabIndex        =   4
+         TabIndex        =   9
          Top             =   120
          Width           =   2925
       End
-      Begin VB.Label lblversao 
+      Begin VB.Label lbVersao 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
@@ -643,9 +649,9 @@ Begin VB.Form formInicial
          Caption         =   "Compilado em 03-04-2019"
          ForeColor       =   &H00808080&
          Height          =   225
-         Left            =   0
-         TabIndex        =   3
-         Top             =   1440
+         Left            =   720
+         TabIndex        =   8
+         Top             =   480
          Width           =   2100
       End
       Begin VB.Label lblImprimir 
@@ -665,7 +671,7 @@ Begin VB.Form formInicial
          ForeColor       =   &H8000000B&
          Height          =   240
          Left            =   7080
-         TabIndex        =   2
+         TabIndex        =   7
          Top             =   1200
          Visible         =   0   'False
          Width           =   840
@@ -693,7 +699,7 @@ Begin VB.Form formInicial
       ScaleHeight     =   18
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   69
-      TabIndex        =   11
+      TabIndex        =   16
       Top             =   4200
       Width           =   1035
    End
@@ -719,7 +725,7 @@ Begin VB.Form formInicial
       ScaleHeight     =   18
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   178
-      TabIndex        =   12
+      TabIndex        =   17
       Top             =   3240
       Visible         =   0   'False
       Width           =   2670
@@ -746,6 +752,31 @@ Dim deslocalista As Long
     
 Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal Msg As Long, wParam As Any, ByVal lParam As String) As Long
 
+Public Sub excluirArquivosTemp()
+  Dim memo As String
+  
+  'apaga todos bmp de datas anteriores a atual
+  memo = Dir(GlobalPastadeTrabalho & "\" & "*.bmp")
+  While memo <> ""
+    If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
+    memo = Dir()
+  Wend
+  
+  'apaga todos txt de datas anteriores a atual
+  memo = Dir(GlobalPastadeTrabalho & "\" & "*.txt")
+  While memo <> ""
+    If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
+    memo = Dir()
+  Wend
+  memo = Dir(GlobalPastadeTrabalho & "\*" & ".txt")
+  Do While memo <> ""
+    If IsDate(Mid(memo, 7, 2) & "/" & Mid(memo, 5, 2) & "/" & Mid(memo, 1, 4)) Then
+      Exit Do
+    End If
+    memo = Dir()
+  Loop
+End Sub
+
 Public Sub exibirStatus(Status As String, segundos As Integer)
   pctFundo.Visible = False
   txtStatus.Caption = Status
@@ -755,6 +786,44 @@ Public Sub exibirStatus(Status As String, segundos As Integer)
   painelStatus.Visible = True
   contadorTimer = segundos
   timerAbrirSabi.Enabled = True
+End Sub
+
+Sub obterDadosRegistro()
+  Dim hkey As Long
+  Dim imprimirExames As String
+  Dim valorIniciais As Long
+  Dim valorPP As Long
+  Dim imprimirOrdem As String
+  Dim valorOrdem As Boolean
+  
+  valorIniciais = 1
+  valorPP = 0
+  valorOrdem = True
+  'If abrirRegChave(hkey) Then
+  '  imprimirExames = lerRegValor(hkey, "ImprimirExames", "INICIAIS")
+  '  If imprimirExames = "NENHUM" Then
+  '    valorIniciais = 0
+  '    valorPP = 0
+  '  ElseIf imprimirExames = "TODOS" Then
+  '     valorIniciais = 1
+  '     valorPP = 1
+  '  ElseIf imprimirExames = "INICIAIS" Then
+  '    valorIniciais = 1
+  '    valorPP = 0
+  '  Else 'PP
+  '    valorIniciais = 0
+  '    valorPP = 1
+  '  End If
+  '  imprimirOrdem = lerRegValor(hkey, "ImprimirOrdem", "HORA")
+  '  If imprimirOrdem = "HORA" Then
+  '    valorOrdem = True
+  '  Else
+  '    valorOrdem = False
+  'End If
+  
+  formInicial.chkIniciais.Value = valorIniciais
+  formInicial.chkPP.Value = valorPP
+  formInicial.optOrdem(1).Value = valorOrdem
 End Sub
     
 Sub obterDadosSistema()
@@ -1349,7 +1418,7 @@ Sub ApresentaRelatorioFinal()
   Dim memo As String
   Dim IDTela As Long
   Dim res As String
-  Dim Nome As String
+  Dim nome As String
   Dim segundos As Long
   Dim minutos As Long
   
@@ -1718,10 +1787,10 @@ Sub MouseClique(posx As Long, posy As Long)
   SetCursorPos Size.Left + posx, Size.Top + posy
   mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
   mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
-  SetCursorPos pt.x, pt.y
+  SetCursorPos pt.X, pt.Y
 End Sub
     
-Private Sub chkIniciais_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub chkIniciais_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
   On Error Resume Next
   If chkIniciais.Value = 1 And chkPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "INICIAIS"
   If chkIniciais.Value = 1 And chkPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "TODOS"
@@ -1729,7 +1798,7 @@ Private Sub chkIniciais_MouseUp(Button As Integer, Shift As Integer, x As Single
   If chkIniciais.Value = 0 And chkPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "PP"
 End Sub
 
-Private Sub chkPP_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub chkPP_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
   On Error Resume Next
   If chkIniciais.Value = 1 And chkPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "INICIAIS"
   If chkIniciais.Value = 1 And chkPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "TODOS"
@@ -1851,7 +1920,7 @@ Private Sub cmdFechar_Click()
   End
 End Sub
 
-Private Sub cmdFechar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub cmdFechar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Me.MousePointer = 0
 End Sub
 
@@ -1900,7 +1969,7 @@ Private Sub Imprimeosrequerimentos(abrangencia As String)
   
     'so atua nos requerimentos sem marca de impressão
     If GlobalRequerimentos(GlobalIDRequerimento).Impresso <> "SIM" And GlobalRequerimentos(GlobalIDRequerimento).Impresso <> "NÃO" Then
-      RequerimentoAtual = ConsultaRequerimento(GlobalRequerimentos(GlobalIDRequerimento).Número, GlobalImpressãoAutomática)
+      RequerimentoAtual = ConsultaRequerimento(GlobalRequerimentos(GlobalIDRequerimento).Número, GlobalImpressaoAuto)
       If RequerimentoAtual.Crítica = "" Then
         GlobalRequerimentos(GlobalIDRequerimento).NIT = Mid(RequerimentoAtual.NIT, 1, 11)
         GlobalRequerimentos(GlobalIDRequerimento).Tipo = Mid(RequerimentoAtual.Tipo, 1, 7)
@@ -1921,7 +1990,7 @@ Private Sub Imprimeosrequerimentos(abrangencia As String)
           GetCursorPos pt
           SetCursorPos 800, 320
           MouseClique 800, 320
-          SetCursorPos pt.x, pt.y
+          SetCursorPos pt.X, pt.Y
     
           'espera tela "Detalhes Requerimento/Benefício"
           titletmp = Space(256)
@@ -1949,7 +2018,7 @@ Private Sub Imprimeosrequerimentos(abrangencia As String)
           SetCursorPos Size.Left + 110, Size.Top + 40
           mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
           mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
-          SetCursorPos pt.x, pt.y
+          SetCursorPos pt.X, pt.Y
           Espera 300
           mostratela
           CopiaTelaCPF 1, idteladibdip
@@ -2006,7 +2075,7 @@ Private Sub Imprimeosrequerimentos(abrangencia As String)
           If Val(GlobalRequerimentos(GlobalIDRequerimento).sequencia) >= Val(txttPrimeiro.Text) And Val(GlobalRequerimentos(GlobalIDRequerimento).sequencia) <= Val(txtUltimo.Text) Then
             If abrangencia <> "NENHUM" Then
               If abrangencia = "TODOS" Or GlobalRequerimentos(GlobalIDRequerimento).Tipo = abrangencia Then
-                RequerimentoAtual = ImprimeSegundaViadoRequerimento(RequerimentoAtual.NIT, GlobalImpressãoAutomática)
+                RequerimentoAtual = ImprimeSegundaViadoRequerimento(RequerimentoAtual.NIT, GlobalImpressaoAuto)
                 If RequerimentoAtual.Crítica <> "" Then RequerimentoAtual.Impresso = ""
                 GlobalRequerimentos(GlobalIDRequerimento).Crítica = RequerimentoAtual.Crítica
                 GlobalRequerimentos(GlobalIDRequerimento).Impresso = RequerimentoAtual.Impresso
@@ -2040,6 +2109,7 @@ End Sub
 Private Sub cmdFechar2_Click()
   ClickMenu GlobalIDControleOperacional, 0, 6
   ApresentaRelatorioFinal
+  End
 End Sub
 
 Private Sub btoIniciar_Click()
@@ -2048,17 +2118,17 @@ Private Sub btoIniciar_Click()
   If Dir(GlobalAreadeTrabalho & "\Agendamentos.txt") <> "" Then
     Kill GlobalAreadeTrabalho & "\Agendamentos.txt"
   End If
-  lblversao.Visible = False
+  lbVersao.Visible = False
   btoIniciar.Enabled = False
   If testarSABIAberto Then
     preparaSABI
   Else
     MsgBox "Abra o módulo Controle Operacional do SABI e faça o login." & vbCrLf & "O Automatizador irá esperar 60 segundos.", vbInformation, NomeAplicacao
-    exibirStatus "Inicie e faça login no Controle Operacional do SABI... ", 60
+    exibirStatus "Inicie e faça login no Controle Operacional do SABI.", 60
   End If
 End Sub
 
-Private Sub btoIniciar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub btoIniciar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Me.MousePointer = 0
 End Sub
 
@@ -2119,27 +2189,8 @@ End Sub
 
 'Função que é executada quando o form recebe o foco do usuário
 Private Sub Form_Activate()
-  Dim memo As String
   Dim conta As Long
     
-  chkIniciais.Value = 1
-  chkPP.Value = 0
-  If GetSetting("AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "") = "NENHUM" Then
-    chkIniciais.Value = 0
-    chkPP.Value = 0
-  End If
-  If GetSetting("AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "") = "TODOS" Then
-    chkIniciais.Value = 1
-    chkPP.Value = 1
-  End If
-  If GetSetting("AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "") = "INICIAIS" Then
-    chkIniciais.Value = 1
-    chkPP.Value = 0
-  End If
-  If GetSetting("AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "") = "PP" Then
-    chkIniciais.Value = 0
-    chkPP.Value = 1
-  End If
   Picture1.Width = 10890
   For conta = 0 To 10891
     Picture1.PSet (conta, 0), RGB(40, 40, 40)
@@ -2152,39 +2203,6 @@ Private Sub Form_Activate()
     MsgBox "O Automatizador do SABI não suporta o tema clássico do Windows. Personalize a tela do seu computador com o tema 'Windows 7' e execute o Automatizador novamente.", vbCritical, "Tema Aero"
     End
   End If
-  
-  'inicia as variáveis globais
-  GlobalInicio = GetTickCount
-  If GlobalPrimeiraVez = False Then Exit Sub
-  GlobalPrimeiraVez = False
-  GlobalImpressãoAutomática = True
-  
-  'apenas uma execução por vez
-  If App.PrevInstance Then
-    MsgBox "O Automatizador do SABI já está em execução. Não é permitido executá-lo duas vezes ao mesmo tempo.", vbCritical, "Agendamentos do SABI"
-    End
-  End If
-
-  'apaga todos bmp de datas anteriores a atual
-  memo = Dir(GlobalPastadeTrabalho & "\" & "*.bmp")
-  While memo <> ""
-    If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
-    memo = Dir()
-  Wend
-  
-  'apaga todos txt de datas anteriores a atual
-  memo = Dir(GlobalPastadeTrabalho & "\" & "*.txt")
-  While memo <> ""
-    If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
-    memo = Dir()
-  Wend
-  memo = Dir(GlobalPastadeTrabalho & "\*" & ".txt")
-  Do While memo <> ""
-    If IsDate(Mid(memo, 7, 2) & "/" & Mid(memo, 5, 2) & "/" & Mid(memo, 1, 4)) Then
-      Exit Do
-    End If
-    memo = Dir()
-  Loop
 End Sub
 
 'Função executada quando o form é carregado para memória
@@ -2198,6 +2216,12 @@ Private Sub Form_Load()
   Dim pos As Long
   Dim pastaAppData As String
     
+  'apenas uma execução por vez
+  If App.PrevInstance Then
+    MsgBox "O Automatizador do SABI já está em execução. Não é permitido executá-lo duas vezes ao mesmo tempo.", vbCritical, "Agendamentos do SABI"
+    End
+  End If
+        
   'Inicia variáveis globais
   deslocalista = 0
   Picture1.BackColor = RGB(171, 171, 171)
@@ -2217,13 +2241,20 @@ Private Sub Form_Load()
   GlobalEscalay = GlobalEscalay * 256
   GlobalTempodeEspera = Val(GetSetting("AgendamentosdoSABI", "Requerimento", "TempodeEsperadaResposta", ""))
   If GlobalTempodeEspera < 3 Or GlobalTempodeEspera > 10 Then GlobalTempodeEspera = 3
-  
+  GlobalInicio = GetTickCount
+  GlobalImpressaoAuto = True
+
+  'Consulta os dados salvos no registro e do sistema
+  obterDadosRegistro
   obterDadosSistema
     
   'Se a pasta AppData da aplicacao nao existir, crie-a
   If Dir(GlobalPastadeTrabalho, vbDirectory) = "" Then
     MkDir GlobalPastadeTrabalho
   End If
+  
+  'excluir arquivos da pasta temporária
+  excluirArquivosTemp
     
   'WTF!!!
   If Dir(GlobalPastadeTrabalho & "\Teste.txt") = "" Then
@@ -2246,17 +2277,12 @@ Private Sub Form_Load()
     nomeexecutável = Mid(nomeexecutável, conta + 1, pos - conta - 1)
     MsgBox "Atenção: O Windows do seu computador está configurado para abrir documentos com extensão '.txt' com o '" & nomeexecutável & "'. Favor mudar o programa padrão para 'Bloco de notas'.", vbCritical, "Abrir '.txt' com... Escolher programa padrão."
   End If
-  If GetSetting("AGENDAMENTODOSABI", "IMPRIMIR", "ORDEM", "") = "HORA" Then
-    optOrdem(1).Value = True
-  Else
-    optOrdem(1).Value = False
-  End If
 
   'Altura e Posicao superior da janela
   redimensionarForm -3000, 2000
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2266,14 +2292,13 @@ End Sub
 
 Private Sub Form_Resize()
   lstMostrarRequerimentos.Top = imageIcone.Top + imageIcone.Height + 40
+  lbVersao.Left = lbNomePrograma.Left
   If LocalCopiar Then
     Me.Width = 8145
     Me.Left = 600
-    lblversao.Top = 0
-    lblversao.Left = pctFundo.Width - lblversao.Width - 2600
+    lbVersao.Top = 0
   Else
-    lblversao.Top = Me.Height - 1500
-    lblversao.Left = (Me.Width - lblversao.Width) / 2
+    lbVersao.Top = Me.Height - 1500
   End If
   pctFundo.Top = 0
   pctFundo.Left = 0
@@ -2288,7 +2313,7 @@ Private Sub Form_Resize()
   fraImprime.Left = 360
   pctCopiaPartedaTela.Left = 0
   pctCopiaPartedaTela.Top = pctFundo.Height + 1000
-  lblRelogio.Top = lblRequerimentodoSABI.Top + 40
+  lblRelogio.Top = lbNomePrograma.Top + 40
   lblRelogio.Left = imageIcone.Left + imageIcone.Width + 40
   Picture1.Left = 0
   pctFundoCopias.Top = 3000
@@ -2296,9 +2321,9 @@ Private Sub Form_Resize()
   pctFundoCopias.Width = pctFundo.Width
   pctFundoCopias.Height = Abs(pctFundo.Height - 1350)
   Picture1.Left = 0
-  lblRequerimentodoSABI.Top = 120
-  lblRequerimentodoSABI.Left = Me.Width / 2 - 1000
-  lblRequerimentodoSABI.Width = Me.Width / 2 + 1000
+  lbNomePrograma.Top = 120
+  lbNomePrograma.Left = Me.Width / 2 - 1000
+  lbNomePrograma.Width = Me.Width / 2 + 1000
   lblLocaleData.Left = Me.Width / 2 - 2000
   lblLocaleData.Width = Me.Width / 2 + 2000
   lblLocaleData.Top = 80
@@ -2329,11 +2354,11 @@ Private Sub lblImprimir_Click()
   Next conta
 End Sub
 
-Private Sub lblImprimir_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblImprimir_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   lblImprimir.BorderStyle = 1
 End Sub
 
-Private Sub lblImprimir_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblImprimir_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
   lblImprimir.BorderStyle = 0
 End Sub
 
@@ -2343,7 +2368,7 @@ Private Sub lblRelogio_Change()
   pctProgressoFundo.Left = lblRelogio.Left + lblRelogio.Width + 40
 End Sub
 
-Private Sub lblRelogio_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblRelogio_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2352,7 +2377,7 @@ Private Sub lblRelogio_MouseDown(Button As Integer, Shift As Integer, x As Singl
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lblversao_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblversao_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2361,11 +2386,11 @@ Private Sub lblversao_MouseDown(Button As Integer, Shift As Integer, x As Single
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lblversao_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lblversao_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Me.MousePointer = 0
 End Sub
 
-Private Sub lstMostrarRequerimentos_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstMostrarRequerimentos_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Dim lngReturnValue As Long
   
   imprimereq = True
@@ -2375,7 +2400,7 @@ Private Sub lstMostrarRequerimentos_MouseDown(Button As Integer, Shift As Intege
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
   On Error Resume Next
   Dim memo As String
   Dim memorequerimento As String
@@ -2384,8 +2409,8 @@ Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Intege
   
   If GlobalRelatorioPronto Then
     Me.MousePointer = 0
-    lstMostrarRequerimentos.ListIndex = ItemUnderMouse(lstMostrarRequerimentos.hWnd, x, y)
-    pos = ItemUnderMouse(lstMostrarRequerimentos.hWnd, x, y)
+    lstMostrarRequerimentos.ListIndex = ItemUnderMouse(lstMostrarRequerimentos.hWnd, X, Y)
+    pos = ItemUnderMouse(lstMostrarRequerimentos.hWnd, X, Y)
     If pos > 0 Then
       memorequerimento = lstMostrarRequerimentos.List(pos)
       memorequerimento = Trim(Mid(memorequerimento, 4))
@@ -2412,7 +2437,7 @@ Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Intege
   End If
 End Sub
 
-Private Sub lstMostrarRequerimentos_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub lstMostrarRequerimentos_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
   imprimereq = False
 End Sub
 
@@ -2479,7 +2504,7 @@ Private Sub paracima_Click()
   mostralista
 End Sub
 
-Private Sub pctCopiaPartedaTela_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pctCopiaPartedaTela_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Dim lngReturnValue As Long
 
   Me.MousePointer = 9
@@ -2488,7 +2513,7 @@ Private Sub pctCopiaPartedaTela_MouseDown(Button As Integer, Shift As Integer, x
   If Me.Height = 133 * 15 Or LocalCopiar = True Then Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub pctFundo_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pctFundo_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2497,7 +2522,7 @@ Private Sub pctFundo_MouseDown(Button As Integer, Shift As Integer, x As Single,
   If Me.Height = 133 * 15 Or LocalCopiar = True Then Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub pctFundo_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pctFundo_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Me.MousePointer = 0
 End Sub
 
@@ -2788,7 +2813,7 @@ Private Sub decodeRequerimentos(texto As String)
   MontaListadeRequerimentos (GlobalAgendamentosConsultaCabecalho)
 End Sub
 
-Private Sub pctFundoCopias_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pctFundoCopias_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2797,16 +2822,16 @@ Private Sub pctFundoCopias_MouseDown(Button As Integer, Shift As Integer, x As S
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub pctFundoCopias_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub pctFundoCopias_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
   Me.MousePointer = 0
 End Sub
 
-Private Sub Picture1_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Picture1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
   On Error Resume Next
   
   Clipboard.Clear
   Clipboard.SetData Picture1.Picture
-  LocalY = y
+  LocalY = Y
   If Button = 2 Then
     res = SetWindowPos(Me.hWnd, -2, 0, 0, 0, 0, 3)
     MsgBox "Esta relação de requerimentos foi salva na área de transferência. Para imprimir cole agora no 'Word' ou 'Paint'.", vbCritical, "Imprimir Relação de Requerimentos"

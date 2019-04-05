@@ -1,7 +1,7 @@
 Attribute VB_Name = "ModuloPadrao"
 Public Type POINTAPI
-  x As Long
-  y As Long
+  X As Long
+  Y As Long
 End Type
     
 Public Type RECT
@@ -95,7 +95,7 @@ Public GlobalAlerta As Boolean
 Public GlobalTempodeEspera As Long
 Public GlobalPrimeiraVez As Boolean
 Public GlobalSeçao As String
-Public GlobalImpressãoAutomática As Boolean
+Public GlobalImpressaoAuto As Boolean
 Public GlobalUltimoNitInformado As String
 Public GlobalhMDIClient As Long
 Public GlobalIDRequerimento As Long
@@ -133,7 +133,7 @@ Public Const SM_CXVSCROLL = 2
 Public mvarListBox As ListBox
 Public m_lMaxItemWidth As Long
 
-Public Declare Function BitBlt Lib "GDI32" (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal dwRop As Long) As Long
+Public Declare Function BitBlt Lib "GDI32" (ByVal hDestDC As Long, ByVal X As Long, ByVal Y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal XSrc As Long, ByVal YSrc As Long, ByVal dwRop As Long) As Long
 Public Declare Function GetDC Lib "user32" (ByVal hWnd As Long) As Long
     
 Public Declare Function SendMessageByLong Lib "user32" Alias "SendMessageA" (ByVal hWnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
@@ -161,7 +161,7 @@ Public Declare Function SendMessage2 Lib "user32" Alias "SendMessageA" (ByVal hW
 Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal hWnd1 As Long, ByVal hWnd2 As Long, ByVal lpsz1 As String, ByVal lpsz2 As String) As Long
 Public Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
 Public Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Long) As Integer
-Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Public Declare Function GetWindowRect Lib "user32" (ByVal hWnd As Long, lpRect As RECT) As Long
 Public Declare Function GetMenu Lib "user32" (ByVal hWnd As Long) As Long
 Public Declare Function GetMenuItemCount Lib "user32" (ByVal hMenu As Long) As Long
@@ -176,10 +176,10 @@ Public Declare Function GetWindowPlacement Lib "user32" (ByVal hWnd As Long, lpw
 Public Declare Function SetWindowPlacement Lib "user32" (ByVal hWnd As Long, lpwndpl As WINDOWPLACEMENT) As Long
 Public Declare Function FindWindowA Lib "user32" (ByVal lpClassName As String, ByVal lpWindowName As String) As Long
 Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal hWnd As Long, ByVal nIndex As Long) As Long
-Public Declare Function TextOut Lib "GDI32" Alias "TextOutA" (ByVal hDC As Long, ByVal x As Long, ByVal y As Long, ByVal lpString As String, ByVal nCount As Long) As Long
+Public Declare Function TextOut Lib "GDI32" Alias "TextOutA" (ByVal hDC As Long, ByVal X As Long, ByVal Y As Long, ByVal lpString As String, ByVal nCount As Long) As Long
 Public Declare Function GetWindowDC Lib "user32" (ByVal hWnd As Long) As Long
 Public Declare Function Rectangle Lib "GDI32" (ByVal hDC As Long, ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
-Public Declare Function SetCursorPos Lib "user32.dll" (ByVal x As Long, ByVal y As Long) As Long
+Public Declare Function SetCursorPos Lib "user32.dll" (ByVal X As Long, ByVal Y As Long) As Long
 Public Declare Function AppendMenu Lib "user32" Alias "AppendMenuA" (ByVal hMenu As Long, ByVal wFlags As Long, ByVal wIDNewItem As Long, ByVal lpNewItem As Any) As Long
 Public Declare Function CreatePopupMenu Lib "user32" () As Long
 Public Declare Function DrawMenuBar Lib "user32" (ByVal hWnd As Long) As Long
@@ -198,13 +198,13 @@ Public Sub CopiaTelaCPF(memonumerodorequerimento As String, numtela As Long)
   Set formInicial.pctCopiaPartedaTelaCPF.Picture = CaptureWindow(hWndActive, False, 54, 69, 80, 15)
 End Sub
        
-Public Function ItemUnderMouse(ByVal list_hWnd As Long, ByVal x As Single, ByVal y As Single)
+Public Function ItemUnderMouse(ByVal list_hWnd As Long, ByVal X As Single, ByVal Y As Single)
   Dim pt As POINTAPI
 
-  pt.x = x \ Screen.TwipsPerPixelX
-  pt.y = y \ Screen.TwipsPerPixelY
+  pt.X = X \ Screen.TwipsPerPixelX
+  pt.Y = Y \ Screen.TwipsPerPixelY
   ClientToScreen list_hWnd, pt
-  ItemUnderMouse = LBItemFromPt(list_hWnd, pt.x, pt.y, False)
+  ItemUnderMouse = LBItemFromPt(list_hWnd, pt.X, pt.Y, False)
 End Function
 
 Public Sub Espera(tempo As Long)

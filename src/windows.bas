@@ -44,3 +44,5 @@ Public Function getSpecialFolder(CSIDL As Long) As String
   End If
   getSpecialFolder = ""
 End Function
+
+
