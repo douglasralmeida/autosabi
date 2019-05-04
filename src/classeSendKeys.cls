@@ -37,7 +37,7 @@ Public Sub KeyDown(ByVal vKey As KeyCodeConstants)
 End Sub
 
 Public Sub KeyUp(ByVal vKey As KeyCodeConstants)
-   keybd_event vKey, 0, KEYEVENTF_EXTENDEDKEY Or KEYEVENTF_KEYUP, 0
+  keybd_event vKey, 0, KEYEVENTF_EXTENDEDKEY Or KEYEVENTF_KEYUP, 0
 End Sub
 
 Public Function KeyCode(ByVal sChar As String) As KeyCodeConstants

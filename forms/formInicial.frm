@@ -24,6 +24,33 @@ Begin VB.Form formInicial
    ScaleHeight     =   6750
    ScaleWidth      =   8055
    ShowInTaskbar   =   0   'False
+   Begin VB.PictureBox painelErro 
+      BorderStyle     =   0  'None
+      Height          =   1335
+      Left            =   120
+      ScaleHeight     =   1335
+      ScaleWidth      =   7695
+      TabIndex        =   35
+      Top             =   5280
+      Width           =   7695
+      Begin VB.CommandButton btoFecharErro 
+         Caption         =   "Fechar"
+         Height          =   360
+         Left            =   6480
+         TabIndex        =   37
+         ToolTipText     =   " Fechar aplicativo "
+         Top             =   840
+         Width           =   1200
+      End
+      Begin VB.Label txtErro 
+         Caption         =   "Label3"
+         Height          =   255
+         Left            =   1080
+         TabIndex        =   36
+         Top             =   360
+         Width           =   6375
+      End
+   End
    Begin VB.PictureBox painelStatus 
       BorderStyle     =   0  'None
       Height          =   975
@@ -31,7 +58,7 @@ Begin VB.Form formInicial
       ScaleHeight     =   975
       ScaleWidth      =   7695
       TabIndex        =   32
-      Top             =   4680
+      Top             =   4200
       Width           =   7695
       Begin VB.Label txtStatusAguarda 
          Caption         =   "Label3"
@@ -65,12 +92,13 @@ Begin VB.Form formInicial
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   375
-      Left            =   5040
+      Left            =   4320
       ScaleHeight     =   23
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   127
       TabIndex        =   23
-      Top             =   3720
+      Top             =   3840
+      Visible         =   0   'False
       Width           =   1935
    End
    Begin VB.PictureBox pctImpressora 
@@ -90,13 +118,13 @@ Begin VB.Form formInicial
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   210
-      Left            =   3720
+      Left            =   7800
       Picture         =   "formInicial.frx":08CA
       ScaleHeight     =   14
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   16
       TabIndex        =   22
-      Top             =   840
+      Top             =   600
       Visible         =   0   'False
       Width           =   240
    End
@@ -118,7 +146,7 @@ Begin VB.Form formInicial
       ScaleHeight     =   3855
       ScaleWidth      =   8175
       TabIndex        =   5
-      Top             =   120
+      Top             =   0
       Width           =   8175
       Begin VB.Frame grupoOrdem 
          Caption         =   "Requerimentos ordenados por"
@@ -128,7 +156,7 @@ Begin VB.Form formInicial
          TabIndex        =   0
          Top             =   1800
          Width           =   7815
-         Begin VB.CommandButton cmdFechar 
+         Begin VB.CommandButton btoFechar 
             Cancel          =   -1  'True
             Caption         =   "Fechar"
             Height          =   370
@@ -171,14 +199,14 @@ Begin VB.Form formInicial
       Begin VB.Timer Timer2 
          Enabled         =   0   'False
          Interval        =   1000
-         Left            =   2400
-         Top             =   720
+         Left            =   5040
+         Top             =   120
       End
       Begin VB.Timer timerAbrirSabi 
          Enabled         =   0   'False
          Interval        =   1000
-         Left            =   3000
-         Top             =   720
+         Left            =   4560
+         Top             =   120
       End
       Begin VB.Frame fraImprime 
          Caption         =   "Imprimir 2ª Via da Marcação de Exame"
@@ -189,7 +217,7 @@ Begin VB.Form formInicial
          Top             =   2760
          Visible         =   0   'False
          Width           =   7815
-         Begin VB.CommandButton cmdFechar2 
+         Begin VB.CommandButton btoFechar2 
             Caption         =   "Fechar"
             Height          =   360
             Left            =   6480
@@ -198,7 +226,7 @@ Begin VB.Form formInicial
             Top             =   360
             Width           =   1200
          End
-         Begin VB.CheckBox chkPP 
+         Begin VB.CheckBox chcPP 
             Caption         =   "PP"
             BeginProperty Font 
                Name            =   "Segoe UI"
@@ -216,7 +244,7 @@ Begin VB.Form formInicial
             Top             =   680
             Width           =   735
          End
-         Begin VB.CheckBox chkIniciais 
+         Begin VB.CheckBox chcExameInicial 
             Caption         =   "Exame Inicial"
             Height          =   240
             Left            =   360
@@ -225,7 +253,7 @@ Begin VB.Form formInicial
             Top             =   680
             Width           =   1695
          End
-         Begin VB.TextBox txtUltimo 
+         Begin VB.TextBox editMarcacaoPara 
             BeginProperty Font 
                Name            =   "Microsoft Sans Serif"
                Size            =   9
@@ -242,19 +270,19 @@ Begin VB.Form formInicial
             Text            =   "1"
             ToolTipText     =   " fixar o final da sequ?ncia de impress?o "
             Top             =   240
-            Width           =   495
+            Width           =   500
          End
-         Begin VB.TextBox txttPrimeiro 
+         Begin VB.TextBox editMarcacaoDe 
             Height          =   330
             Left            =   1800
             TabIndex        =   24
             Text            =   "1"
             ToolTipText     =   " fixar o ?nicio da sequ?ncia de impress?o "
             Top             =   240
-            Width           =   495
+            Width           =   500
          End
-         Begin VB.CommandButton cmdContinua 
-            Caption         =   "Confirma"
+         Begin VB.CommandButton btoConfirmar 
+            Caption         =   "&Confirmar"
             Height          =   360
             Left            =   5160
             TabIndex        =   21
@@ -424,7 +452,7 @@ Begin VB.Form formInicial
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   615
-         Left            =   3960
+         Left            =   5520
          ScaleHeight     =   41
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   121
@@ -433,7 +461,7 @@ Begin VB.Form formInicial
          Visible         =   0   'False
          Width           =   1815
       End
-      Begin VB.ListBox lstMostrarRequerimentos 
+      Begin VB.ListBox listaRequerimentos 
          Appearance      =   0  'Flat
          BackColor       =   &H8000000F&
          BeginProperty Font 
@@ -448,10 +476,10 @@ Begin VB.Form formInicial
          ForeColor       =   &H00404040&
          Height          =   225
          ItemData        =   "formInicial.frx":1430
-         Left            =   3480
-         List            =   "formInicial.frx":1432
+         Left            =   240
+         List            =   "formInicial.frx":1437
          TabIndex        =   12
-         Top             =   1440
+         Top             =   1080
          Visible         =   0   'False
          Width           =   2535
       End
@@ -472,16 +500,16 @@ Begin VB.Form formInicial
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   615
-         Left            =   1560
+         Left            =   2880
          ScaleHeight     =   41
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   121
          TabIndex        =   10
-         Top             =   1200
+         Top             =   1080
          Visible         =   0   'False
          Width           =   1815
       End
-      Begin VB.ListBox lstClassificar 
+      Begin VB.ListBox listaClassificar 
          Appearance      =   0  'Flat
          Enabled         =   0   'False
          BeginProperty Font 
@@ -493,7 +521,7 @@ Begin VB.Form formInicial
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   420
+         Height          =   225
          Left            =   240
          Sorted          =   -1  'True
          TabIndex        =   6
@@ -527,7 +555,7 @@ Begin VB.Form formInicial
       Begin VB.Image imageIcone 
          Height          =   480
          Left            =   80
-         Picture         =   "formInicial.frx":1434
+         Picture         =   "formInicial.frx":144F
          Top             =   80
          Width           =   480
       End
@@ -630,13 +658,14 @@ Begin VB.Form formInicial
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   270
-      Left            =   3120
-      Picture         =   "formInicial.frx":1CFE
+      Left            =   6960
+      Picture         =   "formInicial.frx":1D19
       ScaleHeight     =   18
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   69
       TabIndex        =   16
-      Top             =   4200
+      Top             =   3840
+      Visible         =   0   'False
       Width           =   1035
    End
    Begin VB.PictureBox pctEsteRequerimento 
@@ -657,7 +686,7 @@ Begin VB.Form formInicial
       ForeColor       =   &H80000008&
       Height          =   270
       Left            =   5280
-      Picture         =   "formInicial.frx":2BE0
+      Picture         =   "formInicial.frx":2BFB
       ScaleHeight     =   18
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   178
@@ -674,6 +703,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Dim Sabi As classeSabi
+
 Dim MenuName As New Collection
 Dim MenuHandle As New Collection
 Dim lHwnd As Long
@@ -686,9 +717,7 @@ Dim contadorTimer As Long
 Dim mtempo2 As Long
 Dim deslocalista As Long
     
-Private Declare Function DeleteFile Lib "kernel32.dll" Alias "DeleteFileA" (ByVal lpFileName As String) As Long
-
-Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal Msg As Long, wParam As Any, ByVal lParam As String) As Long
+Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal Msg As Long, wParam As Any, lParam As String) As Long
 
 Public Sub excluirArquivosTemp()
   Dim memo As String
@@ -715,6 +744,55 @@ Public Sub excluirArquivosTemp()
   Loop
 End Sub
 
+Sub exibirRelatorioFinal()
+  On Error Resume Next
+  Dim conta As Long
+  Dim res As String
+  Dim nome As String
+  Dim segundos As Long
+  Dim minutos As Long
+  Dim idArquivo As Integer
+  
+  arquivoRelatorio = GlobalPastadeTrabalho & "\relatoriofinal.txt"
+  
+  listaRequerimentos.Enabled = True
+  segundos = Int((GetTickCount - GlobalInicio) / 1000)
+  minutos = Int(segundos / 60)
+  segundos = segundos - minutos * 60
+  lblRelogio.Caption = " " & minutos & ":" & Format(segundos, "00") & " "
+  texto = "O Controle Operacional foi fechado por medida de segurança" & Chr(13) & Chr(10) & Chr(13) & Chr(10)
+  texto = texto & lblLocaleData.Caption & Chr(13) & Chr(10)
+  texto = texto & acertarLarguraColuna("123", "Seq") & Chr(9) & acertarLarguraColuna("123456789", "Requerimento") & Chr(9) & acertarLarguraColuna("12345678901", "CPF") & Chr(9) & acertarLarguraColuna("INICIAL", "Tipo") & Chr(9) & acertarLarguraColuna("INDEFERIDO", "Status") & Chr(9) & acertarLarguraColuna("12345678901", "NIT") & Chr(9) & acertarLarguraColuna("NÃO", "IMPRESSO") & Chr(9) & acertarLarguraColuna("JOSE GERALDO DA COSTA", "Segurado") & Chr(9) & "Crítica"
+  For conta = 1 To QuantidadedeRequerimentos
+    texto = texto & Chr(13) & Chr(10)
+    texto = texto & acertarLarguraColuna("123", Format(conta, "000"))
+    texto = texto & Chr(9) & acertarLarguraColuna("123456789", requerimentos(conta).Número)
+    texto = texto & Chr(9) & acertarLarguraColuna("12345678901", requerimentos(conta).CPF)
+    texto = texto & Chr(9) & acertarLarguraColuna("INICIAL", requerimentos(conta).Tipo)
+    texto = texto & Chr(9) & acertarLarguraColuna("INDEFERIDO", requerimentos(conta).Status)
+    texto = texto & Chr(9) & acertarLarguraColuna("12345678901", requerimentos(conta).nit)
+    texto = texto & Chr(9) & acertarLarguraColuna("NÃO", requerimentos(conta).Impresso)
+    texto = texto & Chr(9) & acertarLarguraColuna("JOSE GERALDO DA COSTA", requerimentos(conta).Segurado)
+    texto = texto & Chr(9) & Trim(requerimentos(conta).Crítica)
+  Next conta
+
+  idArquivo = FreeFile
+  
+  ' Excluir arquivo existente
+  excluirArquivo arquivoRelatorio
+  
+  ' Abre o arquivo
+  Open arquivoRelatorio For Output As #idArquivo
+    Print #idArquivo, texto
+  
+  'Fecha o arquivo
+  Close #idArquivo
+  
+  abrirArquivo (arquivoRelatorio)
+  
+  GlobalRelatorioPronto = True
+End Sub
+
 Public Sub exibirStatus(Status As String, segundos As Integer)
   pctFundo.Visible = False
   txtStatus.Caption = Status
@@ -733,10 +811,12 @@ Sub obterDadosRegistro()
   Dim valorPP As Long
   Dim imprimirOrdem As String
   Dim valorOrdem As Boolean
+  Dim valorTempoEspera As Long
   
   valorIniciais = 1
   valorPP = 0
   valorOrdem = False
+  valorTempoEspera = 3
   'If abrirRegChave(hkey) Then
   '  imprimirExames = lerRegValor(hkey, "ImprimirExames", "INICIAIS")
   '  If imprimirExames = "NENHUM" Then
@@ -757,11 +837,15 @@ Sub obterDadosRegistro()
   '    valorOrdem = True
   '  Else
   '    valorOrdem = False
+  '  valorTempoEspera = Val(lerRegValor(hkey, "TempodeEsperadaResposta", "3"))
+  '  If valorTempoEspera < 3 Or valorTempoEspera > 10 Then valorTempoEspera = 3
   'End If
+  '
   
-  formInicial.chkIniciais.Value = valorIniciais
-  formInicial.chkPP.Value = valorPP
+  formInicial.chcExameInicial.Value = valorIniciais
+  formInicial.chcPP.Value = valorPP
   formInicial.optOrdem(1).Value = valorOrdem
+  GlobalTempodeEspera = valorTempoEspera
 End Sub
     
 Sub obterDadosSistema()
@@ -772,8 +856,8 @@ Sub obterDadosSistema()
   'Get the user name minus any trailing spaces found in the name.
   ret = GetUserName(lpBuff, 25)
   GlobalUserName = Left(lpBuff, InStr(lpBuff, Chr(0)) - 1)
-  GlobalAreadeTrabalho = getSpecialFolder(CSIDL_DESKTOP)
-  GlobalPastadeTrabalho = getSpecialFolder(CSIDL_LOCAL_APPDATA) & "\" & NomeAplicacao
+  GlobalAreadeTrabalho = getPastaEspecial(CSIDL_DESKTOP)
+  GlobalPastadeTrabalho = getPastaEspecial(CSIDL_LOCAL_APPDATA) & "\" & NomeAplicacao
 End Sub
 
 Public Sub redimensionarForm(topo As Integer, altura As Integer)
@@ -782,95 +866,25 @@ Public Sub redimensionarForm(topo As Integer, altura As Integer)
   formInicial.Height = altura
 End Sub
 
-Private Function testarSABIAberto() As Boolean
-  GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
-  testarSABIAberto = GlobalIDControleOperacional <> 0
+Private Function testarSabiAberto() As Boolean
+  If Sabi Is Nothing Then Set Sabi = New classeSabi
+  testarSabiAberto = Sabi.estaAberto
 End Function
 
-Public Sub configuranomedoarquivo()
-  Dim hwndDialog As Long  ' handle to the dialog box
-  Dim hwndButton As Long  ' handle to the  button
-  Dim retval As Long      ' return value
-  Dim SaveAsDialog As Long
-  Dim cDUIViewWndCIassName As Long
-  Dim cDirectUIHWND As Long
-  Dim cFloatNotifySink As Long
-  Dim comboBox32win As Long
-  Dim ComboBoxwin As Long
-  Dim txtlen As Long
-  Dim txt As String
-  Dim conta As Long
-  Dim EditBox As Long
-  Dim memocritica As String
-  Dim GlobalBotãoSalvar As Long
-  Dim titletmp As String
-  
-  Dim nomearquivo As String
-  
-  nomearquivo = GlobalAreadeTrabalho & "\Agendamentos.txt"
-
-  SaveAsDialog = FindWindow("#32770", "Choose Export File")
-  cDUIViewWndCIassName = FindWindowEx(SaveAsDialog, 0, "DUIViewWndClassName", vbNullString)
-  cDirectUIHWND = FindWindowEx(cDUIViewWndCIassName, 0, "DirectUIHWND", vbNullString)
-  cFloatNotifySink = FindWindowEx(cDirectUIHWND, 0, "FloatNotifySink", vbNullString)
-  ComboBoxwin = FindWindowEx(cFloatNotifySink, 0, "ComboBox", vbNullString)
-  EditBox = FindWindowEx(ComboBoxwin, 0, "Edit", vbNullString)
-  Debug.Print EditBox
-  retval = SendMessage(ComboBoxwin, WM_SETTEXT, vbNullString, nomearquivo)
-  txtlen = SendMessage(EditBox, WM_GETTEXTLENGTH, vbNullString, vbNullString)
-  txtlen = txtlen + 1
-  txt = Space$(txtlen)
-  Call SendMessage(EditBox, WM_GETTEXT, ByVal 260, txt)
-  If InStr(1, txt, nomearquivo) = 0 Then
-    memocritica = "Não foi possível inserir na tela Salvar o destino: " & nomearquivo
-    Exit Sub
-  Else
-    'procura o botao Salvar
-    GlobalBotãoSalvar = 0
-    GlobalBotãoSalvar = FindWindowEx(SaveAsDialog, 0, "Button", "Sa&lvar")
-    conta = 0
-    While GlobalBotãoSalvar = 0
-      Sleep 20
-      conta = conta + 1
-      If conta > 50 Then
-        memocritica = "Não foi possível encontrar o botão Salvar em 1 segundo"
-        Exit Sub
-      End If
-      GlobalBotãoSalvar = FindWindowEx(SaveAsDialog, 0, "Button", "Sa&lvar")
-    Wend
-       
-    'se o arquivo existe, excluir antes
-    If Dir(nomearquivo) <> "" Then
-      DeleteFile nomearquivo
-    End If
-       
-    'comanda o salvamento
-    PostMessage GlobalBotãoSalvar, BM_CLICK, 0, 0
-    
-    'espera tela salvar ser fechada
-    conta = 0
-    titletmp = Space(256)
-    GetWindowText SaveAsDialog, titletmp, Len(titletmp)
-    While InStr(1, UCase(titletmp), "SALVAR COMO") <> 0
-      'reafirma comando de salvamento
-      PostMessage GlobalBotãoSalvar, BM_CLICK, 0, 0
-      Sleep 50
-      conta = conta + 1
-      If conta > 50 Then
-        memocritica = "A tela Salvar Como não foi fechada em 1 segundo"
-        Exit Sub
-      End If
-      titletmp = Space(256)
-      GetWindowText SaveAsDialog, titletmp, Len(titletmp)
-      DoEvents
-    Wend
-    If Err.Number > 0 Then
-      memocritica = "Erro: " & Err.Description
-    Else
-      memocritica = ""
-     End If
-  End If
-End Sub
+Private Function processar() As Boolean
+  Sabi.prepararAmbiente
+  Sabi.abrirJanelaCarteira
+  Sabi.abrirJanelaAgendamentos
+  Sabi.processarDataAgenda
+  Sabi.fecharListaAgendamentos
+  Sabi.exportarAgendamentos
+  Sabi.definirArquivoAgendamento
+  Sabi.fecharJanelaCrystalReport
+  Sabi.processarRequerimentos
+  Sabi.relatorioFinal
+  Sabi.exibirAgendamentos
+  desenharLista
+End Function
 
 Sub mostratela()
   Dim RtnValue
@@ -904,14 +918,14 @@ Public Function CapturaNumeroDetalhes() As String
   Dim digito As Long
   Dim letra As String
   Dim Requerimento As String
-  Dim Deslocamento As Long
+  Dim deslocamento As Long
   Dim Digitos As Long
 
   Requerimento = ""
   TopRequerimento = 2
-  Deslocamento = 1
+  deslocamento = 1
   Digitos = 11
-  LeftRequerimento = Deslocamento
+  LeftRequerimento = deslocamento
   soma = 0
   algarismo = 0
   For digito = 0 To Digitos - 1
@@ -1124,23 +1138,8 @@ Sub efeitos(Imprime As Boolean, Ordem As String)
   SavePicture Picture1.Image, GlobalPastadeTrabalho & "\" & GlobalDatadosRequerimentos & GlobalAgenciaEscolhida & "Todos.bmp"
   Picture1.Visible = True
 End Sub
-
-Private Sub vermelho()
-  On Error Resume Next
-  Dim linha, coluna As Long
   
-  Picture1.Visible = False
-  For linha = Picture1.Height / 15 - 16 - 2 To Picture1.Height / 15 - 2
-    For coluna = 1 To formInicial.Picture1.Width / 15
-      If Picture1.Point(coluna, linha) = 14474460 Then
-        Picture1.PSet (coluna, linha), RGB(255, 220, 220)
-      End If
-    Next coluna
-  Next linha
-  Picture1.Visible = True
-End Sub
-  
-Private Function RequerimentosAgendaAnterior(nomearquivo As String) As Long
+Private Function RequerimentosAgendaAnterior(nomeArquivo As String) As Long
   Dim FileNumber  As Long
   Dim mTexto, mLinha As String
   Dim contador As Long
@@ -1149,7 +1148,7 @@ Private Function RequerimentosAgendaAnterior(nomearquivo As String) As Long
     
   contador = 0
   FileNumber = FreeFile
-  Open GlobalPastadeTrabalho & "\" & nomearquivo For Input As #FileNumber
+  Open GlobalPastadeTrabalho & "\" & nomeArquivo For Input As #FileNumber
   Do While Not EOF(FileNumber)
     Line Input #FileNumber, mLinha
     If Len(mLinha) = 0 Then Exit Do
@@ -1170,8 +1169,8 @@ Private Function RequerimentosAgendaAnterior(nomearquivo As String) As Long
         GlobalRequerimentos(contador).Status = Mid(mLinha, pos3 + 1, pos4 - pos3 - 1)
         pos5 = InStr(pos4 + 1, mLinha, Chr(9))
         If pos5 > 0 Then
-          GlobalRequerimentos(contador).NIT = Mid(mLinha, pos4 + 1, pos5 - pos4 - 1)
-          If GlobalRequerimentos(contador).NIT <> "" Then ultimoNIT = contador
+          GlobalRequerimentos(contador).nit = Mid(mLinha, pos4 + 1, pos5 - pos4 - 1)
+          If GlobalRequerimentos(contador).nit <> "" Then ultimoNIT = contador
             pos6 = InStr(pos5 + 1, mLinha, Chr(9))
             If pos6 > 0 Then
               GlobalRequerimentos(contador).Impresso = Mid(mLinha, pos5 + 1, pos6 - pos5 - 1)
@@ -1190,15 +1189,6 @@ Private Function RequerimentosAgendaAnterior(nomearquivo As String) As Long
   Close #FileNumber
   RequerimentosAgendaAnterior = ultimoNIT
 End Function
-   
-Function AcertaLarguraRelatorio(referencia As String, palavra As String)
-  Dim largura As Long
-  
-  AcertaLarguraRelatorio = palavra & " "
-  largura = Len(referencia)
-  If Len(palavra) < largura Then AcertaLarguraRelatorio = palavra & Space(largura - Len(palavra)) & " "
-  If Len(palavra) > largura Then AcertaLarguraRelatorio = Mid(palavra, 1, largura) & " "
-End Function
 
 Sub ColocaTelaControleOperacionanoModoNormal()
   On Error Resume Next
@@ -1212,14 +1202,6 @@ Sub ColocaTelaControleOperacionanoModoNormal()
   Else
     MsgBox "Não foi encontrada tela Controle Operaciona", vbCritical, "Maximizar Controle Operacional"
   End If
-End Sub
-
-Sub verificaeapaga(tituladatela As String)
-  Dim IDTelaExterna As Long
-
-  IDTelaExterna = 0
-  IDTelaExterna = ObtemIDdaTelaPrincipalporTitulo(tituladatela)
-  If IDTelaExterna <> 0 Then SendMessage IDTelaExterna, WM_CLOSE, 0, 0
 End Sub
 
 Sub ConverteData(datalonga As String)
@@ -1272,138 +1254,13 @@ Function DialogGetHwnd(Optional ByVal sDialogCaption As String = vbNullString, O
   On Error GoTo 0
 End Function
 
-Function AppToForeground(Optional sFormCaption As String, Optional lHwnd As Long, Optional lWindowState As Long = SW_NORMAL) As Boolean
-  On Error Resume Next
-  Dim tWinPlace As WINDOWPLACEMENT
-
-  If lHwnd = 0 Then
-    lHwnd = DialogGetHwnd(sFormCaption)
-  End If
-  If lHwnd Then
-    tWinPlace.Length = Len(tWinPlace)
-    
-    'Get the windows current placement
-    Call GetWindowPlacement(lHwnd, tWinPlace)
-    
-    'Set the windows placement
-    tWinPlace.showCmd = lWindowState
-    
-    'Change window state
-    Call SetWindowPlacement(lHwnd, tWinPlace)
-    
-    'Bring to foreground
-    AppToForeground = SetForegroundWindow(lHwnd)
-  End If
-End Function
-
-Sub ColocaTelaControleOperacionanoModoMaximizado()
-  On Error Resume Next
-  If GlobalIDControleOperacional Then
-    If AppToForeground(, GlobalIDControleOperacional, SW_MAXIMIZE) Then
-      ' a tela foi maximizada
-    Else
-      MsgBox "Falha ao maximizar a tela Controle Operacional", vbCritical, "Maximiza Controle Operacional"
-    End If
-  Else
-    MsgBox "Não foi encontrada tela Controle Operacional"
-  End If
-End Sub
-
-Sub AtualizaListadeRequerimentos(ATUAL As Long)
-  On Error Resume Next
-  Dim conta As Long
-  Dim sLinha As String
-  Dim sTodos As String
-  Dim M As Long
-
+Sub atualizarStatus()
   Me.Left = 600
-  sTodos = ""
   If GlobalAgenciaEscolhida = "" Then
-    lbNomePrograma.Caption = "Agendamentos  do dia " & Mid(GlobalDatadosRequerimentos, 7, 2) & "/" & Mid(GlobalDatadosRequerimentos, 5, 2) & "/" & Mid(GlobalDatadosRequerimentos, 1, 4)
+    lbNomePrograma.Caption = "Agendamentos do dia " & Mid(GlobalDatadosRequerimentos, 7, 2) & "/" & Mid(GlobalDatadosRequerimentos, 5, 2) & "/" & Mid(GlobalDatadosRequerimentos, 1, 4)
   Else
     lbNomePrograma.Caption = Mid(GlobalAgenciaEscolhida, 1, 40) & ", " & Mid(GlobalDatadosRequerimentos, 7, 2) & "/" & Mid(GlobalDatadosRequerimentos, 5, 2) & "/" & Mid(GlobalDatadosRequerimentos, 1, 4)
   End If
-  lstMostrarRequerimentos.Visible = False
-  lstMostrarRequerimentos.Clear
-  lstMostrarRequerimentos.AddItem AcertaLarguraRelatorio("000", "Seq.") & AcertaLarguraRelatorio("123456789", "Requerim.") & AcertaLarguraRelatorio("INICIAL", "Tipo") & AcertaLarguraRelatorio("INDEFERIDO", "Status") & AcertaLarguraRelatorio("12345678901", "NIT") & AcertaLarguraRelatorio("IMPRESSO", "Impresso") & AcertaLarguraRelatorio("JOSE GERALDO DA COSTA", "Segurado")
-  For conta = 1 To GlobalQuantidadedeRequerimentos
-    GlobalRequerimentos(conta).sequencia = Format(conta, "000")
-    sLinha = AcertaLarguraRelatorio("000", GlobalRequerimentos(conta).sequencia)
-    sLinha = sLinha & AcertaLarguraRelatorio("123456789", GlobalRequerimentos(conta).Número)
-    sLinha = sLinha & AcertaLarguraRelatorio("INICIAL", GlobalRequerimentos(conta).Tipo)
-    sLinha = sLinha & AcertaLarguraRelatorio("INDEFERIDO", GlobalRequerimentos(conta).Status)
-    sLinha = sLinha & AcertaLarguraRelatorio("12345678901", GlobalRequerimentos(conta).NIT)
-    If conta <= ATUAL And GlobalRequerimentos(conta).Impresso <> "SIM" Then GlobalRequerimentos(conta).Impresso = "NÃO"
-    sLinha = sLinha & AcertaLarguraRelatorio("IMPRESSO", GlobalRequerimentos(conta).Impresso)
-    sLinha = sLinha & GlobalRequerimentos(conta).Segurado
-    sLinha = sLinha & "     " & GlobalRequerimentos(conta).Crítica
-    lstMostrarRequerimentos.AddItem sLinha
-    sLinha = GlobalRequerimentos(conta).sequencia & Chr(9)
-    sLinha = sLinha & GlobalRequerimentos(conta).Número & Chr(9)
-    sLinha = sLinha & GlobalRequerimentos(conta).Tipo & Chr(9)
-    sLinha = sLinha & GlobalRequerimentos(conta).Status & Chr(9)
-    sLinha = sLinha & GlobalRequerimentos(conta).NIT & Chr(9)
-    sLinha = sLinha & GlobalRequerimentos(conta).Impresso & Chr(9)
-    sLinha = sLinha & GlobalRequerimentos(conta).Segurado & Chr(9)
-    sLinha = sLinha & GlobalRequerimentos(conta).Crítica
-    sTodos = sTodos & sLinha & Chr(13) & Chr(10)
-  Next conta
-  lstMostrarRequerimentos.ListIndex = ATUAL
-  lstMostrarRequerimentos.Visible = True
-  DoEvents
-  Open GlobalPastadeTrabalho & "\" & GlobalDatadosRequerimentos & ".txt" For Output As #1
-  Print #1, sTodos
-  Close #1
-End Sub
-        
-Sub ApresentaRelatorioFinal()
-  On Error Resume Next
-  Dim conta As Long
-  Dim lhWndNotepad As Long
-  Dim hPrimeira As Long
-  Dim Size As RECT
-  Dim memo As String
-  Dim IDTela As Long
-  Dim res As String
-  Dim nome As String
-  Dim segundos As Long
-  Dim minutos As Long
-  
-  lstMostrarRequerimentos.Enabled = True
-  segundos = Int((GetTickCount - GlobalInicio) / 1000)
-  minutos = Int(segundos / 60)
-  segundos = segundos - minutos * 60
-  lblRelogio.Caption = " " & minutos & ":" & Format(segundos, "00") & " "
-  memo = "O Controle Operacional foi fechado por medida de segurança" & Chr(13) & Chr(10) & Chr(13) & Chr(10)
-  memo = memo & lblLocaleData.Caption & Chr(13) & Chr(10)
-  memo = memo & AcertaLarguraRelatorio("123", "Seq") & Chr(9) & AcertaLarguraRelatorio("123456789", "Requerimento") & Chr(9) & AcertaLarguraRelatorio("12345678901", "CPF") & Chr(9) & AcertaLarguraRelatorio("INICIAL", "Tipo") & Chr(9) & AcertaLarguraRelatorio("INDEFERIDO", "Status") & Chr(9) & AcertaLarguraRelatorio("12345678901", "NIT") & Chr(9) & AcertaLarguraRelatorio("NÃO", "IMPRESSO") & Chr(9) & AcertaLarguraRelatorio("JOSE GERALDO DA COSTA", "Segurado") & Chr(9) & "Crítica"
-  For conta = 1 To GlobalQuantidadedeRequerimentos
-    memo = memo & Chr(13) & Chr(10)
-    memo = memo & AcertaLarguraRelatorio("123", Format(conta, "000"))
-    memo = memo & Chr(9) & AcertaLarguraRelatorio("123456789", GlobalRequerimentos(conta).Número)
-    memo = memo & Chr(9) & AcertaLarguraRelatorio("12345678901", GlobalRequerimentos(conta).CPF)
-    memo = memo & Chr(9) & AcertaLarguraRelatorio("INICIAL", GlobalRequerimentos(conta).Tipo)
-    memo = memo & Chr(9) & AcertaLarguraRelatorio("INDEFERIDO", GlobalRequerimentos(conta).Status)
-    memo = memo & Chr(9) & AcertaLarguraRelatorio("12345678901", GlobalRequerimentos(conta).NIT)
-    memo = memo & Chr(9) & AcertaLarguraRelatorio("NÃO", GlobalRequerimentos(conta).Impresso)
-    memo = memo & Chr(9) & AcertaLarguraRelatorio("JOSE GERALDO DA COSTA", GlobalRequerimentos(conta).Segurado)
-    memo = memo & Chr(9) & Trim(GlobalRequerimentos(conta).Crítica)
-  Next conta
-  lhWndNotepad = 0
-  Call Shell("notepad", vbNormalFocus)    'you'll need notepad.exe on your PC for this to work
-  DoEvents
-  Do While lhWndNotepad = 0
-    lhWndNotepad = FindWindow(vbNullString, "Sem título - Bloco de Notas")
-  Loop
-    hPrimeira = FindWindowEx(lhWndNotepad, 0, "Edit", vbNullString)
-    SendMessage2 lhWndNotepad, WM_SETTEXT, 0, "Relatório DIB DIP E Gcont" & Chr$(0)
-    res = SetWindowPos(lhWndNotepad, 0, 100, 50, 700, 600, 0)
-    res = SetWindowPos(lhWndNotepad, -1, 0, 0, 0, 0, 3)
-    SetForegroundWindow lhWndNotepad
-    SendMessage2 hPrimeira, WM_SETTEXT, 0, memo & Chr$(0)
-    GlobalRelatorioPronto = True
-    res = SetWindowPos(lhWndNotepad, -1, 0, 0, 0, 0, 3)
-  End
 End Sub
 
 Private Sub ClickOpen(hMsgBox As Long)
@@ -1426,235 +1283,6 @@ Private Function Crystal(hMsgBox As Long) As Boolean
   hAfxFrameOrView42 = FindWindowEx(h2AfxWnd42, 0, "AfxFrameOrView42", "")
   Crystal = hAfxFrameOrView42 <> 0
 End Function
-
-Function achaTelaInternaAtiva(NomedaTela As String) As Long
-  On Error Resume Next
-  Dim lngHWnd As Long
-  Dim lngHWnd2 As Long
-  Dim titletmp As String
-  Dim nret As Long
-  Dim Size As RECT
-  Dim lhWndP As Long
-    
-  achaTelaInternaAtiva = 0
-  lhWndP = FindWindow(vbNullString, vbNullString) 'PARENT WINDOW
-  Do While lhWndP <> 0
-    lngHWnd = FindWindowEx(lhWndP, 0, vbNullString, vbNullString)
-    Do Until lngHWnd = 0
-      If lngHWnd > 0 Then
-        lngHWnd2 = FindWindowEx(lngHWnd, 0, vbNullString, vbNullString)
-        Do Until lngHWnd2 = 0
-          If lngHWnd2 > 0 Then
-            titletmp = Space(256)
-            nret = GetWindowText(lngHWnd2, titletmp, Len(titletmp))
-            If InStr(1, titletmp, NomedaTela) > 0 Then
-              achaTelaInternaAtiva = lngHWnd2
-              Exit Function
-            End If
-          End If
-          lngHWnd2 = FindWindowEx(lngHWnd2, lngHWnd, vbNullString, vbNullString)
-        Loop
-      End If
-      lngHWnd = FindWindowEx(lhWndP, lngHWnd, vbNullString, vbNullString)
-    Loop
-    lhWndP = GetWindow(lhWndP, GW_HWNDNEXT)
-  Loop
-End Function
-
-Function esperaCRYSTALREPORTeExporta() As String
-  On Error Resume Next
-  Dim COsize As RECT
-  Dim Size As RECT
-  Dim titletmp As String
-  Dim nret As Long
-  Dim TelaSize As RECT
-  Dim arquivo As String
-  Dim memo As String
-  Dim hDC As Long
-  Dim lcount As Long
-  Dim LocalIDBotãoSalvar As Long
-  Dim hNomedoArquivo As Long
-  Dim hDUIView As Long
-  Dim hDirectUI  As Long
-  Dim hFloatNotify As Long
-  Dim hComboBox As Long
-  Dim hBotãoSalvar As Long
-  Dim hDestinoExport As Long
-  Dim hBotãoOKExport As Long
-  Dim hFormatoExport As Long
-  Dim conta As Long
-  Dim hBlocodeNotas As Long
-  Dim childhandle As Long
-  Dim texto As String
-  Dim SaveAsDialog As Long
-  Dim contador As Integer
-  Dim JanelaIDEmail As Long
-  Dim hBotaoOK As Long
-  
-  hDC = GetWindowDC(0)
-  GlobalIDTelaSalvarComo = 0
-  GlobalIDTelaRequerimentosCrystalReport = ObtemIDdoRelatórioCrystalReport
-  While GlobalIDTelaRequerimentosCrystalReport = 0
-    GlobalIDTelaRequerimentosCrystalReport = ObtemIDdoRelatórioCrystalReport
-    Espera 300
-    DoEvents
-    conta = conta + 1
-    If conta > 200 Then
-      MsgBox "A tela 'Imprimir Agendamento' não apareceu.", vbCritical, "Tela Imprimir Agendamento"
-      esperaCRYSTALREPORTeExporta = "A tela 'Imprimir Agendamento' não apareceu."
-      Exit Function
-    End If
-  Wend
-    
-  'fecha a tela Imprimir Agendamentos
-  SendMessage GlobalIDTelaImprimirAgendamento, WM_CLOSE, 0, 0
-  res = SetWindowPos(GlobalIDTelaRequerimentosCrystalReport, 0, 0, 0, 800, 460, 0)
-  SetForegroundWindow (GlobalIDTelaRequerimentosCrystalReport)
-  Espera 1000  'com 300 falhou com o Bruno - clicou antes da hora
-  
-  'implementar rotina que repete o clique periodicamente ate´ vir a nova tela
-  SetForegroundWindow (GlobalIDTelaRequerimentosCrystalReport)
-  DoEvents
-  Espera 500
-  MouseClique 262, 44
-  DoEvents
-  Espera 500
-  '    nao funcionou
-                
-  'aguarda a msg de email
-  contador = 0
-  JanelaIDEmail = ObtemIDdaTelaPrincipalporTitulo("Email")
-  While JanelaIDEmail = 0 And contador < 5
-    JanelaIDEmail = ObtemIDdaTelaPrincipalporTitulo("Email")
-    Espera 1000
-    DoEvents
-    contador = contador + 1
-  Wend
-  'clica em OK
-  If JanelaIDEmail <> 0 Then
-    Espera 1000
-    hBotaoOK = FindWindowEx(JanelaIDEmail, 0, "Button", "OK")
-    DoEvents
-    SendMessage hBotaoOK, BM_CLICK, 0, 0
-    DoEvents
-  End If
-    
-  'espera tela Export
-  titletmp = Space(256)
-  nret = GetWindowText(GlobalIDTelaAtiva, titletmp, Len(titletmp))
-  GlobalTítulodaTelaAtiva = titletmp
-  While Mid(GlobalTítulodaTelaAtiva, 1, 6) <> "Export"
-    GlobalIDTelaAtiva = GetForegroundWindow
-    titletmp = Space(256)
-    nret = GetWindowText(GlobalIDTelaAtiva, titletmp, Len(titletmp))
-    GlobalTítulodaTelaAtiva = titletmp
-    DoEvents
-    Espera 300
-    If InStr(1, titletmp, "SABI - Controle Operacional") > 0 Then
-      ClickOpen (GlobalIDTelaAtiva)
-    Else
-      'clicar no botao Exportar
-      If Len(Trim(titletmp)) = 1 Then MouseClique 262, 44
-    End If
-  Wend
-    
-  'espera a tela export
-  GlobalIDTelaExport = ObtemIDdaTelaPrincipalporTitulo("Export")
-  While GlobalIDTelaExport = 0
-    Espera 300
-    DoEvents
-    GlobalIDTelaExport = ObtemIDdaTelaPrincipalporTitulo("Export")
-  Wend
-  If GlobalIDTelaExport > 0 Then
-    hBlocodeNotas = 0
-    lcount = 0
-    hDestinoExport = 0
-    Do While hDestinoExport = 0 Or lcount > 10
-      hBotãoOKExport = FindWindowEx(GlobalIDTelaExport, 0, "Button", "OK")
-            
-      'encontra DirectUIHWND
-      hFormatoExport = FindWindowEx(GlobalIDTelaExport, 0, "ComboBox", "")
-      hDestinoExport = FindWindowEx(GlobalIDTelaExport, hFormatoExport, "ComboBox", "")
-      lcount = lcount + 1
-      Espera 300
-      DoEvents
-    Loop
-       
-    'o destino deve ser escolhido antes do formato para não gerar erro de e-mail não configurado
-    'destino
-    SendMessageByLong hDestinoExport, CB_SETCURSEL, 1, 0&
-    DoEvents
-    Sleep 100
-    conta = 0
-    If ObtemTextodoControle(hDestinoExport) <> "Disk file" Then
-      For conta = 0 To 100
-        SendMessageByLong hDestinoExport, CB_SETCURSEL, conta, 0&
-        DoEvents
-        Sleep 100
-        If ObtemTextodoControle(hDestinoExport) = "Disk file" Then Exit For
-      Next conta
-      DoEvents
-    End If
-    If conta > 99 Then
-      MsgBox "Não foi encontrada a opção de exportar para 'Disk file'", vbCritical, "Export"
-      End
-    End If
-        
-    'formato
-    SendMessageByLong hFormatoExport, CB_SETCURSEL, 22, 0&
-    DoEvents
-    Sleep 100
-    conta = 0
-    If ObtemTextodoControle(hFormatoExport) <> "Tab-separated text" Then
-      For conta = 0 To 100
-      SendMessageByLong hFormatoExport, CB_SETCURSEL, conta, 0&
-      DoEvents
-      Sleep 100
-      If ObtemTextodoControle(hFormatoExport) = "Tab-separated text" Then Exit For
-        Next conta
-      End If
-      If conta > 99 Then
-        MsgBox "Não foi encontrada a opção de exportar para o formato 'Tab-separated text'", vbCritical, "Export"
-      End
-    End If
-    Espera 100
-    SendMessage hBotãoOKExport, BM_CLICK, 0, 0
-    DoEvents
-    Espera 300
-    DoEvents
-    Espera 1000
-    SendMessage GlobalIDTelaExport, WM_CLOSE, 0, 0
-    DoEvents
-  Else
-    MsgBox "tela export não abriu", vbCritical, "Tela Export"
-    End
-  End If
-    
-  'espera tela "Choose Export File"
-  SaveAsDialog = FindWindow("#32770", "Choose Export File")
-  conta = 0
-  While SaveAsDialog = 0
-    Espera 300
-    conta = conta + 1
-    If conta > 200 Then
-      MsgBox "A tela 'Choose Export File' não apareceu.", vbCritical, "Tela Choose Export File"
-      esperaCRYSTALREPORTeExporta = "A tela 'Choose Export File' não apareceu."
-      Exit Function
-    End If
-  Wend
-  configuranomedoarquivo
-    
-  'fecha relatorio Crystal Report
-  SendMessage GlobalIDTelaRequerimentosCrystalReport, WM_CLOSE, 0, 0
-  DoEvents
-  While ObtemIDdoRelatórioCrystalReport <> 0
-    SendMessage GlobalIDTelaRequerimentosCrystalReport, WM_CLOSE, 0, 0
-    DoEvents
-    Sleep 300
-  Wend
-  decodeRequerimentos texto
-End Function
-
 
 Sub MontaListadeRequerimentos(memotexto As String)
   Dim pos As Long
@@ -1698,7 +1326,7 @@ Sub MontaListadeRequerimentos(memotexto As String)
     'valores iniciais
     GlobalRequerimentos(conta).Tipo = ""
     GlobalRequerimentos(conta).Status = ""
-    GlobalRequerimentos(conta).NIT = ""
+    GlobalRequerimentos(conta).nit = ""
     GlobalRequerimentos(conta).Crítica = ""
   Next conta
   lstMostrarRequerimentos.Visible = True
@@ -1716,7 +1344,7 @@ Sub MontaListadeRequerimentos(memotexto As String)
       paracima.Visible = True
       parabaixo.Visible = True
     End If
-    txtUltimo.Text = GlobalQuantidadedeRequerimentos
+    editMarcacaoPara.Text = GlobalQuantidadedeRequerimentos
   Else
     res = SetWindowPos(Me.hWnd, -2, 0, 0, 0, 0, 3)
     MsgBox "Não foi encontrado nenhum agendamento de perícia para esta data" & Chr(13) & Chr(10) & GlobalAgendamentosConsultaCabecalho, vbCritical, "Agendamentos do SABI"
@@ -1724,26 +1352,6 @@ Sub MontaListadeRequerimentos(memotexto As String)
   End If
  
 End Sub
-  
-Private Function ObtemIDdaTelaPrincipalporTitulo(ByVal sCaption As String) As Long
-  On Error Resume Next
-  Dim lhWndP As Long
-  Dim sStr As String
-
-  ObtemIDdaTelaPrincipalporTitulo = False
-  lhWndP = FindWindow(vbNullString, vbNullString) 'PARENT WINDOW
-  Do While lhWndP <> 0
-    sStr = String(GetWindowTextLength(lhWndP) + 1, Chr$(0))
-    GetWindowText lhWndP, sStr, Len(sStr)
-    sStr = Left$(sStr, Len(sStr) - 1)
-    If InStr(1, sStr, sCaption) > 0 Then
-      ObtemIDdaTelaPrincipalporTitulo = lhWndP
-      Exit Function
-    End If
-    lhWndP = GetWindow(lhWndP, GW_HWNDNEXT)
-  Loop
-  ObtemIDdaTelaPrincipalporTitulo = 0
-End Function
 
 Sub MouseClique(posx As Long, posy As Long)
   On Error Resume Next
@@ -1757,26 +1365,10 @@ Sub MouseClique(posx As Long, posy As Long)
   SetCursorPos Size.Left + posx, Size.Top + posy
   mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
   mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
-  SetCursorPos pt.X, pt.Y
+  SetCursorPos pt.x, pt.y
 End Sub
     
-Private Sub chkIniciais_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-  On Error Resume Next
-  If chkIniciais.Value = 1 And chkPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "INICIAIS"
-  If chkIniciais.Value = 1 And chkPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "TODOS"
-  If chkIniciais.Value = 0 And chkPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "NENHUM"
-  If chkIniciais.Value = 0 And chkPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "PP"
-End Sub
-
-Private Sub chkPP_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-  On Error Resume Next
-  If chkIniciais.Value = 1 And chkPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "INICIAIS"
-  If chkIniciais.Value = 1 And chkPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "TODOS"
-  If chkIniciais.Value = 0 And chkPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "NENHUM"
-  If chkIniciais.Value = 0 And chkPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "PP"
-End Sub
-
-Private Sub cmdContinua_Click()
+Private Sub btoConfirmar_Click()
   On Error Resume Next
   Dim res As String
 
@@ -1785,377 +1377,96 @@ Private Sub cmdContinua_Click()
   parabaixo.Visible = False
   btoIniciar.Enabled = False
   cmdContinua.Enabled = False
-  txttPrimeiro.Enabled = False
-  txtUltimo.Enabled = False
-  chkIniciais.Enabled = False
-  chkPP.Enabled = False
+  editMarcacaoDe.Enabled = False
+  editMarcacaoPara.Enabled = False
+  chcExameInicial.Enabled = False
+  chcPP.Enabled = False
   lbVersao.Visible = False
-  GlobalIDControleOperacional = ObtemIDdaTelaPrincipalporTitulo("SABI - Módulo de Controle Operacional")
-  If GlobalIDControleOperacional <> 0 Then
+  
+  If testarSabiAberto Then
+    prepararAmbiente
   Else
-    res = SetWindowPos(Me.hWnd, -2, 0, 0, 0, 0, 3)
-    Me.Left = 600
-    MsgBox "Abra o módulo Controle Operacional do SABI.", vbCritical, "Agendamentos do SABI"
-    res = SetWindowPos(Me.hWnd, -1, 0, 0, 0, 0, 3)
-    Exit Sub
+    MsgBox "Abra o módulo Controle Operacional do SABI e faça o login." & vbCrLf & "O Automatizador irá esperar 60 segundos.", vbInformation, NomeAplicacao
+    exibirStatus "Inicie e faça login no Controle Operacional do SABI.", 60
   End If
 
-  Dim titletmp As String
-  Dim nret As Long
-  Dim localMenu As Long
-  Dim RelaçãodeMenu As String
-  Dim newMenu As Long
-  Dim hToolbar20WndClass As Long
-  Dim hmsvb_lib_Tollbar As Long
-  Dim hPrimeira As Long
-  Dim hSegunda As Long
-  Dim ClassedoControle As String
-  Dim classlength As Long
-  Dim IDtelasInternasdoSABI As Long
-  Dim IDApagaTela As Long
-  Dim contavezes As Long
-  Dim IDPrimeiroToolBar As Long
-    
-  'limpa todas telas internas do SABI
-  'resta agora as telas externas
-  verificaeapaga "Imprimir Agendamento"
-  verificaeapaga "Imprimir Escala"
-  verificaeapaga "Marcação da Avaliação Social"
-  verificaeapaga "Segunda Via de Carta de Exigência"
-  verificaeapaga "Pesquisa de Requerente"
-  GlobalhMDIClient = 0
-  GlobalhMDIClient = FindWindowEx(GlobalIDControleOperacional, 0, "MDIClient", "")
-  If GlobalhMDIClient = 0 Then
-    MsgBox "Não foi encontrada o indentificador da tela de fundo do Controle Operacional.", vbCritical, "Agendamentos do SABI"
-    End
-  End If
-  IDtelasInternasdoSABI = 0
-  IDtelasInternasdoSABI = FindWindowEx(GlobalhMDIClient, 0, vbNullString, vbNullString)
-  While IDtelasInternasdoSABI <> 0
-    If IDtelasInternasdoSABI <> 0 Then IDApagaTela = IDtelasInternasdoSABI
-    DoEvents
-    Espera 300
-    IDtelasInternasdoSABI = FindWindowEx(GlobalhMDIClient, IDtelasInternasdoSABI, vbNullString, vbNullString)
-    If IDApagaTela <> 0 Then SendMessage IDApagaTela, WM_CLOSE, 0, 0
-  Wend
-  
-  'todas as telas internas foram limpas
-  DoEvents
-  Espera 300
-  
-  'acerta a tela
-  ColocaTelaControleOperacionanoModoNormal
-  ColocaTelaControleOperacionanoModoMaximizado
-
- 'Abre tela Consulta Requerimento/Benefício
-  ClickMenu GlobalIDControleOperacional, 2, 0
-  Espera 3000
-  IDtelasInternasdoSABI = 0
-  contavezes = 0
-  While IDtelasInternasdoSABI = 0
-    IDtelasInternasdoSABI = FindWindowEx(GlobalhMDIClient, 0, "ThunderRT6FormDC", "Consulta Requerimento/Benefício")
-    Espera 300
-    DoEvents
-    contavezes = contavezes + 1
-    If contavezes > 400 Then
-      MsgBox "O SABI está muito lento. Tente outra hora.", vbCritical, "Consulta Requerimento/Benefício"
-      End
-    End If
-  Wend
-  DoEvents
-  GlobalIDTelaConsultaRequerimentoBenefício = 0
-  While GlobalIDTelaConsultaRequerimentoBenefício = 0
-    Espera 300
-    DoEvents
-    GlobalIDTelaConsultaRequerimentoBenefício = achaTelaInternaAtiva("Consulta Requerimento/Benefício")
-  Wend
-  IDPrimeiroToolBar = FindWindowEx(IDtelasInternasdoSABI, 0, "Toolbar20WndClass", "")
-  GlobalToolbarConsultaRequerimentoOCX = FindWindowEx(IDtelasInternasdoSABI, IDPrimeiroToolBar, "Toolbar20WndClass", "")
-  Espera 300
-  GlobalToolbarConsultaRequerimento = FindWindowEx(GlobalToolbarConsultaRequerimentoOCX, 0, "msvb_lib_toolbar", vbNullString)
-  res = SetWindowPos(Me.hWnd, -1, 0, 0, 0, 0, 3)
-  If chkIniciais.Value = 1 And chkPP.Value = 1 Then Imprimeosrequerimentos ("TODOS")
-  If chkIniciais.Value = 1 And chkPP.Value = 0 Then Imprimeosrequerimentos ("INICIAL")
-  If chkIniciais.Value = 0 And chkPP.Value = 1 Then Imprimeosrequerimentos ("PP")
-  If chkIniciais.Value = 0 And chkPP.Value = 0 Then Imprimeosrequerimentos ("NENHUM")
+  abc
+  If chcExameInicial.Value = 1 And chcPP.Value = 1 Then Imprimeosrequerimentos ("TODOS")
+  If chcExameInicial.Value = 1 And chcPP.Value = 0 Then Imprimeosrequerimentos ("INICIAL")
+  If chcExameInicial.Value = 0 And chcPP.Value = 1 Then Imprimeosrequerimentos ("PP")
+  If chcExameInicial.Value = 0 And chcPP.Value = 0 Then Imprimeosrequerimentos ("NENHUM")
   SendMessageByLong lstMostrarRequerimentos.hWnd, LB_SETHORIZONTALEXTENT, 1200, 0
   SendMessageByLong lstMostrarRequerimentos.hWnd, WM_VSCROLL, SB_BOTTOM, 0
   SetForegroundWindow (GlobalIDControleOperacional)
+  
   Sleep 300
   ClickMenu GlobalIDControleOperacional, 0, 6
   End
 End Sub
 
-Private Sub cmdFechar_Click()
+Private Sub btoFechar_Click()
   End
 End Sub
 
-Private Sub cmdFechar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-  Me.MousePointer = 0
-End Sub
-
-Private Sub Imprimeosrequerimentos(abrangencia As String)
-  Dim RequerimentoAtual As Requerimento
-  Dim requerimentosnãomarcados As String
-  Dim conta As Long
-  Dim res As String
-  Dim memo
-  Dim contador As Long
-  Dim titletmp  As String
-  Dim nret As Long
-  Dim idteladibdip As Long
-  Dim hThunderRT6CommandButtonDIBDIPGCONT As Long
-  Dim hThunderRT6CommandButtonFECHAR As Long
-  Dim Size As RECT
-  Dim IDTelaAtiva As Long
-  Dim pt As POINTAPI
-  Dim numCPF As String
-  Dim idtelanafrente As Long
-
-  lstMostrarRequerimentos.Enabled = False
-  DoEvents
-  
-  'força resize
-  GlobalRelatorioPronto = False
-  pctCopiaPartedaTela.Visible = False
-  LocalCopiar = True
-  Me.Height = 2000
-  
-  'le lstMostrarRequerimentos
-  requerimentosnãomarcados = ""
-  For conta = 1 To lstMostrarRequerimentos.ListCount - 1
-    If lstMostrarRequerimentos.Selected(conta) = False Then
-      requerimentosnãomarcados = requerimentosnãomarcados & lstMostrarRequerimentos.List(conta)
-    End If
-  Next conta
-  GlobalHoradeInicio = Time
-  ColocaTelaControleOperacionanoModoMaximizado
-  GlobalInicio = GetTickCount
-  For GlobalIDRequerimento = 1 To GlobalQuantidadedeRequerimentos
-    atualizaprogresso
-    Me.Visible = True
-    DoEvents
-    mostratela
-  
-    'so atua nos requerimentos sem marca de impressão
-    If GlobalRequerimentos(GlobalIDRequerimento).Impresso <> "SIM" And GlobalRequerimentos(GlobalIDRequerimento).Impresso <> "NÃO" Then
-      RequerimentoAtual = ConsultaRequerimento(GlobalRequerimentos(GlobalIDRequerimento).Número, GlobalImpressaoAuto)
-      If RequerimentoAtual.Crítica = "" Then
-        GlobalRequerimentos(GlobalIDRequerimento).NIT = Mid(RequerimentoAtual.NIT, 1, 11)
-        GlobalRequerimentos(GlobalIDRequerimento).Tipo = Mid(RequerimentoAtual.Tipo, 1, 7)
-        GlobalRequerimentos(GlobalIDRequerimento).Status = Mid(RequerimentoAtual.Status, 1, 10)
-        AtualizaListadeRequerimentos (GlobalIDRequerimento)
-        If IsNumeric(GlobalRequerimentos(GlobalIDRequerimento).NIT) And GlobalRequerimentos(GlobalIDRequerimento).Status = "NORMAL" Then
-          'rotina de clicar em DIB/DIP e Gcont
-          Me.Left = 600
-          DoEvents
-          conta = 0
-          While GetForegroundWindow <> GlobalIDControleOperacional
-            SetForegroundWindow (GlobalIDControleOperacional)
-            DoEvents
-            Espera 100
-            conta = conta + 1
-            If conta > 100 Then Exit Sub
-          Wend
-          GetCursorPos pt
-          SetCursorPos 800, 320
-          MouseClique 800, 320
-          SetCursorPos pt.X, pt.Y
-    
-          'espera tela "Detalhes Requerimento/Benefício"
-          titletmp = Space(256)
-          nret = GetWindowText(GlobalIDTelaAtiva, titletmp, Len(titletmp))
-          GlobalTítulodaTelaAtiva = titletmp
-          While InStr(1, GlobalTítulodaTelaAtiva, "Detalhes Requerimento/Benefício") = 0
-            GlobalIDTelaAtiva = GetForegroundWindow
-            idteladibdip = GetForegroundWindow
-            titletmp = Space(256)
-            nret = GetWindowText(GlobalIDTelaAtiva, titletmp, Len(titletmp))
-            GlobalTítulodaTelaAtiva = titletmp
-            DoEvents
-            Espera 300
-            mostratela
-          Wend
-          Dim DimensoesdatelaImprimir As RECT
-          res = GetWindowRect(idteladibdip, DimensoesdatelaImprimir)
-          Espera 300
-          mostratela
-    
-          'clica na Aba Documentos para indentificar o CPF
-          GetCursorPos pt
-          IDTelaAtiva = GetForegroundWindow
-          res = GetWindowRect(IDTelaAtiva, Size)
-          SetCursorPos Size.Left + 110, Size.Top + 40
-          mouse_event MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0
-          mouse_event MOUSEEVENTF_LEFTUP, 0, 0, 0, 0
-          SetCursorPos pt.X, pt.Y
-          Espera 300
-          mostratela
-          CopiaTelaCPF 1, idteladibdip
-          numCPF = CapturaNumeroDetalhes
-          If numCPF = "" Then
-            GlobalRequerimentos(GlobalIDRequerimento).CPF = "-----------"
-          Else
-            GlobalRequerimentos(GlobalIDRequerimento).CPF = numCPF
-          End If
-          hThunderRT6CommandButtonDIBDIPGCONT = 0
-          hThunderRT6CommandButtonFECHAR = 0
-          Do While hThunderRT6CommandButtonDIBDIPGCONT = 0 Or hThunderRT6CommandButtonFECHAR = 0
-            hThunderRT6CommandButtonDIBDIPGCONT = FindWindowEx(idteladibdip, 0, "ThunderRT6CommandButton", "DIB/DIP e Gcont")
-            hThunderRT6CommandButtonFECHAR = FindWindowEx(idteladibdip, 0, "ThunderRT6CommandButton", "&Fechar")
-            contador = contador + 1
-            If contador > 5000 Then
-              'fecha a tela Segunda Via de Marcação de Exame
-              Exit Do
-            End If
-          Loop
-          If hThunderRT6CommandButtonDIBDIPGCONT > 0 Then
-            Espera 300
-            mostratela
-            PostMessage hThunderRT6CommandButtonDIBDIPGCONT, BM_CLICK, 0, 0
-            Espera 300
-            mostratela
-          End If
-          If hThunderRT6CommandButtonFECHAR > 0 Then
-            Espera 300
-            mostratela
-            PostMessage hThunderRT6CommandButtonFECHAR, BM_CLICK, 0, 0
-          Else
-            'fecha com clique
-            Espera 1000
-            mostratela
-            MouseClique 1010, 630
-          End If
-    
-          'espera tela "Detalhes Requerimento/Benefício" fechar
-          titletmp = Space(256)
-          nret = GetWindowText(GlobalIDTelaAtiva, titletmp, Len(titletmp))
-          GlobalTítulodaTelaAtiva = titletmp
-          While InStr(1, GlobalTítulodaTelaAtiva, "Detalhes Requerimento/Benefício") > 0
-            GlobalIDTelaAtiva = GetForegroundWindow
-            titletmp = Space(256)
-            nret = GetWindowText(GlobalIDTelaAtiva, titletmp, Len(titletmp))
-            GlobalTítulodaTelaAtiva = titletmp
-            SetForegroundWindow idteladibdip
-            Espera 300
-            mostratela
-          Wend
-                        
-          'fim da rotina de DIB/DIP e Gcont
-          If Val(GlobalRequerimentos(GlobalIDRequerimento).sequencia) >= Val(txttPrimeiro.Text) And Val(GlobalRequerimentos(GlobalIDRequerimento).sequencia) <= Val(txtUltimo.Text) Then
-            If abrangencia <> "NENHUM" Then
-              If abrangencia = "TODOS" Or GlobalRequerimentos(GlobalIDRequerimento).Tipo = abrangencia Then
-                RequerimentoAtual = ImprimeSegundaViadoRequerimento(RequerimentoAtual.NIT, GlobalImpressaoAuto)
-                If RequerimentoAtual.Crítica <> "" Then RequerimentoAtual.Impresso = ""
-                GlobalRequerimentos(GlobalIDRequerimento).Crítica = RequerimentoAtual.Crítica
-                GlobalRequerimentos(GlobalIDRequerimento).Impresso = RequerimentoAtual.Impresso
-                AtualizaListadeRequerimentos (GlobalIDRequerimento)
-                If GlobalRequerimentos(GlobalIDRequerimento).Crítica <> "" Then
-                  vermelho
-                Else
-                  If GlobalRequerimentos(GlobalIDRequerimento).Impresso = "SIM" Then desenhaimpressora 240, GlobalLinhaPicture - 14
-                End If
-              End If
-            End If
-          End If
-        End If
-      End If
-    End If
-  Next GlobalIDRequerimento
-  Me.Top = Screen.Height - 760 - 3000
-  pctProgressoFundo.Visible = False
-  DoEvents
-    
-  pctCopiaPartedaTela.Visible = False
-  LocalCopiar = False
-  GlobalRelatorioPronto = True
-  Me.Top = Screen.Height - 760 - 3000
-  Me.Height = 2000
-  Picture1.Top = 0
-
-  ApresentaRelatorioFinal
-End Sub
-
-Private Sub cmdFechar2_Click()
-  ClickMenu GlobalIDControleOperacional, 0, 6
-  ApresentaRelatorioFinal
+Private Sub btoFechar2_Click()
+  Sabi.fecharJanela
+  exibirRelatorioFinal
   End
+End Sub
+
+Private Sub btoFecharErro_Click()
+  btoFechar_Click
 End Sub
 
 Private Sub btoIniciar_Click()
-  lstClassificar.Visible = False
-  lstMostrarRequerimentos.Visible = False
-  If Dir(GlobalAreadeTrabalho & "\Agendamentos.txt") <> "" Then
-    Kill GlobalAreadeTrabalho & "\Agendamentos.txt"
-  End If
+  listaClassificar.Visible = False
+  listaRequerimentos.Visible = False
   lbVersao.Visible = False
   btoIniciar.Enabled = False
-  If testarSABIAberto Then
-    preparaSABI
+  If testarSabiAberto Then
+    prepararSABI
   Else
     MsgBox "Abra o módulo Controle Operacional do SABI e faça o login." & vbCrLf & "O Automatizador irá esperar 60 segundos.", vbInformation, NomeAplicacao
     exibirStatus "Inicie e faça login no Controle Operacional do SABI.", 60
   End If
 End Sub
 
-Private Sub btoIniciar_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub btoIniciar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
   Me.MousePointer = 0
 End Sub
 
-Private Sub desenhaimpressora(deslocamentox As Long, deslocamentoy As Long)
-  Dim linha, coluna As Long
-  
-  For linha = 0 To pctImpressora.Height / 15 - 1
-    For coluna = 0 To pctImpressora.Width / 15 - 1
-      If pctImpressora.Point(coluna, linha) <> 0 Then Picture1.PSet (coluna + deslocamentox, linha + deslocamentoy), pctImpressora.Point(coluna, linha)
-    Next coluna
-  Next linha
-  SavePicture Picture1.Image, GlobalPastadeTrabalho & "\" & GlobalDatadosRequerimentos & GlobalAgenciaEscolhida & "Todos.bmp"
+Private Sub chcExameInicial_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+  On Error Resume Next
+  If chcExameInicial.Value = 1 And chcPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "INICIAIS"
+  If chcExameInicial.Value = 1 And chcPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "TODOS"
+  If chcExameInicial.Value = 0 And chcPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "NENHUM"
+  If chcExameInicial.Value = 0 And chcPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "PP"
 End Sub
 
-Private Sub mostralista()
-  Dim RtnValue
-  Dim win As Long
-  Dim esquerda, altura, largura, dimensao As Long
-  Dim lstdc As Long
+Private Sub chcPP_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+  On Error Resume Next
+  If chcExameInicial.Value = 1 And chcPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "INICIAIS"
+  If chcExameInicial.Value = 1 And chcPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "TODOS"
+  If chcExameInicial.Value = 0 And chcPP.Value = 0 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "NENHUM"
+  If chcExameInicial.Value = 0 And chcPP.Value = 1 Then SaveSetting "AGENDAMENTODOSABI", "IMPRIMIR", "EXAMES", "PP"
+End Sub
 
-  lstdc = GetWindowDC(lstMostrarRequerimentos.hWnd)
-  esquerda = 900
-  altura = 0
-  largura = lstMostrarRequerimentos.Width
-  dimensao = lstMostrarRequerimentos.Height
-  win = GlobalhMDIClient
-  cmdContinua.Visible = False
-  btoIniciar.Visible = False
-  cmdFechar.Visible = False
-  fraImprime.Visible = False
-  lstMostrarRequerimentos.Top = 0
-  Me.Height = Screen.Height
-  Me.Refresh
-  lstMostrarRequerimentos.Visible = True
-  lstMostrarRequerimentos.Height = Me.Height - lstMostrarRequerimentos.Top - 40
-  lstMostrarRequerimentos.Refresh
-  pctEsteRequerimento.Refresh
-  Me.Top = Screen.Height - 760 - 3000
-  Me.Left = 600
-  lstMostrarRequerimentos.Visible = True
-  DoEvents
-  RtnValue = BitBlt(GetDC(win), CLng(esquerda), _
-  CLng(altura), CLng(largura), CLng(dimensao), lstdc, CLng(0), CLng(0), SRCCOPY)
-  Me.Height = 2000
-  lstMostrarRequerimentos.Visible = False
-  lstMostrarRequerimentos.Top = 5000
-  fraImprime.Left = grupoOrdem.Left
-  fraImprime.Top = Me.Height - fraImprime.Height - 120
-  grupoOrdem.Visible = False
-  redimensionarForm -4000, 2500
-  fraImprime.Visible = True
-  cmdContinua.Visible = True
-  btoIniciar.Visible = True
-  cmdFechar.Visible = True
-  fraImprime.Visible = True
-  mtempo2 = 0
-  Timer2.Enabled = True
+Private Sub cmdFechar_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+  Me.MousePointer = 0
+End Sub
+
+Private Sub editMarcacaoDe_Change()
+  editMarcacaoDe.Text = Val(editMarcacaoDe.Text)
+  If Val(editMarcacaoDe.Text) < 1 Then editMarcacaoDe.Text = 1
+  If Val(editMarcacaoDe.Text) > GlobalQuantidadedeRequerimentos Then editMarcacaoDe.Text = GlobalQuantidadedeRequerimentos
+  btoConfirmar.Enabled = Val(editMarcacaoPara.Text) >= Val(editMarcacaoDe.Text)
+End Sub
+
+Private Sub editMarcacaoPara_Change()
+  editMarcacaoPara.Text = Val(editMarcacaoPara.Text)
+  If Val(editMarcacaoPara.Text) < 1 Then editMarcacaoPara.Text = 1
+  If Val(editMarcacaoPara.Text) > GlobalQuantidadedeRequerimentos Then editMarcacaoPara.Text = GlobalQuantidadedeRequerimentos
+  btoConfirmar.Enabled = Val(editMarcacaoPara.Text) >= Val(editMarcacaoDe.Text)
 End Sub
 
 'Função que é executada quando o form recebe o foco do usuário
@@ -2178,15 +1489,6 @@ End Sub
 
 'Função executada quando o form é carregado para memória
 Private Sub Form_Load()
-  Dim res As String
-  Dim conta As Long
-  Dim mPastaAgendamentosdoSABI As Boolean
-  Dim sPath As String
-  Dim lRet  As Long
-  Dim nomeexecutável As String
-  Dim pos As Long
-  Dim pastaAppData As String
-    
   'apenas uma execução por vez
   If App.PrevInstance Then
     MsgBox "O Automatizador do SABI já está em execução. Não é permitido executá-lo duas vezes ao mesmo tempo.", vbCritical, "Agendamentos do SABI"
@@ -2210,8 +1512,6 @@ Private Sub Form_Load()
   GlobalEscalaX = GlobalEscalaX * 256
   GlobalEscalay = 256 / Screen.Height
   GlobalEscalay = GlobalEscalay * 256
-  GlobalTempodeEspera = Val(GetSetting("AgendamentosdoSABI", "Requerimento", "TempodeEsperadaResposta", ""))
-  If GlobalTempodeEspera < 3 Or GlobalTempodeEspera > 10 Then GlobalTempodeEspera = 3
   GlobalInicio = GetTickCount
   GlobalImpressaoAuto = True
 
@@ -2226,34 +1526,12 @@ Private Sub Form_Load()
   
   'excluir arquivos da pasta temporária
   excluirArquivosTemp
-    
-  'WTF!!!
-  If Dir(GlobalPastadeTrabalho & "\Teste.txt") = "" Then
-    Open GlobalPastadeTrabalho & "\Teste.txt" For Output As #1
-    Print #1, "This is a test"  ' Print text to file.
-    Print #1,   ' Print blank line to file.
-    Print #1, "Zone 1"; Tab; "Zone 2"
-    Close #1    ' Close file.
-  End If
-    
-  'Testa se o bloco de notas e o aplicativo padrao para abrir arquivos texto (PraQue?)
-  sPath = String(255, 32)
-  lRet = FindExecutable(GlobalPastadeTrabalho & "\Teste.txt", vbNullString, sPath)
-  If InStr(1, UCase(Trim(sPath)), "NOTEPAD.EXE") = 0 Then
-    nomeexecutável = Trim(sPath)
-    pos = InStr(1, UCase(nomeexecutável), ".EXE")
-    For conta = pos To 1 Step -1
-      If Mid(nomeexecutável, conta, 1) = "\" Then Exit For
-    Next conta
-    nomeexecutável = Mid(nomeexecutável, conta + 1, pos - conta - 1)
-    MsgBox "Atenção: O Windows do seu computador está configurado para abrir documentos com extensão '.txt' com o '" & nomeexecutável & "'. Favor mudar o programa padrão para 'Bloco de notas'.", vbCritical, "Abrir '.txt' com... Escolher programa padrão."
-  End If
 
   'Altura e Posicao superior da janela
   redimensionarForm -3000, 2000
 End Sub
 
-Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2307,29 +1585,29 @@ Private Sub lblImprimir_Click()
   
   SetForegroundWindow (GlobalIDControleOperacional)
   For conta = 1 To GlobalQuantidadedeRequerimentos
-    If GlobalRequerimentos(conta).NIT <> "" Then
+    If GlobalRequerimentos(conta).nit <> "" Then
       'Abre tela Segunda Via de Marcação de Exame
       SetForegroundWindow (GlobalIDControleOperacional)
       ClickMenu GlobalIDControleOperacional, 4, 7
-      Espera 1000
+      espera 1000
       SimulaSendKeys "<TAB>"
-      Espera 100
+      espera 100
       SimulaSendKeys "<TAB>"
-      Espera 100
-      SimulaSendKeys GlobalRequerimentos(conta).NIT
-      Espera 100
-      SimulaSendKeys Left$(GlobalRequerimentos(conta).NIT, 1)
-      Espera 300
+      espera 100
+      SimulaSendKeys GlobalRequerimentos(conta).nit
+      espera 100
+      SimulaSendKeys Left$(GlobalRequerimentos(conta).nit, 1)
+      espera 300
       MsgBox "imprime"
     End If
   Next conta
 End Sub
 
-Private Sub lblImprimir_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lblImprimir_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   lblImprimir.BorderStyle = 1
 End Sub
 
-Private Sub lblImprimir_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lblImprimir_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
   lblImprimir.BorderStyle = 0
 End Sub
 
@@ -2339,7 +1617,7 @@ Private Sub lblRelogio_Change()
   pctProgressoFundo.Left = lblRelogio.Left + lblRelogio.Width + 40
 End Sub
 
-Private Sub lblRelogio_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lblRelogio_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2348,7 +1626,7 @@ Private Sub lblRelogio_MouseDown(Button As Integer, Shift As Integer, X As Singl
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lblversao_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lblversao_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2357,11 +1635,11 @@ Private Sub lblversao_MouseDown(Button As Integer, Shift As Integer, X As Single
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lblversao_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lblversao_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
   Me.MousePointer = 0
 End Sub
 
-Private Sub lstMostrarRequerimentos_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lstMostrarRequerimentos_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
   
   imprimereq = True
@@ -2371,7 +1649,7 @@ Private Sub lstMostrarRequerimentos_MouseDown(Button As Integer, Shift As Intege
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
   On Error Resume Next
   Dim memo As String
   Dim memorequerimento As String
@@ -2380,8 +1658,8 @@ Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Intege
   
   If GlobalRelatorioPronto Then
     Me.MousePointer = 0
-    lstMostrarRequerimentos.ListIndex = ItemUnderMouse(lstMostrarRequerimentos.hWnd, X, Y)
-    pos = ItemUnderMouse(lstMostrarRequerimentos.hWnd, X, Y)
+    lstMostrarRequerimentos.ListIndex = ItemUnderMouse(lstMostrarRequerimentos.hWnd, x, y)
+    pos = ItemUnderMouse(lstMostrarRequerimentos.hWnd, x, y)
     If pos > 0 Then
       memorequerimento = lstMostrarRequerimentos.List(pos)
       memorequerimento = Trim(Mid(memorequerimento, 4))
@@ -2408,7 +1686,7 @@ Private Sub lstMostrarRequerimentos_MouseMove(Button As Integer, Shift As Intege
   End If
 End Sub
 
-Private Sub lstMostrarRequerimentos_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub lstMostrarRequerimentos_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
   imprimereq = False
 End Sub
 
@@ -2430,7 +1708,7 @@ Private Sub MontaRelaçãodeRequerimentos()
   
   'espera a proxima tela (a tela do crystal report não tem nome)
   While GlobalIDTelaImprimirAgendamento = GetForegroundWindow
-    Espera 100
+    espera 100
     DoEvents
   Wend
   arquivo = esperaCRYSTALREPORTeExporta
@@ -2477,7 +1755,7 @@ Private Sub paracima_Click()
   mostralista
 End Sub
 
-Private Sub pctCopiaPartedaTela_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub pctCopiaPartedaTela_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
 
   Me.MousePointer = 9
@@ -2486,7 +1764,7 @@ Private Sub pctCopiaPartedaTela_MouseDown(Button As Integer, Shift As Integer, X
   If Me.Height = 133 * 15 Or LocalCopiar = True Then Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub pctFundo_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub pctFundo_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2495,7 +1773,7 @@ Private Sub pctFundo_MouseDown(Button As Integer, Shift As Integer, X As Single,
   If Me.Height = 133 * 15 Or LocalCopiar = True Then Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub pctFundo_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub pctFundo_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
   Me.MousePointer = 0
 End Sub
 
@@ -2518,275 +1796,7 @@ Private Sub pctCopiaPartedaTela_KeyDown(KeyCode As Integer, Shift As Integer)
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub preparaSABI()
-  On Error Resume Next
-  Dim titletmp As String
-  Dim nret As Long
-  Dim localMenu As Long
-  Dim RelaçãodeMenu As String
-  Dim newMenu As Long
-  Dim hToolbar20WndClass As Long
-  Dim hmsvb_lib_Tollbar As Long
-  Dim hPrimeira As Long
-  Dim hSegunda As Long
-  Dim ClassedoControle As String
-  Dim classlength As Long
-  Dim IDtelasInternasdoSABI As Long
-  Dim IDApagaTela As Long
-  Dim contavezes As Long
-  Dim IDPrimeiroToolBar As Long
-  Dim DimensoesdatelaImprimir As RECT
-  Dim res As String
-  Dim dimensoesMDIClient As RECT
-  Dim IDThunderRT6ComboBoxImprimirAgendamento As Long
-  Dim IDMSMaskWndClass1ImprimirAgendamento As Long
-  Dim IDMSMaskWndClass2ImprimirAgendamento As Long
-  Dim IDToolbar20WndClassImprimirAgendamento As Long
-  Dim DimensõesdoCampoRequerimento As RECT
-  Dim CentrodoCampoRequerimento As Long
-  Dim contadordeloop As Long
-  
-  contadordeloop = 0
-  
-  'limpa todas telas internas do SABI
-  'resta agora as telas externas
-  verificaeapaga "Imprimir Agendamento"
-  verificaeapaga "Imprimir Escala"
-  verificaeapaga "Marcação da Avaliação Social"
-  verificaeapaga "Segunda Via de Carta de Exigência"
-  verificaeapaga "Pesquisa de Requerente"
-  GlobalhMDIClient = 0
-  GlobalhMDIClient = FindWindowEx(GlobalIDControleOperacional, 0, "MDIClient", "")
-  If GlobalhMDIClient = 0 Then
-    MsgBox "Não foi encontrada o indentificador da tela de fundo do Controle Operacional.", vbCritical, "Agendamentos do SABI"
-    End
-  End If
-  
-  IDtelasInternasdoSABI = 0
-  IDtelasInternasdoSABI = FindWindowEx(GlobalhMDIClient, 0, vbNullString, vbNullString)
-  While IDtelasInternasdoSABI <> 0
-    If IDtelasInternasdoSABI <> 0 Then IDApagaTela = IDtelasInternasdoSABI
-    DoEvents
-    Espera 300
-    IDtelasInternasdoSABI = FindWindowEx(GlobalhMDIClient, IDtelasInternasdoSABI, vbNullString, vbNullString)
-    If IDApagaTela <> 0 Then SendMessage IDApagaTela, WM_CLOSE, 0, 0
-    Wend
-    
-    'todas as telas internas foram limpas
-    DoEvents
-    Espera 300
-    
-    'acerta a tela
-    ColocaTelaControleOperacionanoModoNormal
-    ColocaTelaControleOperacionanoModoMaximizado
-
-    'Abre tela Consulta Requerimento/Benefício
-    ClickMenu GlobalIDControleOperacional, 2, 0
-    Espera 3000
-    IDtelasInternasdoSABI = 0
-    contavezes = 0
-    While IDtelasInternasdoSABI = 0
-      IDtelasInternasdoSABI = FindWindowEx(GlobalhMDIClient, 0, "ThunderRT6FormDC", "Consulta Requerimento/Benefício")
-      Espera 300
-      DoEvents
-      contavezes = contavezes + 1
-      If contavezes > 400 Then
-        MsgBox "O SABI está muito lento. Tente outra hora.", vbCritical, "Consulta Requerimento/Benefício"
-        End
-      End If
-    Wend
-    DoEvents
-    GlobalIDTelaConsultaRequerimentoBenefício = 0
-    While GlobalIDTelaConsultaRequerimentoBenefício = 0
-      Espera 300
-      DoEvents
-      GlobalIDTelaConsultaRequerimentoBenefício = achaTelaInternaAtiva("Consulta Requerimento/Benefício")
-    Wend
-    IDPrimeiroToolBar = FindWindowEx(IDtelasInternasdoSABI, 0, "Toolbar20WndClass", "")
-    GlobalToolbarConsultaRequerimentoOCX = FindWindowEx(IDtelasInternasdoSABI, IDPrimeiroToolBar, "Toolbar20WndClass", "")
-    Espera 300
-    GlobalToolbarConsultaRequerimento = FindWindowEx(GlobalToolbarConsultaRequerimentoOCX, 0, "msvb_lib_toolbar", vbNullString)
-    
-    'move a tela de modo a aparecer apenas a borda superior
-    res = GetWindowRect(GlobalhMDIClient, dimensoesMDIClient)
-    res = GetWindowRect(GlobalIDTelaConsultaRequerimentoBenefício, DimensoesdatelaImprimir)
-    res = SetWindowPos(GlobalIDTelaConsultaRequerimentoBenefício, 0, DimensoesdatelaImprimir.Left, DimensoesdatelaImprimir.Top + (dimensoesMDIClient.Bottom - dimensoesMDIClient.Top - 100), DimensoesdatelaImprimir.Right - DimensoesdatelaImprimir.Left, DimensoesdatelaImprimir.Bottom - DimensoesdatelaImprimir.Top, 0)
-    DoEvents
-
-    'abre Imprimir Agendamento
-    Espera 300
-    ClickMenu GlobalIDControleOperacional, 4, 0
-    DoEvents
-    Espera 300
-    GlobalIDTelaImprimirAgendamento = 0
-    contavezes = 0
-    While GlobalIDTelaImprimirAgendamento = 0
-      GlobalIDTelaImprimirAgendamento = ObtemIDdaTelaPrincipalporTitulo("Imprimir Agendamento")
-      Espera 300
-      DoEvents
-      contavezes = contavezes + 1
-      If contavezes > 400 Then
-        MsgBox "O SABI está muito lento. Tente outra hora.", vbCritical, "Imprimir Agendamento"
-        End
-      End If
-    Wend
-
-    'muda o titulo da tela
-    SendMessageString GlobalIDTelaImprimirAgendamento, WM_SETTEXT, 0, "Escolha o dia dos agendamentos e clique em Visualizar"
-    
-    'move a tela para esquerda
-    res = GetWindowRect(GlobalIDTelaImprimirAgendamento, DimensoesdatelaImprimir)
-    res = SetWindowPos(GlobalIDTelaImprimirAgendamento, 0, DimensoesdatelaImprimir.Left + 100, DimensoesdatelaImprimir.Top, DimensoesdatelaImprimir.Right - DimensoesdatelaImprimir.Left, DimensoesdatelaImprimir.Bottom - DimensoesdatelaImprimir.Top, 0)
-    
-    'MontaRelaçãodeRequerimentos
-    IDThunderRT6ComboBoxImprimirAgendamento = FindWindowEx(GlobalIDTelaImprimirAgendamento, 0, "ThunderRT6ComboBox", "")
-    IDThunderRT6ComboBoxImprimirAgendamento = FindWindowEx(GlobalIDTelaImprimirAgendamento, IDThunderRT6ComboBoxImprimirAgendamento, "ThunderRT6ComboBox", "")
-    IDMSMaskWndClass1ImprimirAgendamento = FindWindowEx(GlobalIDTelaImprimirAgendamento, 0, "MSMaskWndClass", "")
-    IDMSMaskWndClass2ImprimirAgendamento = FindWindowEx(GlobalIDTelaImprimirAgendamento, IDMSMaskWndClass1ImprimirAgendamento, "MSMaskWndClass", "")
-    res = SetWindowPos(GlobalIDTelaImprimirAgendamento, 0, DimensoesdatelaImprimir.Left + 120, DimensoesdatelaImprimir.Top, DimensoesdatelaImprimir.Right - DimensoesdatelaImprimir.Left - 60, DimensoesdatelaImprimir.Bottom - DimensoesdatelaImprimir.Top, 0)
-    Do While GlobalIDTelaImprimirAgendamento > 0
-      GlobalAgenciaEscolhida = ObtemTextodoControle(IDThunderRT6ComboBoxImprimirAgendamento)
-      res = ObtemTextodoControle(IDMSMaskWndClass1ImprimirAgendamento)
-      GlobalDataEscolhida = "01/01/1900"
-      If Len(res) = 10 And res <> "  /  /" Then
-        If IsDate(res) Then
-          GlobalDataEscolhida = res
-          If GlobalDataEscolhida >= Date And GlobalDataEscolhida < DateAdd("d", Date, 180) Then
-            '------------------data final igual a data inicial
-            res = ObtemTextodoControle(IDMSMaskWndClass2ImprimirAgendamento)
-            If Len(res) = 10 And res <> "  /  /    " Then
-              GlobalDataEscolhida2 = res
-            Else
-              GlobalDataEscolhida2 = "01/01/1900"
-            End If
-            If GlobalDataEscolhida2 <> GlobalDataEscolhida Then
-              res = GetWindowRect(IDMSMaskWndClass2ImprimirAgendamento, DimensõesdoCampoRequerimento)
-              CentrodoCampoRequerimento = convlong(DimensõesdoCampoRequerimento.Left + (DimensõesdoCampoRequerimento.Right - DimensõesdoCampoRequerimento.Left) / 2, DimensõesdoCampoRequerimento.Top + (DimensõesdoCampoRequerimento.Bottom - DimensõesdoCampoRequerimento.Top) / 2)
-              SendMessage IDMSMaskWndClass2ImprimirAgendamento, WM_LBUTTONDOWN, MK_LBUTTON, CentrodoCampoRequerimento
-              SendMessage IDMSMaskWndClass2ImprimirAgendamento, WM_LBUTTONUP, MK_LBUTTON, CentrodoCampoRequerimento
-              DoEvents
-              Espera 100
-              SimulaSendKeys "2"
-              Espera 200
-              SendMessage IDMSMaskWndClass2ImprimirAgendamento, WM_SETTEXT, 0, Format(GlobalDataEscolhida, "dd/mm/yyyy") & Chr$(0)
-              DoEvents
-              Espera 600
-            End If
-          '------------------
-          Else
-            GlobalDataEscolhida = "01/01/1900"
-          End If
-        End If
-      End If
-      If GlobalDataEscolhida = "01/01/1900" Then
-        SendMessage IDMSMaskWndClass2ImprimirAgendamento, WM_SETTEXT, 0, "  /  /    " & Chr$(0)
-        GlobalDataEscolhida2 = "01/01/1900"
-      End If
-      If GlobalAgenciaEscolhida <> "" And GlobalDataEscolhida <> "01/01/1900" And GlobalDataEscolhida2 <> "01/01/1900" And GlobalDataEscolhida = GlobalDataEscolhida2 Then
-        res = SetWindowPos(GlobalIDTelaImprimirAgendamento, 0, DimensoesdatelaImprimir.Left + 120, DimensoesdatelaImprimir.Top, DimensoesdatelaImprimir.Right - DimensoesdatelaImprimir.Left, DimensoesdatelaImprimir.Bottom - DimensoesdatelaImprimir.Top, 0)
-        Exit Do
-      Else
-        res = SetWindowPos(GlobalIDTelaImprimirAgendamento, 0, DimensoesdatelaImprimir.Left + 120, DimensoesdatelaImprimir.Top, DimensoesdatelaImprimir.Right - DimensoesdatelaImprimir.Left - 60, DimensoesdatelaImprimir.Bottom - DimensoesdatelaImprimir.Top, 0)
-    End If
-    contadordeloop = contadordeloop + 1
-    If contadordeloop > 1000 Then
-      lbNomePrograma.Caption = "Tempo esgotado para informar a data do agendamento"
-      DoEvents
-      Beep
-      Espera 6000
-      End
-    End If
-    Espera 100
-    GlobalIDTelaImprimirAgendamento = ObtemIDdaTelaPrincipalporTitulo("Escolha o dia dos agendamentos e clique em Visualizar")
-  Loop
-  MontaRelaçãodeRequerimentos
-End Sub
-
-Private Sub decodeRequerimentos(texto As String)
-  On Error Resume Next
-  Dim memo As String
-  Dim posmedico As Long
-  Dim posRequerimento As Long
-  Dim posproximapericia As Long
-  Dim posdata As Long
-  Dim posfimdata As Long
-  Dim datamemo As String
-  Dim pos As Long
-  Dim FileNumber  As Long
-  Dim mTexto, mLinha As String
-  Dim fimcabecalho As Boolean
-  Dim pos1, pos2, pos3, pos4, contador As Long
-  Dim memonome As String
-  Dim posnome As Long
-  Dim contas As Long
-  Dim conqta As Long
-    
-  contador = 0
-  FileNumber = FreeFile
-  fimcabecalho = False
-  GlobalAgendamentosConsultaCabecalho = ""
-  Open GlobalAreadeTrabalho & "\Agendamentos.txt" For Input As #FileNumber
-  Do While Not EOF(FileNumber)
-    Line Input #FileNumber, mLinha
-    If InStr(1, mLinha, "Medico") Then fimcabecalho = True
-    If fimcabecalho = False Then
-      GlobalAgendamentosConsultaCabecalho = GlobalAgendamentosConsultaCabecalho & mLinha & Chr(13) & Chr(10)
-    Else
-      If InStr(1, mLinha, "Medico") Or InStr(1, mLinha, "Horário") Then
-      Else
-        pos1 = InStr(1, mLinha, Chr(9))
-        If pos1 > 0 Then
-          contador = contador + 1
-          GlobalAgendamentosQuandidade = contador
-          GlobalAgendamentosConsulta(contador).Horario = Mid(mLinha, 1, pos1 - 1)
-          pos2 = InStr(pos1 + 1, mLinha, Chr(9))
-          If pos2 > 0 Then
-            memonome = Mid(mLinha, pos1 + 2, pos2 - pos1 - 1)
-            posnome = InStr(1, memonome, Chr(34))
-            If posnome > 0 Then
-              memonome = Mid(memonome, 1, posnome - 1)
-            Else
-              memonome = Mid(mLinha, pos1 + 2, pos2 - pos1 - 1)
-            End If
-            GlobalAgendamentosConsulta(contador).Segurado = memonome
-            pos3 = InStr(pos2 + 1, mLinha, Chr(9))
-            If pos3 > 0 Then
-              GlobalAgendamentosConsulta(contador).Concluida = Mid(mLinha, pos2 + 1, pos3 - pos2 - 1)
-              pos4 = InStr(pos3 + 1, mLinha, Chr(9))
-              If pos4 > 0 Then
-                GlobalAgendamentosConsulta(contador).Ordem = Mid(mLinha, pos3 + 1, pos4 - pos3 - 1)
-                GlobalAgendamentosConsulta(contador).Requerimento = Val(Mid(mLinha, pos4 + 1))
-              End If
-            End If
-          End If
-        End If
-      End If
-    End If
-  Loop
-  Close #FileNumber
-  If Dir(GlobalAreadeTrabalho & "\Agendamentos.txt") <> "" Then
-    DeleteFile GlobalAreadeTrabalho & "\Agendamentos.txt"
-  End If
-  pos1 = InStr(1, GlobalAgendamentosConsultaCabecalho, "Local:")
-  If pos1 > 0 Then
-    mTexto = Mid(GlobalAgendamentosConsultaCabecalho, pos1 + 8)
-    For pos2 = 1 To Len(mTexto)
-      If Mid(mTexto, pos2, 1) = Chr(13) Or Mid(mTexto, pos2, 1) = Chr(10) Then
-        mTexto = Mid(mTexto, 1, pos2 - 1) & Mid(mTexto, pos2 + 1)
-      End If
-      If Asc(Mid(mTexto, pos2, 1)) = 34 Then
-        mTexto = Mid(mTexto, 1, pos2 - 1) & " " & Mid(mTexto, pos2 + 1)
-      End If
-    Next pos2
-    mTexto = Trim(mTexto)
-    lblLocaleData.Caption = mTexto
-    lblLocaleData.Visible = True
-    lbNomePrograma.Visible = False
-  End If
-  MontaListadeRequerimentos (GlobalAgendamentosConsultaCabecalho)
-End Sub
-
-Private Sub pctFundoCopias_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub pctFundoCopias_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   Dim lngReturnValue As Long
   
   Me.MousePointer = 9
@@ -2795,16 +1805,16 @@ Private Sub pctFundoCopias_MouseDown(Button As Integer, Shift As Integer, X As S
   Me.Top = Screen.Height - 760 - 3000
 End Sub
 
-Private Sub pctFundoCopias_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub pctFundoCopias_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
   Me.MousePointer = 0
 End Sub
 
-Private Sub Picture1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Picture1_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
   On Error Resume Next
   
   Clipboard.Clear
   Clipboard.SetData Picture1.Picture
-  LocalY = Y
+  LocalY = y
   If Button = 2 Then
     res = SetWindowPos(Me.hWnd, -2, 0, 0, 0, 0, 3)
     MsgBox "Esta relação de requerimentos foi salva na área de transferência. Para imprimir cole agora no 'Word' ou 'Paint'.", vbCritical, "Imprimir Relação de Requerimentos"
@@ -2818,10 +1828,10 @@ Private Sub timerAbrirSabi_Timer()
   txtStatusAguarda.Caption = "Aguardando " & contadorTimer & " segundos..."
   contadorTimer = contadorTimer - 1
   If contadorTimer < 0 Then
-    If testarSABIAberto Then
+    If testarSabiAberto Then
       pctFundo.Visible = True
       painelStatus.Visible = False
-      preparaSABI
+      prepararSABI
     Else
       MsgBox "O Automatizador não conseguiu encontrar o Controle Operacional do SABI aberto. Se o SABI estiver apresentando lentidão, tente novamente mais tarde.", vbCritical, NomeAplicacao
       End
@@ -2836,16 +1846,9 @@ Private Sub Timer2_Timer()
   If mtempo2 > 60 Then End
 End Sub
 
-Private Sub txttPrimeiro_Change()
-  txttPrimeiro.Text = Val(txttPrimeiro.Text)
-  If Val(txttPrimeiro.Text) < 1 Then txttPrimeiro.Text = 1
-  If Val(txttPrimeiro.Text) > GlobalQuantidadedeRequerimentos Then txttPrimeiro.Text = GlobalQuantidadedeRequerimentos
-  cmdContinua.Enabled = Val(txtUltimo.Text) >= Val(txttPrimeiro.Text)
-End Sub
-
 Private Sub txtUltimo_Change()
   txtUltimo.Text = Val(txtUltimo.Text)
   If Val(txtUltimo.Text) < 1 Then txtUltimo.Text = 1
   If Val(txtUltimo.Text) > GlobalQuantidadedeRequerimentos Then txtUltimo.Text = GlobalQuantidadedeRequerimentos
-  cmdContinua.Enabled = Val(txtUltimo.Text) >= Val(txttPrimeiro.Text)
+  cmdContinua.Enabled = Val(txtUltimo.Text) >= Val(editMarcacaoDe.Text)
 End Sub
