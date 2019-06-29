@@ -40,7 +40,12 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 Source: "..\bin\automasabi.exe"; DestDir: "{app}"
+Source: "..\scripts\limpar.cmd"; DestDir: "{app}"
 
 [Icons]
 Name: "{group}\Automatizador do SABI"; Filename: "{app}\automasabi.exe"; WorkingDir: "{app}"; IconFilename: "{app}\automasabi.exe"; IconIndex: 0
+Name: "{group}\Limpar Cache"; Filename: "{app}\limpar.cmd"; WorkingDir: "{app}"; IconFilename: "{app}\limpar.cmd"; Comment: "Excluir o cache do automatizador"
 Name: "{commondesktop}\Automatizador do SABI"; Filename: "{app}\automasabi.exe"; WorkingDir: "{app}"; IconFilename: "{app}\automasabi.exe"; IconIndex: 0
+
+[Run]
+Filename: "{app}\limpar.cmd"; Flags: nowait runhidden
