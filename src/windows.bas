@@ -23,6 +23,18 @@ Private Type InitCommonControlsExStruct
   lngICC As Long
 End Type
 
+Private Type POINTAPI
+  x As Long
+  y As Long
+End Type
+
+Public Type RECT
+  Left As Long
+  Top As Long
+  Right As Long
+  Bottom As Long
+End Type
+
 Private Type WINDOWPLACEMENT
   Length As Long
   flags As Long
@@ -38,6 +50,12 @@ Private Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpCl
 Private Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal hWnd1 As Long, ByVal hWnd2 As Long, ByVal lpsz1 As String, ByVal lpsz2 As String) As Long
 
 Private Declare Function FreeLibrary Lib "kernel32.dll" (ByVal hLibModule As Long) As Long
+
+Public Declare Function GetWindow Lib "user32" (ByVal hWnd As Long, ByVal wCmd As Long) As Long
+
+Public Declare Function GetWindowText Lib "user32" Alias "GetWindowTextA" (ByVal hWnd As Long, ByVal lpString As String, ByVal cch As Long) As Long
+
+Private Declare Function GetWindowTextLength Lib "user32" Alias "GetWindowTextLengthA" (ByVal hWnd As Long) As Long
 
 Private Declare Sub InitCommonControls Lib "comctl32.dll" ()
 
@@ -113,7 +131,7 @@ Public Function getControleTexto(ByVal handle As Long) As String
 End Function
 
 ' Obtem as dimensoes de uma janela
-Public Sub getJanelaDimensoes(handle As Long, ByVal RECT As RECT)
+Public Sub getJanelaDimensoes(handle As Long, ByRef RECT As RECT)
   Dim ret As Long
   
   ret = GetWindowRect(janelaDibdip, dimensoesTelaImprimir)

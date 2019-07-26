@@ -11,7 +11,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-' sabi.bas
+' classesabi.cls
 ' Classe para Manipulação do SABI
 
 'Constantes
@@ -744,8 +744,8 @@ Function exibirAgendamentos() As Boolean
     listaRequerimentos.AddItem Format(indice, "000") & Chr(9) & listaClassificar.ItemData(conta) & Chr(9) & listaClassificar.List(conta)
     
     'valores iniciais
-    requerimentos(contador).Tipo = ""
-    requerimentos(contador).Status = ""
+    requerimentos(contador).tipo = ""
+    requerimentos(contador).status = ""
     requerimentos(contador).nit = ""
     requerimentos(contador).Crítica = ""
   Next conta
@@ -833,16 +833,16 @@ Public Sub processarRequerimentos()
     exibirTela 'antes mostratela
   
     'so atua nos requerimentos sem marca de impressão
-    If GlobalRequerimentos(requerimentoID).Impresso <> "SIM" And GlobalRequerimentos(requerimentoID).Impresso <> "NÃO" Then
+    If GlobalRequerimentos(requerimentoID).impresso <> "SIM" And GlobalRequerimentos(requerimentoID).impresso <> "NÃO" Then
       requerimentoAtual = ConsultaRequerimento(GlobalRequerimentos(requerimentoID).Número, GlobalImpressaoAuto)
       If requerimentoAtual.Crítica = "" Then
         GlobalRequerimentos(requerimentoID).nit = Mid(requerimentoAtual.nit, 1, 11)
-        GlobalRequerimentos(requerimentoID).Tipo = Mid(requerimentoAtual.Tipo, 1, 7)
-        GlobalRequerimentos(requerimentoID).Status = Mid(requerimentoAtual.Status, 1, 10)
+        GlobalRequerimentos(requerimentoID).tipo = Mid(requerimentoAtual.tipo, 1, 7)
+        GlobalRequerimentos(requerimentoID).status = Mid(requerimentoAtual.status, 1, 10)
         
         AtualizaListadeRequerimentos (requerimentoID)
         
-        If IsNumeric(GlobalRequerimentos(requerimentoID).nit) And GlobalRequerimentos(requerimentoID).Status = "NORMAL" Then
+        If IsNumeric(GlobalRequerimentos(requerimentoID).nit) And GlobalRequerimentos(requerimentoID).status = "NORMAL" Then
           'rotina de clicar em DIB/DIP e Gcont
           Me.Left = 600
           DoEvents
@@ -882,7 +882,7 @@ Public Sub processarRequerimentos()
     
           ' apos abrir a janela,
           ' clicar na Aba Documentos para indentificar o CPF
-          GlobalRequerimentos(requerimentoID).CPF = getRequerenteCPF(janelaDetalhesBeneficio)
+          GlobalRequerimentos(requerimentoID).cpf = getRequerenteCPF(janelaDetalhesBeneficio)
                     
          ' clicar no botão DIB/DIP/GCont
           contador = 0
@@ -927,13 +927,13 @@ Public Sub processarRequerimentos()
           'fim da rotina de DIB/DIP e Gcont
           If Val(GlobalRequerimentos(requerimentoID).sequencia) >= Val(editMarcacaoDe.Text) And Val(GlobalRequerimentos(requerimentoID).sequencia) <= Val(editMarcacaoPara.Text) Then
             If abrangencia <> "NENHUM" Then
-              If abrangencia = "TODOS" Or GlobalRequerimentos(requerimentoID).Tipo = abrangencia Then
+              If abrangencia = "TODOS" Or GlobalRequerimentos(requerimentoID).tipo = abrangencia Then
                 
                 ' imprime a segunda via de marcação
                 requerimentoAtual = ImprimirRequerimento(requerimentoAtual.nit, GlobalImpressaoAuto)
-                If requerimentoAtual.Crítica <> "" Then requerimentoAtual.Impresso = False
+                If requerimentoAtual.Crítica <> "" Then requerimentoAtual.impresso = False
                 GlobalRequerimentos(requerimentoID).Crítica = requerimentoAtual.Crítica
-                GlobalRequerimentos(requerimentoID).Impresso = requerimentoAtual.Impresso
+                GlobalRequerimentos(requerimentoID).impresso = requerimentoAtual.impresso
                 
                 ' ??
                 atualizarStatus
@@ -941,7 +941,7 @@ Public Sub processarRequerimentos()
                 If GlobalRequerimentos(requerimentoID).Crítica <> "" Then
                   marcarComErro
                 Else
-                  If GlobalRequerimentos(requerimentoID).Impresso Then
+                  If GlobalRequerimentos(requerimentoID).impresso Then
                     marcarComImpressora 240, GlobalLinhaPicture - 14
                   End If
                 End If
@@ -991,7 +991,7 @@ Private Function getRequerenteCPF()
   End If
 End Function
 
-Public Function ImprimirRequerimento(nit As String, ImpressaoAuto As Boolean) As Requerimento
+Friend Function ImprimirRequerimento(nit As String, ImpressaoAuto As Boolean) As Requerimento
   On Error Resume Next
   Dim botaoVisualizar As Long
   Dim botaoCancelar As Long
@@ -1012,7 +1012,7 @@ Public Function ImprimirRequerimento(nit As String, ImpressaoAuto As Boolean) As
         
   formInicial.pctCopiaPartedaTela.Visible = False
   DoEvents
-  Requerimento.Impresso = False
+  Requerimento.impresso = False
   Requerimento.nit = nit
 
   'fecha a tela de tempo transcorrido se ainda está aparecendo
@@ -1036,7 +1036,7 @@ Public Function ImprimirRequerimento(nit As String, ImpressaoAuto As Boolean) As
     espera 200
     contador = contador + 1
     If contador > 100 Then
-      Requerimento.Critica = MSG_ERRO_SEGVIALENTO
+      Requerimento.critica = MSG_ERRO_SEGVIALENTO
       ImprimirRequerimento = Requerimento
       Exit Function
     End If
@@ -1135,7 +1135,7 @@ Public Function ImprimirRequerimento(nit As String, ImpressaoAuto As Boolean) As
     
     contador = contador + 1
     If contador > 10 Then
-      Requerimento.Critica = "Não foi possível inserir o NIT '" & Requerimento.nit & "' no campo apropriado."
+      Requerimento.critica = "Não foi possível inserir o NIT '" & Requerimento.nit & "' no campo apropriado."
       ImprimirRequerimento = Requerimento
       'fecha a tela Segunda Via de Marcação de Exame
       fecharJanelaPorId janelaSegundaVia
@@ -1179,7 +1179,7 @@ Public Function ImprimirRequerimento(nit As String, ImpressaoAuto As Boolean) As
   'imprimir
   clicarBotao botaoImprimir
   DoEvents
-  ImprimirRequerimento.Impresso = True
+  ImprimirRequerimento.impresso = True
         
   'espera a tela ser fechada
   contador = 0
@@ -1196,7 +1196,7 @@ Public Function ImprimirRequerimento(nit As String, ImpressaoAuto As Boolean) As
       ret = pesquisarJanela(janela, 0, "Static", "")
       ret = pesquisarJanela(janela, ret, vbNullString, vbNullString)
       Requerimento.Crítica = getControleTexto(ret)
-      Requerimento.Impresso = False
+      Requerimento.impresso = False
       ImprimirRequerimento = Requerimento
       
       'fecha a tela de crítica do SABI

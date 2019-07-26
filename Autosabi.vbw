@@ -1,5 +1,5 @@
-formInicial = 63, 136, 1049, 541, , 22, 22, 911, 508, C
-ModuloPadrao = 88, 88, 977, 400, 
+formInicial = 63, 136, 1049, 541, Z, 22, 22, 911, 508, C
+Padrao = 0, 0, 0, 0, C
 CopiaTela = 44, 44, 933, 356, C
 classeSendKeys = 44, 44, 963, 449, 
 Windows = 66, 66, 985, 471, 
@@ -11,5 +11,8 @@ FileUtils = 22, 22, 925, 427,
 Menus = 132, 132, 1035, 537, 
 Mouse = 66, 66, 969, 471, 
 OCR = 110, 110, 1013, 515, 
-Relatorio = 132, 132, 1057, 463, Z
+Relatorio = 132, 132, 1057, 463, 
 Tabela = 44, 44, 969, 375, 
+classeArquivos = 0, 0, 0, 0, C
+classeRequerimentos = 0, 0, 0, 0, C
+Module1 = 0, 0, 0, 0, C

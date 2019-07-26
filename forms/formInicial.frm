@@ -202,7 +202,7 @@ Begin VB.Form formInicial
          Left            =   5040
          Top             =   120
       End
-      Begin VB.Timer timerAbrirSabi 
+      Begin VB.Timer timer 
          Enabled         =   0   'False
          Interval        =   1000
          Left            =   4560
@@ -611,7 +611,7 @@ Begin VB.Form formInicial
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
          Caption         =   "Compilado em 05-04-2019"
-         ForeColor       =   &H00808080&
+         ForeColor       =   &H80000011&
          Height          =   225
          Left            =   720
          TabIndex        =   8
@@ -705,6 +705,11 @@ Option Explicit
 
 Dim Sabi As classeSabi
 
+Dim SistemaArquivos As classeArquivos
+
+Dim contadorTimer As Long
+Dim tempoEspera As Long
+
 Dim MenuName As New Collection
 Dim MenuHandle As New Collection
 Dim lHwnd As Long
@@ -713,36 +718,10 @@ Dim modoImprime As String
 Dim LocalY As Long
 Dim LocalCopiar As Boolean
 Dim requerimentomostrado As Long
-Dim contadorTimer As Long
 Dim mtempo2 As Long
 Dim deslocalista As Long
     
 Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hWnd As Long, ByVal Msg As Long, wParam As Any, lParam As String) As Long
-
-Public Sub excluirArquivosTemp()
-  Dim memo As String
-  
-  'apaga todos bmp de datas anteriores a atual
-  memo = Dir(GlobalPastadeTrabalho & "\" & "*.bmp")
-  While memo <> ""
-    If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
-    memo = Dir()
-  Wend
-  
-  'apaga todos txt de datas anteriores a atual
-  memo = Dir(GlobalPastadeTrabalho & "\" & "*.txt")
-  While memo <> ""
-    If Mid(memo, 1, 8) < Format(Date, "yyyymmdd") Then Kill GlobalPastadeTrabalho & "\" & memo
-    memo = Dir()
-  Wend
-  memo = Dir(GlobalPastadeTrabalho & "\*" & ".txt")
-  Do While memo <> ""
-    If IsDate(Mid(memo, 7, 2) & "/" & Mid(memo, 5, 2) & "/" & Mid(memo, 1, 4)) Then
-      Exit Do
-    End If
-    memo = Dir()
-  Loop
-End Sub
 
 Sub exibirRelatorioFinal()
   On Error Resume Next
@@ -767,11 +746,11 @@ Sub exibirRelatorioFinal()
     texto = texto & Chr(13) & Chr(10)
     texto = texto & acertarLarguraColuna("123", Format(conta, "000"))
     texto = texto & Chr(9) & acertarLarguraColuna("123456789", requerimentos(conta).Número)
-    texto = texto & Chr(9) & acertarLarguraColuna("12345678901", requerimentos(conta).CPF)
-    texto = texto & Chr(9) & acertarLarguraColuna("INICIAL", requerimentos(conta).Tipo)
-    texto = texto & Chr(9) & acertarLarguraColuna("INDEFERIDO", requerimentos(conta).Status)
+    texto = texto & Chr(9) & acertarLarguraColuna("12345678901", requerimentos(conta).cpf)
+    texto = texto & Chr(9) & acertarLarguraColuna("INICIAL", requerimentos(conta).tipo)
+    texto = texto & Chr(9) & acertarLarguraColuna("INDEFERIDO", requerimentos(conta).status)
     texto = texto & Chr(9) & acertarLarguraColuna("12345678901", requerimentos(conta).nit)
-    texto = texto & Chr(9) & acertarLarguraColuna("NÃO", requerimentos(conta).Impresso)
+    texto = texto & Chr(9) & acertarLarguraColuna("NÃO", requerimentos(conta).impresso)
     texto = texto & Chr(9) & acertarLarguraColuna("JOSE GERALDO DA COSTA", requerimentos(conta).Segurado)
     texto = texto & Chr(9) & Trim(requerimentos(conta).Crítica)
   Next conta
@@ -793,15 +772,14 @@ Sub exibirRelatorioFinal()
   GlobalRelatorioPronto = True
 End Sub
 
-Public Sub exibirStatus(Status As String, segundos As Integer)
+Public Sub exibirStatus(status As String)
   pctFundo.Visible = False
-  txtStatus.Caption = Status
-  txtStatusAguarda.Caption = "Aguardando " & segundos & " segundos..."
+  txtStatus.Caption = status
+  txtStatusAguarda.Caption = "Aguardando " & contadorTimer & " segundos..."
   painelStatus.Top = 0
   painelStatus.Left = 0
   painelStatus.Visible = True
-  contadorTimer = segundos
-  timerAbrirSabi.Enabled = True
+  timer.Enabled = True
 End Sub
 
 Sub obterDadosRegistro()
@@ -845,19 +823,15 @@ Sub obterDadosRegistro()
   formInicial.chcExameInicial.Value = valorIniciais
   formInicial.chcPP.Value = valorPP
   formInicial.optOrdem(1).Value = valorOrdem
-  GlobalTempodeEspera = valorTempoEspera
+  tempoEspera = valorTempoEspera
 End Sub
     
 Sub obterDadosSistema()
-  On Error Resume Next 'voltar
-  Dim lpBuff As String * 25
-  Dim ret As Long
+  On Error Resume Next
+  Dim pastaTrabalho As String
 
-  'Get the user name minus any trailing spaces found in the name.
-  ret = GetUserName(lpBuff, 25)
-  GlobalUserName = Left(lpBuff, InStr(lpBuff, Chr(0)) - 1)
-  GlobalAreadeTrabalho = getPastaEspecial(CSIDL_DESKTOP)
-  GlobalPastadeTrabalho = getPastaEspecial(CSIDL_LOCAL_APPDATA) & "\" & NomeAplicacao
+  pastaTrabalho = getPastaEspecial(CSIDL_LOCAL_APPDATA) & "\" & NomeAplicacao
+  SistemaArquivos.setPastaTrabalho pastaTrabalho
 End Sub
 
 Public Sub redimensionarForm(topo As Integer, altura As Integer)
@@ -867,11 +841,12 @@ Public Sub redimensionarForm(topo As Integer, altura As Integer)
 End Sub
 
 Private Function testarSabiAberto() As Boolean
-  If Sabi Is Nothing Then Set Sabi = New classeSabi
   testarSabiAberto = Sabi.estaAberto
 End Function
 
 Private Function processar() As Boolean
+  Dim retorno As Boolean
+  
   Sabi.prepararAmbiente
   Sabi.abrirJanelaCarteira
   Sabi.abrirJanelaAgendamentos
@@ -1015,10 +990,10 @@ Sub atualizaprogresso()
   lbVersao.Left = Me.Width - lbVersao.Width - 360
 End Sub
 
-Sub Escreve(pontox As Long, pontoy As Long, NUMERO As String)
+Sub Escreve(pontox As Long, pontoy As Long, numero As String)
   Dim conta, linha, coluna, digito As Long
-  For conta = 1 To Len(NUMERO)
-    digito = Mid(NUMERO, conta, 1)
+  For conta = 1 To Len(numero)
+    digito = Mid(numero, conta, 1)
     If digito = 0 Then
       digito = 9
     Else
@@ -1163,17 +1138,17 @@ Private Function RequerimentosAgendaAnterior(nomeArquivo As String) As Long
     End If
     pos3 = InStr(pos2 + 1, mLinha, Chr(9))
     If pos3 > 0 Then
-      GlobalRequerimentos(contador).Tipo = Mid(mLinha, pos2 + 1, pos3 - pos2 - 1)
+      GlobalRequerimentos(contador).tipo = Mid(mLinha, pos2 + 1, pos3 - pos2 - 1)
       pos4 = InStr(pos3 + 1, mLinha, Chr(9))
       If pos4 > 0 Then
-        GlobalRequerimentos(contador).Status = Mid(mLinha, pos3 + 1, pos4 - pos3 - 1)
+        GlobalRequerimentos(contador).status = Mid(mLinha, pos3 + 1, pos4 - pos3 - 1)
         pos5 = InStr(pos4 + 1, mLinha, Chr(9))
         If pos5 > 0 Then
           GlobalRequerimentos(contador).nit = Mid(mLinha, pos4 + 1, pos5 - pos4 - 1)
           If GlobalRequerimentos(contador).nit <> "" Then ultimoNIT = contador
             pos6 = InStr(pos5 + 1, mLinha, Chr(9))
             If pos6 > 0 Then
-              GlobalRequerimentos(contador).Impresso = Mid(mLinha, pos5 + 1, pos6 - pos5 - 1)
+              GlobalRequerimentos(contador).impresso = Mid(mLinha, pos5 + 1, pos6 - pos5 - 1)
               pos7 = InStr(pos6 + 1, mLinha, Chr(9))
               If pos7 > 0 Then
                 GlobalRequerimentos(contador).Segurado = Mid(mLinha, pos6 + 1, pos7 - pos6 - 1)
@@ -1272,18 +1247,6 @@ Private Sub ClickOpen(hMsgBox As Long)
   SendMessage hButtonOpen, BM_CLICK, 0, 0
 End Sub
 
-Private Function Crystal(hMsgBox As Long) As Boolean
-  On Error Resume Next
-  Dim h1AfxWnd42 As Long
-  Dim h2AfxWnd42 As Long
-  Dim hAfxFrameOrView42 As Long
-  
-  h1AfxWnd42 = FindWindowEx(hMsgBox, 0, "AfxWnd42", "")
-  h2AfxWnd42 = FindWindowEx(h1AfxWnd42, 0, "AfxWnd42", "")
-  hAfxFrameOrView42 = FindWindowEx(h2AfxWnd42, 0, "AfxFrameOrView42", "")
-  Crystal = hAfxFrameOrView42 <> 0
-End Function
-
 Sub MontaListadeRequerimentos(memotexto As String)
   Dim pos As Long
   Dim linha As String
@@ -1324,8 +1287,8 @@ Sub MontaListadeRequerimentos(memotexto As String)
     lstMostrarRequerimentos.AddItem Format(indice, "000") & Chr(9) & lstClassificar.ItemData(conta) & Chr(9) & lstClassificar.List(conta)
     
     'valores iniciais
-    GlobalRequerimentos(conta).Tipo = ""
-    GlobalRequerimentos(conta).Status = ""
+    GlobalRequerimentos(conta).tipo = ""
+    GlobalRequerimentos(conta).status = ""
     GlobalRequerimentos(conta).nit = ""
     GlobalRequerimentos(conta).Crítica = ""
   Next conta
@@ -1419,15 +1382,25 @@ Private Sub btoFecharErro_Click()
 End Sub
 
 Private Sub btoIniciar_Click()
-  listaClassificar.Visible = False
-  listaRequerimentos.Visible = False
+  If Sabi Is Nothing Then Set Sabi = New classeSabi
   lbVersao.Visible = False
   btoIniciar.Enabled = False
+  
+  contadorTimer = 60
+  If Not testarSabiAberto Then
+    MsgBox "Abra o módulo Controle Operacional do SABI e autentique-se com sua matrícula." & vbCrLf & "O Automatizador irá esperar 60 segundos.", vbInformation, NomeAplicacao
+    While contadorTimer > 0
+      exibirStatus "Inicie e autentique-se no Controle Operacional do SABI."
+    Wend
+  End If
+  
   If testarSabiAberto Then
-    prepararSABI
+    pctFundo.Visible = True
+    painelStatus.Visible = False
+    processar
   Else
-    MsgBox "Abra o módulo Controle Operacional do SABI e faça o login." & vbCrLf & "O Automatizador irá esperar 60 segundos.", vbInformation, NomeAplicacao
-    exibirStatus "Inicie e faça login no Controle Operacional do SABI.", 60
+    MsgBox "O Automatizador não conseguiu encontrar o Controle Operacional do SABI aberto. Se o SABI estiver apresentando lentidão, tente novamente mais tarde.", vbCritical, NomeAplicacao
+    End
   End If
 End Sub
 
@@ -1469,15 +1442,13 @@ Private Sub editMarcacaoPara_Change()
   btoConfirmar.Enabled = Val(editMarcacaoPara.Text) >= Val(editMarcacaoDe.Text)
 End Sub
 
-'Função que é executada quando o form recebe o foco do usuário
-Private Sub Form_Activate()
-  Dim conta As Long
-    
-  Picture1.Width = 10890
-  For conta = 0 To 10891
-    Picture1.PSet (conta, 0), RGB(40, 40, 40)
-    Picture1.PSet (conta, 1), RGB(40, 40, 40)
-  Next conta
+'Função executada quando o form é carregado para memória
+Private Sub Form_Load() 'begin
+  'apenas uma execução por vez
+  If App.PrevInstance Then
+    MsgBox "O Automatizador do SABI já está em execução. Não é permitido executá-lo duas vezes ao mesmo tempo.", vbCritical, "Agendamentos do SABI"
+    End
+  End If
   
   'devido a diferenças da altura da barra de título da janela entre o tema clássico e Windows 7,
   'bloqueia a execução quando o tema clássico estiver ativo.
@@ -1485,68 +1456,36 @@ Private Sub Form_Activate()
     MsgBox "O Automatizador do SABI não suporta o tema clássico do Windows. Personalize a tela do seu computador com o tema 'Windows 7' e execute o Automatizador novamente.", vbCritical, "Tema Aero"
     End
   End If
-End Sub
-
-'Função executada quando o form é carregado para memória
-Private Sub Form_Load()
-  'apenas uma execução por vez
-  If App.PrevInstance Then
-    MsgBox "O Automatizador do SABI já está em execução. Não é permitido executá-lo duas vezes ao mesmo tempo.", vbCritical, "Agendamentos do SABI"
-    End
-  End If
         
-  'Inicia variáveis globais
-  deslocalista = 0
-  Picture1.BackColor = RGB(171, 171, 171)
-  LocalCopiar = False
-  GlobalLinhaPicture = 0
-  GlobalModoSimulado = False
-  GlobalPrimeiraVez = True
-  GlobalRelatorioPronto = False
-  pctCopiaPartedaTelaCPF.Top = -1000
-  GlobalTítulodaTelaAtiva = ""
-  GlobalMenuAtualizado = False
-  GlobalIDControleOperacional = 0
-  GlobalModoImprimeRequerimentos = False
-  GlobalEscalaX = 256 / Screen.Width
-  GlobalEscalaX = GlobalEscalaX * 256
-  GlobalEscalay = 256 / Screen.Height
-  GlobalEscalay = GlobalEscalay * 256
-  GlobalInicio = GetTickCount
-  GlobalImpressaoAuto = True
+  'Define objetos
+  If SistemaArquivos Is Nothing Then Set SistemaArquivos = New classeArquivos
 
   'Consulta os dados salvos no registro e do sistema
   obterDadosRegistro
   obterDadosSistema
-    
+  
   'Se a pasta AppData da aplicacao nao existir, crie-a
-  If Dir(GlobalPastadeTrabalho, vbDirectory) = "" Then
-    MkDir GlobalPastadeTrabalho
+  If Dir(SistemaArquivos.getPastaTrabalho, vbDirectory) = "" Then
+    MkDir SistemaArquivos.getPastaTrabalho
   End If
   
   'excluir arquivos da pasta temporária
-  excluirArquivosTemp
+  SistemaArquivos.excluirTemporarios
 
   'Altura e Posicao superior da janela
   redimensionarForm -3000, 2000
 End Sub
 
 Private Sub Form_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
-  Dim lngReturnValue As Long
+  Dim ret As Long
   
   Me.MousePointer = 9
   Call ReleaseCapture
-  lngReturnValue = SendMessage(Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&)
+  ret = SendMessage(Me.hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0&)
 End Sub
 
 Private Sub Form_Resize()
-  If LocalCopiar Then
-    Me.Width = 8145
-    Me.Left = 600
-    lbVersao.Top = 0
-  Else
-    lbVersao.Top = Me.Height - 1590
-  End If
+  lbVersao.Top = Me.Height - 1590
   pctFundo.Top = 0
   pctFundo.Left = 0
   pctFundo.Width = Me.Width
@@ -1557,10 +1496,10 @@ Private Sub Form_Resize()
   grupoOrdem.Left = 120
   grupoOrdem.Top = Me.Height - grupoOrdem.Height - 470
   
-  lstMostrarRequerimentos.Top = imageIcone.Top + imageIcone.Height + 40
-  lstMostrarRequerimentos.Left = 240
-  lstMostrarRequerimentos.Width = Me.Width - 580
-  lstMostrarRequerimentos.Height = Abs(pctFundo.Height - lstMostrarRequerimentos.Top - 600)
+  listaRequerimentos.Top = imageIcone.Top + imageIcone.Height + 40
+  listaRequerimentos.Left = 240
+  listaRequerimentos.Width = Me.Width - 580
+  listaRequerimentos.Height = Abs(pctFundo.Height - listaRequerimentos.Top - 600)
   fraImprime.Top = grupoOrdem.Top
   fraImprime.Left = 120
   pctCopiaPartedaTela.Left = 0
@@ -1827,16 +1766,6 @@ Private Sub timerAbrirSabi_Timer()
   
   txtStatusAguarda.Caption = "Aguardando " & contadorTimer & " segundos..."
   contadorTimer = contadorTimer - 1
-  If contadorTimer < 0 Then
-    If testarSabiAberto Then
-      pctFundo.Visible = True
-      painelStatus.Visible = False
-      prepararSABI
-    Else
-      MsgBox "O Automatizador não conseguiu encontrar o Controle Operacional do SABI aberto. Se o SABI estiver apresentando lentidão, tente novamente mais tarde.", vbCritical, NomeAplicacao
-      End
-    End If
-  End If
 End Sub
 
 Private Sub Timer2_Timer()

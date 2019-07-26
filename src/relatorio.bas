@@ -1,16 +1,4 @@
 Attribute VB_Name = "Relatorio"
-Public Type Requerimento
-  sequencia As String
-  Número As String
-  Tipo As String
-  Status As String
-  nit As String
-  impresso As Boolean
-  Segurado As String
-  Crítica As String
-  CPF As String
-End Type
-
 Function acertarLarguraColuna(referencia As String, palavra As String)
   Dim largura As Long
   
@@ -39,8 +27,8 @@ Sub atualizarRelatorio(atual As Long)
     GlobalRequerimentos(conta).sequencia = Format(conta, "000")
     linha = adicionarColuna(linha, "000", GlobalRequerimentos(conta).sequencia)
     linha = adicionarColuna(linha, "123456789", GlobalRequerimentos(conta).Número)
-    linha = adicionarColuna(linha, "INICIAL", GlobalRequerimentos(conta).Tipo)
-    linha = adicionarColuna(linha, "INDEFERIDO", GlobalRequerimentos(conta).Status)
+    linha = adicionarColuna(linha, "INICIAL", GlobalRequerimentos(conta).tipo)
+    linha = adicionarColuna(linha, "INDEFERIDO", GlobalRequerimentos(conta).status)
     linha = adicionarColuna(linha, "12345678901", GlobalRequerimentos(conta).nit)
     If conta <= atual And GlobalRequerimentos(conta).impresso = False Then
       docImpresso = "Não"
@@ -53,8 +41,8 @@ Sub atualizarRelatorio(atual As Long)
     lstMostrarRequerimentos.AddItem linha
     linha = GlobalRequerimentos(conta).sequencia & Chr(9)
     linha = linha & GlobalRequerimentos(conta).Número & Chr(9)
-    linha = linha & GlobalRequerimentos(conta).Tipo & Chr(9)
-    linha = linha & GlobalRequerimentos(conta).Status & Chr(9)
+    linha = linha & GlobalRequerimentos(conta).tipo & Chr(9)
+    linha = linha & GlobalRequerimentos(conta).status & Chr(9)
     linha = linha & GlobalRequerimentos(conta).nit & Chr(9)
     linha = linha & GlobalRequerimentos(conta).impresso & Chr(9)
     linha = linha & GlobalRequerimentos(conta).Segurado & Chr(9)
